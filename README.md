@@ -1,6 +1,6 @@
 # 🇵🇭 LuTuon: A Gamified Simulation for Filipino Cuisine
 
-![LuTuon Logo](https://imgur.com/SWnJgun) 
+![LuTuon Logo](https://imgur.com/SWnJgun.png) 
 
 [![Unity](https://img.shields.io/badge/Engine-Unity-000?logo=unity&logoColor=white)](https://unity.com)
 [![Platform](https://img.shields.io/badge/Platform-Android-green)](https://www.android.com/)
@@ -23,7 +23,7 @@ Players are guided through realistic yet stylized cooking mechanics, set in a cu
 
 | Main Menu | Cooking Scene | Recipe Menu |
 |----------|---------------|---------------|
-| ![Menu](https://imgur.com/Cv5zEMY) | ![Cooking](https://imgur.com/6JZUD6q) | ![Recipe](https://imgur.com/CRL8a0e) |
+| ![Menu](https://imgur.com/Cv5zEMY.png) | ![Cooking](https://imgur.com/6JZUD6q.png) | ![Recipe](https://imgur.com/CRL8a0e.png) |
 
 ---
 
