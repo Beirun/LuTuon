@@ -1,4 +1,4 @@
-# 🇵🇭 LuTuon: A Gamified Simulation for Filipino Cuisine
+# LuTuon: A Gamified Simulation for Filipino Cuisine
 
 ![LuTuon Logo](https://imgur.com/SWnJgun.png) 
 
