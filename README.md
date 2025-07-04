@@ -1,12 +1,20 @@
 # LuTuon: A Gamified Simulation for Filipino Cuisine
+<br>
+<p align="center">
+  <img src="https://imgur.com/SWnJgun.png" alt="LuTuon Logo" width="500"/>
+</p>
 
-![LuTuon Logo](https://imgur.com/SWnJgun.png) 
-
-[![Unity](https://img.shields.io/badge/Engine-Unity-000?logo=unity&logoColor=white)](https://unity.com)
-[![Platform](https://img.shields.io/badge/Platform-Android-green)](https://www.android.com/)
-[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Status](https://img.shields.io/badge/Status-In_Development-orange)]()
-[![Contributors](https://img.shields.io/badge/Contributors-4-blueviolet)]()
+<div align="center">
+   <img src="https://img.shields.io/badge/Engine-Unity-000?logo=unity&logoColor=white" />
+   &nbsp; &nbsp;
+   <img src="https://img.shields.io/badge/Platform-Android-green" />
+   &nbsp; &nbsp;
+   <img src="https://img.shields.io/badge/License-MIT-blue.svg" />
+   &nbsp; &nbsp;
+   <img src="https://img.shields.io/badge/Status-In_Development-orange" />
+   &nbsp; &nbsp;
+   <img src="https://img.shields.io/badge/Contributors-4-blueviolet" />
+</div>
 
 ---
 
