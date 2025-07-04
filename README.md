@@ -22,7 +22,7 @@
 
 **LuTuon** is a Mobile cooking simulation game that helps **independent young adults** learn how to prepare **authentic Filipino dishes** through gamified, step-by-step experiences. The name is a mix of **"Luto" (to cook)** and **"Tuon" (to study/learn)** — a perfect blend of play and purpose.
 
-Players are guided through realistic yet stylized cooking mechanics, set in a customizable virtual kitchen. Whether it’s preparing *Adobo*, *Sinigang*, or *Kare-Kare*, LuTuon turns culinary education into a fun, interactive adventure.
+Players are guided through realistic yet stylized cooking mechanics, set in a customizable virtual kitchen. Whether it’s preparing *Adobo*, *Humba*, or *Tinolang Manok*, LuTuon turns culinary education into a fun, interactive adventure.
 
 ---
 
