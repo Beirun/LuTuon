@@ -585,7 +585,6 @@ GameObject:
   - component: {fileID: 1146535670}
   - component: {fileID: 1146535669}
   - component: {fileID: 1146535668}
-  - component: {fileID: 1146535671}
   - component: {fileID: 1146535672}
   m_Layer: 5
   m_Name: Button
@@ -696,18 +695,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1146535666}
   m_CullTransparentMesh: 1
---- !u!114 &1146535671
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1146535666}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a982635e7cf2ccb43a348fe2e5dd5761, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1146535672
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -781,7 +768,7 @@ MonoBehaviour:
   m_text: Back
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b87e9e56d9d4902459241c7662acdbc8, type: 2}
-  m_sharedMaterial: {fileID: -7085848726519979981, guid: b87e9e56d9d4902459241c7662acdbc8, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: 141c9d567cea917469a880e38bfc7f50, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -1009,7 +996,7 @@ MonoBehaviour:
   m_text: Tutorial Mode
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: b87e9e56d9d4902459241c7662acdbc8, type: 2}
-  m_sharedMaterial: {fileID: -7085848726519979981, guid: b87e9e56d9d4902459241c7662acdbc8, type: 2}
+  m_sharedMaterial: {fileID: 2100000, guid: 141c9d567cea917469a880e38bfc7f50, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
