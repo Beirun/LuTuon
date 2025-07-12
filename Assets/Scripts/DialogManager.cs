@@ -172,10 +172,61 @@ public class DialogManager : MonoBehaviour
     {
         // Create a list of currently active dialogs to avoid modifying collection during iteration
         List<string> currentlyActive = new List<string>(activeDialogNames);
+        bool isFeedbackActive = activeDialogNames.Contains("Feedback");
         foreach (string panelName in currentlyActive)
         {
             // Call CloseDialog for each active panel
-            CloseDialog(panelName);
+            if (isFeedbackActive && panelName == "Feedback")
+            {
+                CloseDialogWithoutOverlay(panelName);
+                OpenDialog("Settings");
+            }
+            else CloseDialog(panelName);
         }
+
+    }
+
+
+    /// <summary>
+    /// Closes a specific dialog panel by its GameObject name without closing the black overlay.
+    /// </summary>
+    /// <param name="panelName">The name of the dialog panel GameObject to close.</param>
+    public void CloseDialogWithoutOverlay(string panelName)
+    {
+        if (activeDialogNames.Contains(panelName) && allPanels.TryGetValue(panelName, out PanelData panelData))
+        {
+            StartCoroutine(CloseDialogWithAnimationWithoutOverlay(panelData, panelName));
+        }
+        else if (!activeDialogNames.Contains(panelName))
+        {
+            Debug.LogWarning($"Attempted to close dialog '{panelName}' without overlay, but it was not marked as active.");
+        }
+        else
+        {
+            Debug.LogWarning($"Attempted to close dialog '{panelName}' without overlay, but it was not found in managed list.");
+        }
+    }
+
+    private IEnumerator CloseDialogWithAnimationWithoutOverlay(PanelData panelData, string panelName)
+    {
+        // Trigger zoom out animation for the specific panel
+        if (panelData.animator != null)
+        {
+            panelData.animator.SetTrigger("ZoomOut");
+        }
+
+        // Remove from active list immediately, even if animation is playing
+        activeDialogNames.Remove(panelName);
+
+        // Wait for animation to complete
+        yield return new WaitForSeconds(animationDuration);
+
+        // After animation, hide the specific panel
+        if (panelData.gameObject != null)
+        {
+            panelData.gameObject.SetActive(false);
+        }
+
+        // The black overlay is explicitly NOT hidden here.
     }
 }
