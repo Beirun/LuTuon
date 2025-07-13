@@ -23,6 +23,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/StandardMenuScene.unity
     guid: 3a4b0ba1357e0cb46a2ba26aae61e6d1
+  - enabled: 1
+    path: Assets/Scenes/AdobongManokScene.unity
+    guid: ae55fc9208d78d24288b9e3f35c35a7f
+  - enabled: 1
+    path: Assets/Scenes/LoadingGameScene.unity
+    guid: 04bb7600844eeed47ab191365a7bf69e
   m_configObjects:
     com.unity.adaptiveperformance.google.android.provider_settings: {fileID: 11400000, guid: 476306279fe433e4ea130834008c5a4d, type: 2}
     com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: e1e443bd4a598304195781ce96284a0e, type: 2}
