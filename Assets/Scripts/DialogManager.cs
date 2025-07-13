@@ -173,6 +173,7 @@ public class DialogManager : MonoBehaviour
         // Create a list of currently active dialogs to avoid modifying collection during iteration
         List<string> currentlyActive = new List<string>(activeDialogNames);
         bool isFeedbackActive = activeDialogNames.Contains("Feedback");
+        bool isEditAvatarActive = activeDialogNames.Contains("Edit Avatar");
         foreach (string panelName in currentlyActive)
         {
             // Call CloseDialog for each active panel
@@ -180,6 +181,11 @@ public class DialogManager : MonoBehaviour
             {
                 CloseDialogWithoutOverlay(panelName);
                 OpenDialog("Settings");
+            }
+            else if (isEditAvatarActive && panelName == "Edit Avatar")
+            {
+                CloseDialogWithoutOverlay(panelName);
+                OpenDialog("Profile");
             }
             else CloseDialog(panelName);
         }
