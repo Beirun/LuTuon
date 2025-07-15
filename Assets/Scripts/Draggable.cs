@@ -6,7 +6,6 @@ public class Draggable : MonoBehaviour
 {
     public Camera cam;
     public float maxY = 2.0f;
-    public Material highlightMaterial;
 
     private float zCoord;
     private Vector2 lastInputPosition;
@@ -15,7 +14,9 @@ public class Draggable : MonoBehaviour
     private Vector3 dragOffset;
 
     private GameObject currentlyHighlighted;
-    private Material originalMaterial;
+    private int previousLayer;
+
+    public string highlightableTag = "Highlightable";
 
     void Start()
     {
@@ -115,17 +116,20 @@ public class Draggable : MonoBehaviour
         {
             GameObject hitObject = hit.collider.gameObject;
 
-            if (hitObject != currentlyHighlighted && hitObject != this.gameObject)
+            if (hitObject.CompareTag(highlightableTag))
+            {
+                if (hitObject != currentlyHighlighted && hitObject != this.gameObject)
+                {
+                    ClearHighlight();
+
+                    currentlyHighlighted = hitObject;
+                    previousLayer = currentlyHighlighted.layer;
+                    currentlyHighlighted.layer = LayerMask.NameToLayer("Outline");
+                }
+            }
+            else
             {
                 ClearHighlight();
-
-                Renderer rend = hitObject.GetComponent<Renderer>();
-                if (rend != null)
-                {
-                    originalMaterial = rend.material;
-                    rend.material = highlightMaterial;
-                    currentlyHighlighted = hitObject;
-                }
             }
         }
         else
@@ -138,11 +142,7 @@ public class Draggable : MonoBehaviour
     {
         if (currentlyHighlighted != null)
         {
-            Renderer rend = currentlyHighlighted.GetComponent<Renderer>();
-            if (rend != null && originalMaterial != null)
-            {
-                rend.material = originalMaterial;
-            }
+            currentlyHighlighted.layer = previousLayer;
             currentlyHighlighted = null;
         }
     }
