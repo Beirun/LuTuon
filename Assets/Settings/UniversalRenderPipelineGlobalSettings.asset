@@ -53,8 +53,8 @@ MonoBehaviour:
       - rid: 6852985685364965393
       - rid: 6852985685364965394
       - rid: 8712630790384254976
-      - rid: 3958521235517472768
-      - rid: 8122216135292878848
+      - rid: 100243986937806848
+      - rid: 100243986937806849
     m_RuntimeSettings:
       m_List:
       - rid: 6852985685364965378
@@ -66,7 +66,7 @@ MonoBehaviour:
       - rid: 6852985685364965392
       - rid: 6852985685364965394
       - rid: 8712630790384254976
-      - rid: 3958521235517472768
+      - rid: 100243986937806849
   m_AssetVersion: 8
   m_ObsoleteDefaultVolumeProfile: {fileID: 0}
   m_RenderingLayerNames:
@@ -97,7 +97,11 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 3958521235517472768
+    - rid: 100243986937806848
+      type: {class: UniversalRenderPipelineEditorAssets, ns: UnityEngine.Rendering.Universal, asm: Unity.RenderPipelines.Universal.Runtime}
+      data:
+        m_DefaultSettingsVolumeProfile: {fileID: 11400000, guid: eda47df5b85f4f249abf7abd73db2cb2, type: 2}
+    - rid: 100243986937806849
       type: {class: UniversalRenderPipelineRuntimeXRResources, ns: UnityEngine.Rendering.Universal, asm: Unity.RenderPipelines.Universal.Runtime}
       data:
         m_xrOcclusionMeshPS: {fileID: 4800000, guid: 4431b1f1f743fbf4eb310a967890cbea, type: 3}
@@ -263,10 +267,6 @@ MonoBehaviour:
         m_version: 0
         m_EnableCompilationCaching: 1
         m_EnableValidityChecks: 1
-    - rid: 8122216135292878848
-      type: {class: UniversalRenderPipelineEditorAssets, ns: UnityEngine.Rendering.Universal, asm: Unity.RenderPipelines.Universal.Runtime}
-      data:
-        m_DefaultSettingsVolumeProfile: {fileID: 11400000, guid: eda47df5b85f4f249abf7abd73db2cb2, type: 2}
     - rid: 8712630790384254976
       type: {class: RenderGraphUtilsResources, ns: UnityEngine.Rendering.RenderGraphModule.Util, asm: Unity.RenderPipelines.Core.Runtime}
       data:
