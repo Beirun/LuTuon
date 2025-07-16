@@ -1231,9 +1231,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -3456402307994059679, guid: 03100e864e058654fb30bfc3f7399dc1, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1377150650}
-    - targetCorrespondingSourceObject: {fileID: -3456402307994059679, guid: 03100e864e058654fb30bfc3f7399dc1, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1377150654}
   m_SourcePrefab: {fileID: 100100000, guid: 03100e864e058654fb30bfc3f7399dc1, type: 3}
 --- !u!1 &631601309
 GameObject:
@@ -2518,18 +2515,6 @@ MonoBehaviour:
   cam: {fileID: 196108200}
   maxY: 2.3
   highlightableTag: Highlightable
---- !u!114 &1377150654
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1377150644}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0d66af6d531f82948867c977d43ce030, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1444211727
 GameObject:
   m_ObjectHideFlags: 0
