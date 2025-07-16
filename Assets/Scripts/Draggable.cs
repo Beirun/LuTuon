@@ -17,7 +17,9 @@ public class Draggable : MonoBehaviour
     private int previousLayer;
 
     public string highlightableTag = "Highlightable";
-
+    //public float xCord = 0.0f;
+    //public float yCord = 0.0f;
+    //public float zCord = 0.0f;
     void Start()
     {
         if (cam == null)
@@ -149,8 +151,56 @@ public class Draggable : MonoBehaviour
 
     void EndDrag()
     {
-        ClearHighlight();
+        if (currentlyHighlighted != null)
+        {
+            // Example: Place object above the highlighted object with offset
+            Vector3 targetPosition = currentlyHighlighted.transform.position + new Vector3(0f, 1.5f, 0f);
+            StartCoroutine(AnimatePlacement(targetPosition));
+        }
+        else
+        {
+            FinalizeDrag();
+        }
 
+        ClearHighlight();
+    }
+
+    IEnumerator AnimatePlacement(Vector3 targetPosition)
+    {
+        if (rb != null)
+        {
+            rb.useGravity = false;
+            rb.isKinematic = true;
+        }
+
+        Vector3 startPosition = transform.position;
+        Quaternion startRotation = transform.rotation;
+        Quaternion targetRotation = Quaternion.Euler(0f, 0f, 0f);
+
+        float duration = 0.25f;
+        float elapsedTime = 0f;
+
+        while (elapsedTime < duration)
+        {
+            float t = elapsedTime / duration;
+            t = t * t * (3f - 2f * t); // SmoothStep
+
+            transform.position = Vector3.Lerp(startPosition, targetPosition, t);
+            transform.rotation = Quaternion.Slerp(startRotation, targetRotation, t);
+
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        transform.position = targetPosition;
+        transform.rotation = targetRotation;
+
+        FinalizeDrag();
+    }
+
+
+    void FinalizeDrag()
+    {
         if (rb != null)
         {
             rb.useGravity = true;
