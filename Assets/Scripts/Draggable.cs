@@ -1,35 +1,46 @@
+// Draggable.cs
+// This script makes a GameObject draggable using touch input.
+// It handles lifting the object and moving it based on touch position.
+
 using UnityEngine;
 using System.Collections;
+using System;
 
 #if UNITY_ANDROID || UNITY_IOS
 public class Draggable : MonoBehaviour
 {
+    [Tooltip("The camera used for screen-to-world conversions. Defaults to main camera.")]
     public Camera cam;
-    public float maxY = 2.0f;
+    [Tooltip("The maximum height the object will be lifted to when dragged.")]
+    public float liftHeight = 2.0f;
 
-    private float zCoord;
-    private Vector2 lastInputPosition;
     private Rigidbody rb;
     private bool isDragging = false;
+    private float zCoord;
     private Vector3 dragOffset;
 
-    private GameObject currentlyHighlighted;
-    private int previousLayer;
+    // Events to communicate with other scripts
+    public delegate void DragAction(Vector3 position);
+    public static event DragAction OnDragStart;
+    public static event DragAction OnDrag;
+    public static event DragAction OnDragEnd;
+    public bool gravityOnEnd = false;
 
-    public string highlightableTag = "Highlightable";
-    //public float xCord = 0.0f;
-    //public float yCord = 0.0f;
-    //public float zCord = 0.0f;
     void Start()
     {
+        // Assign the main camera if no camera is specified
         if (cam == null)
+        {
             cam = Camera.main;
+        }
 
+        // Get the Rigidbody component attached to this GameObject
         rb = GetComponent<Rigidbody>();
     }
 
     void Update()
     {
+        // Check for touch input
         if (Input.touchCount > 0)
         {
             Touch touch = Input.GetTouch(0);
@@ -37,55 +48,87 @@ public class Draggable : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Handles the different phases of a touch input.
+    /// </summary>
+    /// <param name="touch">The touch input to handle.</param>
     void HandleTouch(Touch touch)
     {
-        RaycastHit hit;
-        if (touch.phase == TouchPhase.Began)
+        switch (touch.phase)
         {
-            if (Physics.Raycast(cam.ScreenPointToRay(touch.position), out hit) && hit.transform == transform)
-            {
-                isDragging = true;
-                lastInputPosition = touch.position;
-                zCoord = cam.WorldToScreenPoint(transform.position).z;
-                dragOffset = transform.position - GetWorldPosition(touch.position);
-                StartCoroutine(Lift());
-            }
-        }
-        else if (touch.phase == TouchPhase.Moved && isDragging)
-        {
-            Drag(touch.position);
-        }
-        else if (touch.phase == TouchPhase.Ended && isDragging)
-        {
-            EndDrag();
-            isDragging = false;
+            case TouchPhase.Began:
+                StartDrag(touch);
+                break;
+            case TouchPhase.Moved:
+                if (isDragging)
+                {
+                    PerformDrag(touch.position);
+                }
+                break;
+            case TouchPhase.Ended:
+            case TouchPhase.Canceled:
+                if (isDragging)
+                {
+                    EndDrag();
+                    if(gravityOnEnd) FinalizeDrag();
+                }
+                break;
         }
     }
 
-    IEnumerator Lift()
+    /// <summary>
+    /// Initiates the drag operation if the touch is on this object.
+    /// </summary>
+    /// <param name="touch">The touch input that started the drag.</param>
+    void StartDrag(Touch touch)
     {
+        RaycastHit hit;
+        Ray ray = cam.ScreenPointToRay(touch.position);
+
+        // Check if the raycast hits this specific object
+        if (Physics.Raycast(ray, out hit) && hit.transform == transform)
+        {
+            isDragging = true;
+
+            // Calculate initial drag parameters
+            zCoord = cam.WorldToScreenPoint(transform.position).z;
+            dragOffset = transform.position - GetWorldPosition(touch.position);
+
+            // Start the lifting coroutine
+            StartCoroutine(LiftObject());
+
+            // Fire the OnDragStart event
+            OnDragStart?.Invoke(transform.position);
+        }
+    }
+
+    /// <summary>
+    /// Coroutine to animate the object lifting up and rotating.
+    /// </summary>
+    IEnumerator LiftObject()
+    {
+        // Make the Rigidbody kinematic to control it directly
         if (rb != null)
         {
             rb.useGravity = false;
             rb.isKinematic = true;
         }
 
-        float startPos = transform.position.y;
-        float liftedY = maxY;
-
+        float startY = transform.position.y;
         Quaternion startRot = transform.rotation;
-        Quaternion targetRot = Quaternion.Euler(0f, startRot.eulerAngles.y, 0f);
+        Quaternion targetRot = Quaternion.Euler(0f, startRot.eulerAngles.y, 0f); // Level out the rotation on X and Z axes
 
         float duration = 0.25f;
         float elapsedTime = 0f;
 
+        // Animate the lift and rotation over the specified duration
         while (elapsedTime < duration)
         {
             float t = elapsedTime / duration;
-            t = t * t * (3f - 2f * t);
+            t = t * t * (3f - 2f * t); // SmoothStep interpolation for smoother animation
 
             Vector3 currentPosition = transform.position;
-            currentPosition.y = Mathf.Lerp(startPos, liftedY, t);
+            currentPosition.y = Mathf.Lerp(startY, liftHeight, t);
             transform.position = currentPosition;
 
             transform.rotation = Quaternion.Slerp(startRot, targetRot, t);
@@ -94,112 +137,42 @@ public class Draggable : MonoBehaviour
             yield return null;
         }
 
+        // Ensure final position and rotation are set correctly
         Vector3 finalPosition = transform.position;
-        finalPosition.y = liftedY;
+        finalPosition.y = liftHeight;
         transform.position = finalPosition;
         transform.rotation = targetRot;
     }
 
-    void Drag(Vector2 screenPos)
+    /// <summary>
+    /// Updates the object's position while it is being dragged.
+    /// </summary>
+    /// <param name="screenPos">The current screen position of the touch.</param>
+    void PerformDrag(Vector2 screenPos)
     {
         Vector3 targetPosition = GetWorldPosition(screenPos) + dragOffset;
-        targetPosition.y = maxY;
+        targetPosition.y = liftHeight; // Keep the object at the lifted height
         transform.position = targetPosition;
 
-        HighlightNearbyObject();
+        // Fire the OnDrag event
+        OnDrag?.Invoke(transform.position);
     }
 
-    void HighlightNearbyObject()
-    {
-        Ray ray = new Ray(transform.position, Vector3.down);
-        RaycastHit hit;
-
-        if (Physics.Raycast(ray, out hit, 5f))
-        {
-            GameObject hitObject = hit.collider.gameObject;
-
-            if (hitObject.CompareTag(highlightableTag))
-            {
-                if (hitObject != currentlyHighlighted && hitObject != this.gameObject)
-                {
-                    ClearHighlight();
-
-                    currentlyHighlighted = hitObject;
-                    previousLayer = currentlyHighlighted.layer;
-                    currentlyHighlighted.layer = LayerMask.NameToLayer("Outline");
-                }
-            }
-            else
-            {
-                ClearHighlight();
-            }
-        }
-        else
-        {
-            ClearHighlight();
-        }
-    }
-
-    void ClearHighlight()
-    {
-        if (currentlyHighlighted != null)
-        {
-            currentlyHighlighted.layer = previousLayer;
-            currentlyHighlighted = null;
-        }
-    }
-
+    /// <summary>
+    /// Ends the drag operation and signals other components.
+    /// </summary>
     void EndDrag()
     {
-        if (currentlyHighlighted != null)
-        {
-            // Example: Place object above the highlighted object with offset
-            Vector3 targetPosition = currentlyHighlighted.transform.position + new Vector3(0f, 1.5f, 0f);
-            StartCoroutine(AnimatePlacement(targetPosition));
-        }
-        else
-        {
-            FinalizeDrag();
-        }
-
-        ClearHighlight();
+        isDragging = false;
+        // Fire the OnDragEnd event, allowing other scripts (like PlacementController) to react
+        OnDragEnd?.Invoke(transform.position);
     }
 
-    IEnumerator AnimatePlacement(Vector3 targetPosition)
-    {
-        if (rb != null)
-        {
-            rb.useGravity = false;
-            rb.isKinematic = true;
-        }
-
-        Vector3 startPosition = transform.position;
-        Quaternion startRotation = transform.rotation;
-        Quaternion targetRotation = Quaternion.Euler(0f, 0f, 0f);
-
-        float duration = 0.25f;
-        float elapsedTime = 0f;
-
-        while (elapsedTime < duration)
-        {
-            float t = elapsedTime / duration;
-            t = t * t * (3f - 2f * t); // SmoothStep
-
-            transform.position = Vector3.Lerp(startPosition, targetPosition, t);
-            transform.rotation = Quaternion.Slerp(startRotation, targetRotation, t);
-
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-
-        transform.position = targetPosition;
-        transform.rotation = targetRotation;
-
-        FinalizeDrag();
-    }
-
-
-    void FinalizeDrag()
+    /// <summary>
+    /// Resets the Rigidbody to its original physics state.
+    /// Called by PlacementController after placement is complete.
+    /// </summary>
+    public void FinalizeDrag()
     {
         if (rb != null)
         {
@@ -208,7 +181,12 @@ public class Draggable : MonoBehaviour
         }
     }
 
-    Vector3 GetWorldPosition(Vector2 screenPos)
+    /// <summary>
+    /// Converts a screen position to a world position at the object's depth.
+    /// </summary>
+    /// <param name="screenPos">The screen position to convert.</param>
+    /// <returns>The corresponding world position.</returns>
+    private Vector3 GetWorldPosition(Vector2 screenPos)
     {
         Vector3 point = new Vector3(screenPos.x, screenPos.y, zCoord);
         return cam.ScreenToWorldPoint(point);
