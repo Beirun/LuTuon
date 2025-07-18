@@ -14,6 +14,8 @@ public class Draggable : MonoBehaviour
     [Tooltip("The maximum height the object will be lifted to when dragged.")]
     public float liftHeight = 2.0f;
 
+    public Quaternion targetRotation = Quaternion.Euler(0f, 0f, 0f);
+    public bool useRotation = false;
     private Rigidbody rb;
     private bool isDragging = false;
     private float zCoord;
@@ -116,7 +118,7 @@ public class Draggable : MonoBehaviour
 
         float startY = transform.position.y;
         Quaternion startRot = transform.rotation;
-        Quaternion targetRot = Quaternion.Euler(0f, startRot.eulerAngles.y, 0f); // Level out the rotation on X and Z axes
+        if(!useRotation) targetRotation = Quaternion.Euler(0f, startRot.eulerAngles.y, 0f);
 
         float duration = 0.25f;
         float elapsedTime = 0f;
@@ -131,7 +133,7 @@ public class Draggable : MonoBehaviour
             currentPosition.y = Mathf.Lerp(startY, liftHeight, t);
             transform.position = currentPosition;
 
-            transform.rotation = Quaternion.Slerp(startRot, targetRot, t);
+            transform.rotation = Quaternion.Slerp(startRot, targetRotation, t);
 
             elapsedTime += Time.deltaTime;
             yield return null;
@@ -141,7 +143,7 @@ public class Draggable : MonoBehaviour
         Vector3 finalPosition = transform.position;
         finalPosition.y = liftHeight;
         transform.position = finalPosition;
-        transform.rotation = targetRot;
+        transform.rotation = targetRotation;
     }
 
     /// <summary>
