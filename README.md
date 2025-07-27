@@ -37,7 +37,7 @@ Players are guided through a stylized cooking mechanics, set in a customizable v
 
 ## 🎮 Features
 
-- 🍲 **Cook Iconic Filipino Dishes** — Learn traditional recipes like *Humba*, *Adobo*, *Tinolang Manok*, and more.
+- 🍲 **Cook Filipino Dishes** — Learn traditional recipes like *Humba*, *Adobo*, *Tinolang Manok*, and more.
 - 🧂 **Realistic, Interactive Cooking** — Drag, pour, chop, and stir with intuitive controls.
 - 🧑‍🍳 **Step-by-Step Guidance** — Perfect for beginners and aspiring cooks.
 - 📱 **Mobile-Friendly** — Designed exclusively for Android devices.
