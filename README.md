@@ -69,7 +69,7 @@ Players are guided through a stylized cooking mechanics, set in a customizable v
 
 LuTuon is more than a game — it’s a cultural learning tool designed to:
 - Preserve Filipino culinary heritage
-- Empower young adults to cook independently
+- Empower young adults to cook dishes independently
 - Make cooking approachable and fun
 
 ---
