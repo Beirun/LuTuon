@@ -50,7 +50,7 @@ Players are guided through a stylized cooking mechanics, set in a customizable v
    ```bash
    git clone https://github.com/Beirun/lutuon.git
    ```
-2. Open in Unity (2021.3 or later recommended)
+2. Open in Unity 
 3. Build for Android
 4. Test on device or emulator
 
