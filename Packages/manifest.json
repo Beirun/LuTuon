@@ -3,6 +3,7 @@
     "com.unity.2d.sprite": "1.0.0",
     "com.unity.adaptiveperformance.google.android": "5.1.4",
     "com.unity.adaptiveperformance.samsung.android": "5.0.0",
+    "com.unity.cloud.gltfast": "6.13.1",
     "com.unity.collab-proxy": "2.8.2",
     "com.unity.device-simulator.devices": "1.0.0",
     "com.unity.feature.mobile": "1.0.0",
