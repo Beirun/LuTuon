@@ -12,7 +12,7 @@ PlayerSettings:
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
-  companyName: BytePan
+  companyName: DeveloPan
   productName: LuTuon
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
@@ -269,7 +269,7 @@ PlayerSettings:
   AndroidTargetArchitectures: 3
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
-  AndroidKeystoreName: C:/Users/Beirun/Desktop/Capstone Project/user.keystore
+  AndroidKeystoreName: C:/Users/Acer/Desktop/Capstone Project/user.keystore
   AndroidKeyaliasName: lutuon
   AndroidEnableArmv9SecurityFeatures: 0
   AndroidEnableArm64MTE: 0
