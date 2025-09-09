@@ -1,121 +1,163 @@
-// HighlightController.cs
-// This script works with Draggable to highlight objects below it.
-// It listens to drag events to perform its logic.
-
 using UnityEngine;
+using System.Collections.Generic;
 
+#if UNITY_ANDROID || UNITY_IOS
 public class HighlightController : MonoBehaviour
 {
+    [Header("Highlight Settings")]
     [Tooltip("The tag assigned to objects that can be highlighted.")]
     public string highlightableTag = "Highlightable";
+
     [Tooltip("The name of the layer used for the outline effect.")]
     public string outlineLayerName = "Outline";
+
     [Tooltip("The maximum distance to check for highlightable objects below.")]
     public float highlightDistance = 5f;
 
+    [Tooltip("Direction to check for highlightable objects.")]
+    public Vector3 checkDirection = Vector3.down;
+
+    [Tooltip("Check for highlights automatically during drag.")]
+    public bool autoCheckDuringDrag = true;
+
+    [Header("Advanced Settings")]
+    [Tooltip("Offset from object position when checking for highlights.")]
+    public Vector3 checkOffset = Vector3.zero;
+
+    [Tooltip("Use sphere cast instead of raycast for broader detection.")]
+    public bool useSphereCast = false;
+
+    [Tooltip("Radius for sphere cast if enabled.")]
+    public float sphereCastRadius = 0.5f;
+
+    // Internal state
     private GameObject currentlyHighlighted;
     private int previousLayer;
     private int outlineLayer;
 
-    // A public property to let other scripts know what is currently highlighted.
-    public GameObject CurrentlyHighlightedObject => currentlyHighlighted;
+    // Events
+    public delegate void HighlightAction(GameObject highlightedObject);
+    public static event HighlightAction OnHighlightStart;
+    public static event HighlightAction OnHighlightEnd;
 
     void Start()
     {
-        // Cache the layer index for efficiency.
         outlineLayer = LayerMask.NameToLayer(outlineLayerName);
+
+        if (outlineLayer == -1)
+        {
+            Debug.LogWarning($"Outline layer '{outlineLayerName}' not found! Please create it in the layer settings.");
+        }
     }
 
-    void OnEnable()
+    public void CheckForHighlightableObject(Vector3 position)
     {
-        // Subscribe to the drag events from the Draggable script
-        Draggable.OnDrag += HandleDrag;
-        Draggable.OnDragEnd += HandleDragEnd;
+        if (!autoCheckDuringDrag) return;
+
+        HighlightNearbyObject(position);
     }
 
-    void OnDisable()
+    public void ManualCheckForHighlight()
     {
-        // Unsubscribe from the events to prevent memory leaks
-        Draggable.OnDrag -= HandleDrag;
-        Draggable.OnDragEnd -= HandleDragEnd;
+        HighlightNearbyObject(transform.position);
     }
 
-    /// <summary>
-    /// Called continuously while an object is being dragged.
-    /// </summary>
-    /// <param name="draggedObjectPosition">The current position of the dragged object.</param>
-    private void HandleDrag(Vector3 draggedObjectPosition)
-    {
-        HighlightNearbyObject(draggedObjectPosition);
-    }
-
-    /// <summary>
-    /// Called when the drag operation ends.
-    /// </summary>
-    /// <param name="draggedObjectPosition">The final position of the dragged object.</param>
-    private void HandleDragEnd(Vector3 draggedObjectPosition)
-    {
-        ClearHighlight();
-    }
-
-    /// <summary>
-    /// Casts a ray downwards to find and highlight objects.
-    /// </summary>
-    /// <param name="position">The position to cast the ray from.</param>
     void HighlightNearbyObject(Vector3 position)
     {
-        Ray ray = new Ray(position, Vector3.down);
-        RaycastHit hit;
+        position += checkOffset;
+        GameObject hitObj = null;
 
-        // Perform the raycast
-        if (Physics.Raycast(ray, out hit, highlightDistance))
+        if (useSphereCast)
         {
-            GameObject hitObject = hit.collider.gameObject;
-
-            // Check if the hit object is highlightable and not the object being dragged
-            if (hitObject.CompareTag(highlightableTag) && hitObject != this.gameObject)
+            // Use sphere cast for broader detection
+            if (Physics.SphereCast(position, sphereCastRadius, checkDirection, out RaycastHit hit, highlightDistance))
             {
-                // If we hit a new highlightable object, update the highlight
-                if (hitObject != currentlyHighlighted)
-                {
-                    ClearHighlight(); // Clear previous highlight first
-                    SetHighlight(hitObject);
-                }
-            }
-            else
-            {
-                // If we hit something not highlightable, clear any existing highlight
-                ClearHighlight();
+                hitObj = hit.collider.gameObject;
             }
         }
         else
         {
-            // If the raycast hits nothing, clear any existing highlight
+            // Use standard raycast
+            Ray ray = new Ray(position, checkDirection);
+
+            if (Physics.Raycast(ray, out RaycastHit hit, highlightDistance))
+            {
+                hitObj = hit.collider.gameObject;
+            }
+        }
+
+        // Process the hit object
+        if (hitObj != null && hitObj.CompareTag(highlightableTag) && hitObj != gameObject)
+        {
+            if (hitObj != currentlyHighlighted)
+            {
+                ClearHighlight();
+                SetHighlight(hitObj);
+            }
+        }
+        else
+        {
             ClearHighlight();
         }
     }
 
-    /// <summary>
-    /// Applies the highlight effect to a GameObject.
-    /// </summary>
-    /// <param name="objToHighlight">The GameObject to highlight.</param>
-    void SetHighlight(GameObject objToHighlight)
+    void SetHighlight(GameObject obj)
     {
-        currentlyHighlighted = objToHighlight;
+        if (outlineLayer == -1) return;
+
+        currentlyHighlighted = obj;
         previousLayer = currentlyHighlighted.layer;
         currentlyHighlighted.layer = outlineLayer;
+
+        OnHighlightStart?.Invoke(currentlyHighlighted);
     }
 
-    /// <summary>
-    /// Clears the current highlight effect.
-    /// </summary>
-    void ClearHighlight()
+    public void ClearHighlight()
     {
         if (currentlyHighlighted != null)
         {
-            // Restore the object's original layer
             currentlyHighlighted.layer = previousLayer;
+            GameObject clearedObject = currentlyHighlighted;
             currentlyHighlighted = null;
+
+            OnHighlightEnd?.Invoke(clearedObject);
+        }
+    }
+
+    public GameObject GetCurrentlyHighlighted()
+    {
+        return currentlyHighlighted;
+    }
+
+    public bool IsHighlighting()
+    {
+        return currentlyHighlighted != null;
+    }
+
+    // Method for external objects to register as highlightable
+    public static void RegisterHighlightable(GameObject obj, string tag)
+    {
+        obj.tag = tag;
+    }
+
+    // Debug visualization
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.yellow;
+        Vector3 startPos = transform.position + checkOffset;
+
+        if (useSphereCast)
+        {
+            // Draw sphere cast visualization
+            Gizmos.DrawWireSphere(startPos, sphereCastRadius);
+            Gizmos.DrawRay(startPos, checkDirection * highlightDistance);
+            Gizmos.DrawWireSphere(startPos + checkDirection * highlightDistance, sphereCastRadius);
+        }
+        else
+        {
+            // Draw raycast visualization
+            Gizmos.DrawRay(startPos, checkDirection * highlightDistance);
         }
     }
 }
+#endif
