@@ -4266,6 +4266,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -8391222552659086748, guid: 917b10941156eef438532d4ef5ebc638, type: 3}
+      propertyPath: m_TagString
+      value: Choppingboard
+      objectReference: {fileID: 0}
     - target: {fileID: -5477749408508380018, guid: 917b10941156eef438532d4ef5ebc638, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.01771137
@@ -4309,6 +4313,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 917b10941156eef438532d4ef5ebc638, type: 3}
       propertyPath: m_Name
       value: choppingboard
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 917b10941156eef438532d4ef5ebc638, type: 3}
+      propertyPath: m_TagString
+      value: Choppingboard
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
@@ -7271,13 +7279,7 @@ PrefabInstance:
       addedObject: {fileID: 1377150648}
     - targetCorrespondingSourceObject: {fileID: -3456402307994059679, guid: 03100e864e058654fb30bfc3f7399dc1, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1377150660}
-    - targetCorrespondingSourceObject: {fileID: -3456402307994059679, guid: 03100e864e058654fb30bfc3f7399dc1, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1377150655}
-    - targetCorrespondingSourceObject: {fileID: -3456402307994059679, guid: 03100e864e058654fb30bfc3f7399dc1, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1377150654}
+      addedObject: {fileID: 1377150664}
   m_SourcePrefab: {fileID: 100100000, guid: 03100e864e058654fb30bfc3f7399dc1, type: 3}
 --- !u!1 &474281226 stripped
 GameObject:
@@ -8467,6 +8469,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: b0a8f6ea5034bc44e8b412cdbdef4987, type: 3}
       propertyPath: m_Name
       value: DicedOnion
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b0a8f6ea5034bc44e8b412cdbdef4987, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -20769,46 +20775,7 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 3152784109712292579, guid: 03100e864e058654fb30bfc3f7399dc1, type: 3}
---- !u!114 &1377150654
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1377150644}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fa09a47ceab5d264e857451eaff67a69, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  placementOffset: {x: 0, y: 1.5, z: 0}
-  returnPosition: {fileID: 0}
-  useOriginalAsReturn: 1
-  placeDuration: 0.25
-  returnDuration: 1
-  arcHeight: 1.5
-  useArcOnReturn: 1
---- !u!114 &1377150655
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1377150644}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4204f9c747c20b2409ff6b6986902960, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  highlightableTag: Highlightable
-  outlineLayerName: Outline
-  highlightDistance: 5
-  checkDirection: {x: 0, y: -1, z: 0}
-  autoCheckDuringDrag: 1
-  checkOffset: {x: 0, y: 0, z: 0}
-  useSphereCast: 0
-  sphereCastRadius: 0.5
---- !u!114 &1377150660
+--- !u!114 &1377150664
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -20821,15 +20788,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 196108200}
-  liftHeight: 2.5
-  useRotation: 0
-  targetRotation: {x: 0, y: 0, z: 0, w: 1}
-  gravityOnEnd: 0
-  placementOffset: {x: 0, y: 1.5, z: 0}
+  liftHeight: 2.3
+  useRotation: 1
+  targetRotation: {x: 0, y: 0.70710677, z: 0, w: 0.70710677}
+  gravityOnEnd: 1
   highlightableTag: Highlightable
   outlineLayerName: Outline
   highlightDistance: 5
-  placeDuration: 0.25
+  placeDuration: 0.75
   returnDuration: 1
 --- !u!1 &1382145691 stripped
 GameObject:
@@ -31355,8 +31321,6 @@ GameObject:
   - component: {fileID: 3469287837344748556}
   - component: {fileID: 3469287837344748555}
   - component: {fileID: 3469287837344748557}
-  - component: {fileID: 3469287837344748559}
-  - component: {fileID: 3469287837344748558}
   m_Layer: 0
   m_Name: knife
   m_TagString: Untagged
@@ -32033,54 +31997,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 919132149292663062}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b6c0a37b06618ae448b9bb45c90593f4, type: 3}
+  m_Script: {fileID: 11500000, guid: d4f9b237feaa1cd498cbbd31f6e854ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 196108200}
-  liftHeight: 1.5
+  liftHeight: 1
   useRotation: 0
   targetRotation: {x: 0, y: 0, z: 0, w: 1}
-  gravityOnEnd: 1
-  liftDuration: 0.25
---- !u!114 &3469287837344748558
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 919132149292663062}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4204f9c747c20b2409ff6b6986902960, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  highlightableTag: Highlightable
+  gravityOnEnd: 0
+  choppingBoardTag: Choppingboard
   outlineLayerName: Outline
   highlightDistance: 5
-  checkDirection: {x: 0, y: -1, z: 0}
-  autoCheckDuringDrag: 1
-  checkOffset: {x: 0, y: 0, z: 0}
-  useSphereCast: 0
-  sphereCastRadius: 0.5
---- !u!114 &3469287837344748559
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 919132149292663062}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fa09a47ceab5d264e857451eaff67a69, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  placementOffset: {x: 0, y: 1.5, z: 0}
-  returnPosition: {fileID: 0}
-  useOriginalAsReturn: 1
-  placeDuration: 0.25
-  returnDuration: 1
-  arcHeight: 1.5
-  useArcOnReturn: 1
+  returnDuration: 0.4
+  cutDuration: 0.4
+  cutDepth: 0.4
 --- !u!33 &3478862246867685506
 MeshFilter:
   m_ObjectHideFlags: 0
