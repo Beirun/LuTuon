@@ -20,9 +20,6 @@ public class LidController : MonoBehaviour
     [Tooltip("Enable gravity when drag ends and not placed.")]
     public bool gravityOnEnd = false;
 
-    [Header("Placement Settings")]
-    [Tooltip("The vertical offset to apply when placing the object on a surface.")]
-    public Vector3 placementOffset = new Vector3(0f, 1.5f, 0f);
 
     [Header("Highlight Settings")]
     [Tooltip("The tag assigned to objects that can be highlighted.")]
@@ -132,6 +129,8 @@ public class LidController : MonoBehaviour
         }
 
         float startY = transform.position.y;
+        float startX = transform.position.x;
+        float startZ = transform.position.z;
         Quaternion startRot = transform.rotation;
         if (!useRotation) targetRotation = Quaternion.Euler(0f, startRot.eulerAngles.y, 0f);
 
@@ -143,6 +142,8 @@ public class LidController : MonoBehaviour
 
             Vector3 pos = transform.position;
             pos.y = Mathf.Lerp(startY, liftHeight, t);
+            pos.x = Mathf.Lerp(startX, startX - dragOffset.x, t);
+            pos.z = Mathf.Lerp(startZ, startZ - dragOffset.z, t);
             transform.position = pos;
             transform.rotation = Quaternion.Slerp(startRot, targetRotation, t);
 
@@ -158,7 +159,7 @@ public class LidController : MonoBehaviour
 
     void PerformDrag(Vector2 screenPos)
     {
-        Vector3 targetPos = GetWorldPosition(screenPos) + dragOffset;
+        Vector3 targetPos = GetWorldPosition(screenPos);
         targetPos.y = liftHeight;
         transform.position = targetPos;
         OnDrag?.Invoke(transform.position);
@@ -184,8 +185,10 @@ public class LidController : MonoBehaviour
 
     private Vector3 GetWorldPosition(Vector2 screenPos)
     {
-        Vector3 point = new Vector3(screenPos.x, screenPos.y, zCoord);
-        return cam.ScreenToWorldPoint(point);
+        Ray ray = cam.ScreenPointToRay(screenPos);
+        Plane plane = new Plane(Vector3.up, new Vector3(0, liftHeight, 0));
+
+        return plane.Raycast(ray, out float enter) ? ray.GetPoint(enter) : transform.position;
     }
 
     // Placement handling
@@ -193,36 +196,32 @@ public class LidController : MonoBehaviour
     {
         if (currentlyHighlighted != null)
         {
-            Vector3 targetPos = currentlyHighlighted.transform.position + placementOffset;
-            StartCoroutine(AnimatePlacement(targetPos, Quaternion.Euler(0f, 0f, 0f), placeDuration, false));
+            Vector3 targetPos = currentlyHighlighted.transform.position + new Vector3(0f, 1.4f, 0f);
+
+            StartCoroutine(AnimatePlacement(targetPos, Quaternion.Euler(0f, 0f, 0f), placeDuration, true));
         }
         else
         {
-            StartCoroutine(AnimatePlacement(startPos, startRot, returnDuration, true)); // trajectory arc
+            StartCoroutine(AnimatePlacement(startPos, startRot, returnDuration, true));
         }
     }
-
-
-
-
 
     IEnumerator AnimatePlacement(Vector3 targetPos, Quaternion targetRot, float duration, bool useArc = false)
     {
         Vector3 fromPos = transform.position;
         Quaternion fromRot = transform.rotation;
-
         float elapsedTime = 0f;
         while (elapsedTime < duration)
         {
             float t = elapsedTime / duration;
-            t = t * t * (3f - 2f * t); // smoothstep
+            // smoothstep ease in/out
+            t = t * t * (3f - 2f * t);
 
             Vector3 pos = Vector3.Lerp(fromPos, targetPos, t);
 
             if (useArc)
             {
-                // Add arc: peak at mid-point (t=0.5)
-                float arcHeight = 1.5f; // tweakable
+                float arcHeight = 0.5f; // smaller arc for smoother land
                 pos.y += Mathf.Sin(t * Mathf.PI) * arcHeight;
             }
 
@@ -237,6 +236,7 @@ public class LidController : MonoBehaviour
         transform.rotation = targetRot;
         FinalizeDrag();
     }
+
 
 
 
