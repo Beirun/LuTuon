@@ -6,7 +6,7 @@ public class PlacementController : MonoBehaviour
 {
     [Header("Placement Settings")]
     [Tooltip("The vertical offset to apply when placing the object on a surface.")]
-    public Vector3 placementOffset = new Vector3(0f, 1.5f, 0f);
+    public Vector3 placementOffset = new Vector3(0f, 3f, 0f);
 
     [Tooltip("The position to return to if not placed on a valid target.")]
     public Transform returnPosition;
