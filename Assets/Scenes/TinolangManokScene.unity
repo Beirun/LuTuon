@@ -14942,7 +14942,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 792923a2a0f20dc419f0dc51726ea9dd, type: 3}
       propertyPath: m_Name
-      value: Onion1
+      value: Onion (1)
       objectReference: {fileID: 0}
     - target: {fileID: 6317578925029434746, guid: 792923a2a0f20dc419f0dc51726ea9dd, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -25309,7 +25309,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: c74710d0aba2c1a4796b0e1b3b7190bc, type: 3}
       propertyPath: m_Name
-      value: Onion2
+      value: onionHalf
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: c74710d0aba2c1a4796b0e1b3b7190bc, type: 3}
       propertyPath: m_IsActive
