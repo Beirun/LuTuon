@@ -17,8 +17,8 @@ public class LidController : MonoBehaviour
     [Tooltip("Enable and set a specific rotation when lifting.")]
     public bool useRotation = false;
     public Quaternion targetRotation = Quaternion.Euler(0f, 0f, 0f);
-    [Tooltip("Enable gravity when drag ends and not placed.")]
-    public bool gravityOnEnd = false;
+    [Tooltip("The vertical offset to apply when placing the object on a surface.")]
+    public Vector3 placementOffset = new Vector3(0f, 3f, 0f);
 
 
     [Header("Highlight Settings")]
@@ -96,7 +96,6 @@ public class LidController : MonoBehaviour
                 if (isDragging)
                 {
                     EndDrag();
-                    if (gravityOnEnd) FinalizeDrag();
                 }
                 break;
         }
@@ -174,14 +173,7 @@ public class LidController : MonoBehaviour
         ClearHighlight();
     }
 
-    public void FinalizeDrag()
-    {
-        if (rb != null)
-        {
-            rb.useGravity = true;
-            rb.isKinematic = false;
-        }
-    }
+
 
     private Vector3 GetWorldPosition(Vector2 screenPos)
     {
@@ -196,7 +188,8 @@ public class LidController : MonoBehaviour
     {
         if (currentlyHighlighted != null)
         {
-            Vector3 targetPos = currentlyHighlighted.transform.position + new Vector3(0f, 1.4f, 0f);
+            
+            Vector3 targetPos = currentlyHighlighted.transform.position + placementOffset;
 
             StartCoroutine(AnimatePlacement(targetPos, Quaternion.Euler(0f, 0f, 0f), placeDuration, true));
         }
@@ -234,7 +227,6 @@ public class LidController : MonoBehaviour
 
         transform.position = targetPos;
         transform.rotation = targetRot;
-        FinalizeDrag();
     }
 
 
