@@ -107,7 +107,6 @@ public class KnifeController : MonoBehaviour
             yield return null;
         }
 
-        transform.position = new Vector3(transform.position.x, liftHeight, transform.position.z);
         transform.rotation = targetRotation;
     }
 

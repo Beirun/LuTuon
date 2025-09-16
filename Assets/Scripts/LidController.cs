@@ -39,18 +39,13 @@ public class LidController : MonoBehaviour
     // internal state
     private Rigidbody rb;
     private bool isDragging = false;
-    private float zCoord;
     private Vector3 dragOffset;
 
     private GameObject currentlyHighlighted;
     private int previousLayer;
     private int outlineLayer;
 
-    // Events
-    public delegate void DragAction(Vector3 position);
-    public static event DragAction OnDragStart;
-    public static event DragAction OnDrag;
-    public static event DragAction OnDragEnd;
+
 
     // Add these fields
     private Vector3 originalPos;
@@ -107,14 +102,12 @@ public class LidController : MonoBehaviour
         if (Physics.Raycast(ray, out RaycastHit hit) && hit.transform == transform)
         {
             isDragging = true;
-            zCoord = cam.WorldToScreenPoint(transform.position).z;
             dragOffset = transform.position - GetWorldPosition(touch.position);
 
             originalPos = transform.position;   // save original
             originalRot = transform.rotation;
 
             StartCoroutine(LiftObject());
-            OnDragStart?.Invoke(transform.position);
         }
     }
 
@@ -150,9 +143,6 @@ public class LidController : MonoBehaviour
             yield return null;
         }
 
-        Vector3 finalPos = transform.position;
-        finalPos.y = liftHeight;
-        transform.position = finalPos;
         transform.rotation = targetRotation;
     }
 
@@ -161,14 +151,12 @@ public class LidController : MonoBehaviour
         Vector3 targetPos = GetWorldPosition(screenPos);
         targetPos.y = liftHeight;
         transform.position = targetPos;
-        OnDrag?.Invoke(transform.position);
         HighlightNearbyObject(transform.position);
     }
 
     void EndDrag()
     {
         isDragging = false;
-        OnDragEnd?.Invoke(transform.position);
         HandlePlacement();
         ClearHighlight();
     }
@@ -225,8 +213,6 @@ public class LidController : MonoBehaviour
             yield return null;
         }
 
-        transform.position = targetPos;
-        transform.rotation = targetRot;
     }
 
 
