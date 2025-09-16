@@ -32,6 +32,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/TinolangManokScene.unity
     guid: 440630e70e87f4744a7ae733671c06b0
+  - enabled: 1
+    path: Assets/Scenes/HumbaScene.unity
+    guid: df5010112e267044a9b61b3987eb5b54
+  - enabled: 1
+    path: Assets/Scenes/TortangTalongScene.unity
+    guid: 7f32707a02d1a984a939e51f63822a93
   m_configObjects:
     com.unity.adaptiveperformance.google.android.provider_settings: {fileID: 11400000, guid: 476306279fe433e4ea130834008c5a4d, type: 2}
     com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: e1e443bd4a598304195781ce96284a0e, type: 2}
