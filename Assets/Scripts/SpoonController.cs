@@ -110,7 +110,7 @@ public class SpoonController : MonoBehaviour
             yield return null;
         }
 
-        transform.position = new Vector3(transform.position.x, liftHeight, transform.position.z);
+        //transform.position = new Vector3(transform.position.x, liftHeight, transform.position.z);
         transform.rotation = targetRotation;
     }
 
@@ -146,9 +146,32 @@ public class SpoonController : MonoBehaviour
     IEnumerator PlayStirAnimation(Vector3 targetCenter)
     {
         Vector3 center = new Vector3(targetCenter.x, targetCenter.y + 0.5f, targetCenter.z);
-
         Quaternion stirRot = Quaternion.Euler(360f, 180f, 90f);
 
+        // --- step 0: animate into stir position ---
+        Vector3 startPos = transform.position;
+        Quaternion startRotation = transform.rotation;
+
+        Vector3 firstStirPos = center + new Vector3(stirRadius, -stirDepth, 0f); // entry point on circle
+        float entryDuration = 0.3f;
+        float entryElapsed = 0f;
+
+        while (entryElapsed < entryDuration)
+        {
+            float t = entryElapsed / entryDuration;
+            t = t * t * (3f - 2f * t); // smoothstep
+
+            transform.position = Vector3.Lerp(startPos, firstStirPos, t);
+            transform.rotation = Quaternion.Slerp(startRotation, stirRot, t);
+
+            entryElapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        transform.position = firstStirPos;
+        transform.rotation = stirRot;
+
+        // --- step 1: do the stirring circles ---
         float elapsed = 0f;
         while (elapsed < stirDuration)
         {
@@ -163,15 +186,12 @@ public class SpoonController : MonoBehaviour
             yield return null;
         }
 
-        // step 1: move back up to liftHeight
+        // --- step 2: lift, restore rotation, return home ---
         yield return RestoreHeight(liftHeight, 0.2f);
-
-        // step 2: restore rotation
         yield return RestoreRotation(startRot, 0.3f);
-
-        // step 3: return to start
         yield return ReturnToStart();
     }
+
 
     IEnumerator RestoreHeight(float targetY, float duration)
     {
