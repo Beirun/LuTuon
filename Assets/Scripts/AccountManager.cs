@@ -12,6 +12,22 @@ public class AttemptData
 }
 
 [Serializable]
+public class StatsData
+{
+    public int totalAttempts;
+    public int totalPoints;
+}
+
+[Serializable]
+public class AchievementData
+{
+    public string achievementId;
+    public string achievementName;
+    public int progress;
+    public DateTime dateCompleted;
+}
+
+[Serializable]
 public class AccountData
 {
     public string userId;
@@ -21,17 +37,18 @@ public class AccountData
     public string avatarId;
     public string accessToken;
     public string refreshToken;
-    public DateTime accessTokenExpiry;
-    public List<AttemptData> attempts; // new
+    public DateTime accessTokenExpiry; // optional if backend returns expiry
+    public List<AttemptData> attempts;
+    public StatsData stats;
+    public List<AchievementData> achievements;
 }
-
 
 public class AccountManager : MonoBehaviour
 {
     public static AccountManager Instance { get; private set; }
     public AccountData CurrentAccount { get; private set; }
 
-    private void Awake()
+    void Awake()
     {
         if (Instance != null && Instance != this)
         {
@@ -54,6 +71,7 @@ public class AccountManager : MonoBehaviour
 
     public bool IsLoggedIn()
     {
-        return CurrentAccount != null && !string.IsNullOrEmpty(CurrentAccount.accessToken);
+        return CurrentAccount != null &&
+               !string.IsNullOrEmpty(CurrentAccount.accessToken);
     }
 }

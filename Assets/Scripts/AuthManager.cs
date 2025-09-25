@@ -6,6 +6,8 @@ using UnityEngine.Networking;
 
 [Serializable]
 public class LoginRequest { public string email; public string password; }
+
+
 [Serializable]
 public class LoginResponse
 {
@@ -13,6 +15,8 @@ public class LoginResponse
     public string refreshToken;
     public User user;
     public AttemptData[] attempts;
+    public StatsData stats;
+    public AchievementData[] achievements;
 }
 
 [Serializable]
@@ -24,6 +28,7 @@ public class User
     public string userDob;
     public string avatarId;
 }
+
 [Serializable]
 public class RefreshRequest { public string refreshToken; }
 
@@ -70,7 +75,9 @@ public class AuthManager : MonoBehaviour
                     accessToken = res.accessToken,
                     refreshToken = res.refreshToken,
                     accessTokenExpiry = expiry,
-                    attempts = new List<AttemptData>(res.attempts)
+                    attempts = new List<AttemptData>(res.attempts ?? Array.Empty<AttemptData>()),
+                    stats = res.stats,
+                    achievements = new List<AchievementData>(res.achievements ?? Array.Empty<AchievementData>())
                 });
 
                 if (autoRefreshCoroutine != null) StopCoroutine(autoRefreshCoroutine);
@@ -131,14 +138,18 @@ public class AuthManager : MonoBehaviour
             }
             else
             {
-                var res = JsonUtility.FromJson<LoginResponse>(request.downloadHandler.text);
-                acc.accessToken = res.accessToken;
+                // refresh endpoint only returns accessToken
+                var tokenWrapper = JsonUtility.FromJson<AccessTokenOnly>(request.downloadHandler.text);
+                acc.accessToken = tokenWrapper.accessToken;
                 acc.accessTokenExpiry = DateTime.UtcNow.AddHours(1);
                 AccountManager.Instance.SetAccountData(acc);
                 callback(true, null);
             }
         }
     }
+
+    [Serializable]
+    private class AccessTokenOnly { public string accessToken; }
 
     public void Logout(Action<bool, string> callback)
     {
