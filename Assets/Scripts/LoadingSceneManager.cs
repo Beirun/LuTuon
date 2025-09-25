@@ -54,46 +54,30 @@ public class LoadingSceneManager : MonoBehaviour
 
     IEnumerator LoadSceneAsync()
     {
-        // Start the actual scene loading operation in the background.
-        AsyncOperation operation = SceneManager.LoadSceneAsync(sceneToLoad);
-
-        // Prevent the scene from activating immediately after loading.
-        // This allows us to control when the scene fully appears.
-        operation.allowSceneActivation = false;
-
+        AsyncOperation op = SceneManager.LoadSceneAsync(sceneToLoad);
+        op.allowSceneActivation = false;
         float timer = 0f;
 
-        // Loop while the scene is loading or the minimum loading time has not passed.
-        while (!operation.isDone || timer < minimumLoadingTime)
+        while (!op.isDone)
         {
-            // Update the timer.
             timer += Time.deltaTime;
 
-            // Calculate the loading progress.
-            // The operation.progress goes from 0.0 to 0.9 when allowSceneActivation is false.
-            float targetProgress = Mathf.Clamp01(operation.progress / 0.9f);
+            // Use raw progress (0–0.9) and map to 0–100
+            float target = Mathf.Clamp01(op.progress);
+            _loadingProgress = Mathf.MoveTowards(_loadingProgress, target, Time.deltaTime);
 
-            // Smoothly interpolate the progress bar value to avoid choppy updates.
-            _loadingProgress = Mathf.MoveTowards(_loadingProgress, targetProgress, Time.deltaTime);
+            if (progressBar) progressBar.value = _loadingProgress;
+            if (progressText) progressText.text = Mathf.RoundToInt(_loadingProgress * 100f) + "%";
 
-            // Update the UI elements.
-            if (progressBar != null)
+            // Allow activation only after min time and full load (progress >= 0.9)
+            if (op.progress >= 0.9f && timer >= minimumLoadingTime)
             {
-                progressBar.value = _loadingProgress;
-            }
-            if (progressText != null)
-            {
-                progressText.text = Mathf.RoundToInt(_loadingProgress * 100f) + "%";
+                _isLoadingComplete = true;
+                op.allowSceneActivation = true;
             }
 
-            // If the scene is loaded and the minimum time has passed, allow activation.
-            if (_loadingProgress >= 1f && timer >= minimumLoadingTime)
-            {
-                _isLoadingComplete = true; // Mark as complete
-                operation.allowSceneActivation = true; // Allow the scene to fully load
-            }
-
-            yield return null; // Wait for the next frame.
+            yield return null;
         }
     }
+
 }

@@ -6945,7 +6945,6 @@ GameObject:
   - component: {fileID: 467889410}
   - component: {fileID: 467889409}
   - component: {fileID: 467889408}
-  - component: {fileID: 467889411}
   m_Layer: 5
   m_Name: ExitButton
   m_TagString: Untagged
@@ -7029,6 +7028,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1108593963}
+        m_TargetAssemblyTypeName: ReturnToMenuLoader, Assembly-CSharp
+        m_MethodName: ReturnToTutorialMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &467889409
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7067,20 +7078,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 467889406}
   m_CullTransparentMesh: 1
---- !u!114 &467889411
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 467889406}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 929f640c65a4e2448a579119fb03c1b6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sceneName: TutorialMenuScene
-  withTransition: 1
 --- !u!1 &469984930 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -8391222552659086748, guid: cb9e3c73ea8606e43b7cfb4feb756b18, type: 3}
@@ -34969,6 +34966,7 @@ SceneRoots:
   - {fileID: 2099705795}
   - {fileID: 1567479977}
   - {fileID: 690426897}
+  - {fileID: 1108593964}
   - {fileID: 62579791}
   - {fileID: 543450651942269505}
   - {fileID: 470527395}
