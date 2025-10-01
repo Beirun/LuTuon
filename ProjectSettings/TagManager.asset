@@ -4,8 +4,8 @@
 TagManager:
   serializedVersion: 3
   tags:
-  - Highlightable
   - Choppingboard
+  - Pot
   layers:
   - Default
   - TransparentFX
