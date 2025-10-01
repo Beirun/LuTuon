@@ -7,177 +7,30 @@ using System;
 
 #if UNITY_ANDROID || UNITY_IOS
 [RequireComponent(typeof(Rigidbody))]
-public class LidController : MonoBehaviour
+public class LidController : DragController
 {
-    [Header("Camera & Drag Settings")]
-    [Tooltip("The camera used for screen-to-world conversions. Defaults to main camera.")]
-    public Camera cam;
-    [Tooltip("The maximum height the object will be lifted to when dragged.")]
-    public float liftHeight = 2f;
-    [Tooltip("Enable and set a specific rotation when lifting.")]
-    public bool useRotation = false;
-    public Quaternion targetRotation = Quaternion.Euler(0f, 0f, 0f);
-    [Tooltip("The vertical offset to apply when placing the object on a surface.")]
-    public Vector3 placementOffset = new Vector3(0f, 3f, 0f);
-
-
-    [Header("Highlight Settings")]
-    [Tooltip("The tag assigned to objects that can be highlighted.")]
-    public string highlightableTag = "Highlightable";
-    [Tooltip("The name of the layer used for the outline effect.")]
-    public string outlineLayerName = "Outline";
-    [Tooltip("The maximum distance to check for highlightable objects below.")]
-    public float highlightDistance = 5f;
+    private Vector3 placementOffset = new Vector3(0f, 1.25f, 0f);
 
     [Header("Animation Durations")]
     [Tooltip("Time in seconds to place object on a highlight.")]
     public float placeDuration = 0.25f;
-    [Tooltip("Time in seconds to return to starting position.")]
-    public float returnDuration = 1.0f;
 
 
-    // internal state
-    private Rigidbody rb;
-    private bool isDragging = false;
-    private Vector3 dragOffset;
-
-    private GameObject currentlyHighlighted;
-    private int previousLayer;
-    private int outlineLayer;
-
-
-
-    // Add these fields
-    private Vector3 originalPos;
-    private Quaternion originalRot;
-
-    // fields
-    private Vector3 startPos;
-    private Quaternion startRot;
-
-    void Start()
+    
+    public override void EndDrag()
     {
-        if (cam == null) cam = Camera.main;
-        rb = GetComponent<Rigidbody>();
-        outlineLayer = LayerMask.NameToLayer(outlineLayerName);
-
-        // Save the original spawn position and rotation
-        startPos = transform.position;
-        startRot = transform.rotation;
-    }
-
-
-    void Update()
-    {
-        if (Input.touchCount > 0)
-        {
-            Touch touch = Input.GetTouch(0);
-            HandleTouch(touch);
-        }
-    }
-
-    void HandleTouch(Touch touch)
-    {
-        switch (touch.phase)
-        {
-            case TouchPhase.Began:
-                StartDrag(touch);
-                break;
-            case TouchPhase.Moved:
-                if (isDragging) PerformDrag(touch.position);
-                break;
-            case TouchPhase.Ended:
-            case TouchPhase.Canceled:
-                if (isDragging)
-                {
-                    EndDrag();
-                }
-                break;
-        }
-    }
-
-    void StartDrag(Touch touch)
-    {
-        Ray ray = cam.ScreenPointToRay(touch.position);
-        if (Physics.Raycast(ray, out RaycastHit hit) && hit.transform == transform)
-        {
-            isDragging = true;
-            dragOffset = transform.position - GetWorldPosition(touch.position);
-
-            originalPos = transform.position;   // save original
-            originalRot = transform.rotation;
-
-            StartCoroutine(LiftObject());
-        }
-    }
-
-
-    IEnumerator LiftObject()
-    {
-        if (rb != null)
-        {
-            rb.useGravity = false;
-            rb.isKinematic = true;
-        }
-
-        float startY = transform.position.y;
-        float startX = transform.position.x;
-        float startZ = transform.position.z;
-        Quaternion startRot = transform.rotation;
-        if (!useRotation) targetRotation = Quaternion.Euler(0f, startRot.eulerAngles.y, 0f);
-
-        float duration = 0.25f, elapsedTime = 0f;
-        while (elapsedTime < duration)
-        {
-            float t = elapsedTime / duration;
-            t = t * t * (3f - 2f * t);
-
-            Vector3 pos = transform.position;
-            pos.y = Mathf.Lerp(startY, liftHeight, t);
-            pos.x = Mathf.Lerp(startX, startX - dragOffset.x, t);
-            pos.z = Mathf.Lerp(startZ, startZ - dragOffset.z, t);
-            transform.position = pos;
-            transform.rotation = Quaternion.Slerp(startRot, targetRotation, t);
-
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-
-        transform.rotation = targetRotation;
-    }
-
-    void PerformDrag(Vector2 screenPos)
-    {
-        Vector3 targetPos = GetWorldPosition(screenPos);
-        targetPos.y = liftHeight;
-        transform.position = targetPos;
-        HighlightNearbyObject(transform.position);
-    }
-
-    void EndDrag()
-    {
-        isDragging = false;
+        base.EndDrag();
         HandlePlacement();
         ClearHighlight();
-    }
-
-
-
-    private Vector3 GetWorldPosition(Vector2 screenPos)
-    {
-        Ray ray = cam.ScreenPointToRay(screenPos);
-        Plane plane = new Plane(Vector3.up, new Vector3(0, liftHeight, 0));
-
-        return plane.Raycast(ray, out float enter) ? ray.GetPoint(enter) : transform.position;
     }
 
     // Placement handling
     void HandlePlacement()
     {
-        if (currentlyHighlighted != null)
+        if (highlighted != null)
         {
             
-            Vector3 targetPos = currentlyHighlighted.transform.position + placementOffset;
+            Vector3 targetPos = highlighted.transform.position + placementOffset;
 
             StartCoroutine(AnimatePlacement(targetPos, Quaternion.Euler(0f, 0f, 0f), placeDuration, true));
         }
@@ -216,44 +69,5 @@ public class LidController : MonoBehaviour
     }
 
 
-
-
-
-
-    // Highlight handling
-    void HighlightNearbyObject(Vector3 position)
-    {
-        Ray ray = new Ray(position, Vector3.down);
-        if (Physics.Raycast(ray, out RaycastHit hit, highlightDistance))
-        {
-            GameObject hitObj = hit.collider.gameObject;
-            if (hitObj.CompareTag(highlightableTag) && hitObj != gameObject)
-            {
-                if (hitObj != currentlyHighlighted)
-                {
-                    ClearHighlight();
-                    SetHighlight(hitObj);
-                }
-            }
-            else ClearHighlight();
-        }
-        else ClearHighlight();
-    }
-
-    void SetHighlight(GameObject obj)
-    {
-        currentlyHighlighted = obj;
-        previousLayer = currentlyHighlighted.layer;
-        currentlyHighlighted.layer = outlineLayer;
-    }
-
-    void ClearHighlight()
-    {
-        if (currentlyHighlighted != null)
-        {
-            currentlyHighlighted.layer = previousLayer;
-            currentlyHighlighted = null;
-        }
-    }
 }
 #endif
