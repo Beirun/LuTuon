@@ -7,15 +7,11 @@ public class HighlightController : MonoBehaviour
     [Header("Highlight Settings")]
     public string hightlightTag = "Choppingboard";
     public string outlineLayerName = "Outline";
-    public float highlightDistance = 0.12f;
-    public float sphereCastRadius = 0.15f;  
-    public float originForwardOffset = 0.12f; 
-    public float originUpOffset = 0.12f;     
+    public float maxDistance = 10f;
 
     private int outlineLayer;
     private int previousLayer;
-    [HideInInspector]
-    public GameObject highlighted;
+    [HideInInspector] public GameObject highlighted;
 
     void Awake()
     {
@@ -24,50 +20,37 @@ public class HighlightController : MonoBehaviour
             Debug.LogError($"Layer '{outlineLayerName}' not found. Add it in Project Settings > Tags and Layers.");
     }
 
- 
-    public void HighlightBehind(Vector3 position, Camera cam)
+    public void HighlightAtTouch(Vector2 screenPos, Camera cam, GameObject draggedObj)
     {
         if (cam == null) cam = Camera.main;
         if (cam == null) { ClearHighlight(); return; }
 
-        Vector3 dir = cam.transform.forward.normalized; // direction away from camera
-        Vector3 origin = position + dir * originForwardOffset + Vector3.up * originUpOffset;
+        Ray ray = cam.ScreenPointToRay(screenPos);
 
-        // 1) SphereCastAll to catch targets even if floating / slightly offset
-        RaycastHit[] hits = Physics.SphereCastAll(origin, sphereCastRadius, dir, highlightDistance);
-        if (hits != null && hits.Length > 0)
+        // sphere radius = 0.5f tolerance around the ray
+        RaycastHit[] hits = Physics.SphereCastAll(ray, 0.25f, maxDistance);
+        if (hits.Length > 0)
         {
             Array.Sort(hits, (a, b) => a.distance.CompareTo(b.distance));
             foreach (var h in hits)
             {
-                var obj = h.collider.gameObject;
+                GameObject obj = h.collider.gameObject;
 
-                // skip self and children
-                if (obj == this.gameObject || obj.transform.IsChildOf(transform)) continue;
+                // skip dragged object and its children
+                if (obj == draggedObj || obj.transform.IsChildOf(draggedObj.transform)) continue;
                 if (!obj.CompareTag(hightlightTag)) continue;
 
-                if (obj != highlighted) { ClearHighlight(); SetHighlight(obj); }
+                if (obj != highlighted)
+                {
+                    ClearHighlight();
+                    SetHighlight(obj);
+                }
                 return;
             }
         }
 
-        // 2) Fallback: raycast with a downward bias to hit ground-level objects behind the dragged one
-        Vector3 biasDir = (dir + Vector3.down * 0.45f).normalized;
-        origin = position + Vector3.up * (originUpOffset + 0.25f); // higher origin for downward bias
-        if (Physics.Raycast(origin, biasDir, out RaycastHit hit2, highlightDistance * 1.5f))
-        {
-            var obj = hit2.collider.gameObject;
-            if (obj != this.gameObject && !obj.transform.IsChildOf(transform) && obj.CompareTag(hightlightTag))
-            {
-                if (obj != highlighted) { ClearHighlight(); SetHighlight(obj); }
-                return;
-            }
-        }
-
-        // nothing valid found
         ClearHighlight();
     }
-
 
 
     void SetHighlight(GameObject obj)

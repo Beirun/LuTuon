@@ -13,7 +13,7 @@ public class DragController : HighlightController
     public bool gravityOnEnd = false;
 
     [Header("Animations")]
-    public float returnDuration = .75f;
+    public float returnDuration = .5f;
     public float liftDuration = 0.25f;
 
     private Rigidbody rb;
@@ -114,11 +114,10 @@ public class DragController : HighlightController
     {
         Vector3 pos = GetWorldPosition(screenPos);
         pos.y = liftHeight;
-        if(addZOffset) pos.z = pos.z - zOffsetAmount;
+        if (addZOffset) pos.z -= zOffsetAmount;
         transform.position = pos;
-        //HighlightBelow(pos);
-        HighlightBehind(pos,cam);
 
+        HighlightAtTouch(screenPos, cam, this.gameObject);
     }
 
     public virtual void EndDrag()
@@ -131,11 +130,12 @@ public class DragController : HighlightController
     {
         Vector3 fromPos = transform.position;
         Quaternion fromRot = transform.rotation;
+        float duration = Mathf.Max(Mathf.Max(Vector3.Distance(fromPos, startPos) * returnDuration,0.5f) / 8, returnDuration * .8f);
         float elapsed = 0f;
 
-        while (elapsed < returnDuration)
+        while(elapsed < duration)
         {
-            float t = elapsed / returnDuration;
+            float t = elapsed / duration;
             t = t * t * (3f - 2f * t);
             transform.position = Vector3.Lerp(fromPos, startPos, t);
             transform.rotation = Quaternion.Slerp(fromRot, startRot, t);
