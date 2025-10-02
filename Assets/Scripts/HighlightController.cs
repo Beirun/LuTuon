@@ -1,162 +1,88 @@
+using System;
 using UnityEngine;
-using System.Collections.Generic;
 
 #if UNITY_ANDROID || UNITY_IOS
 public class HighlightController : MonoBehaviour
 {
     [Header("Highlight Settings")]
-    [Tooltip("The tag assigned to objects that can be highlighted.")]
-    public string highlightableTag = "Highlightable";
-
-    [Tooltip("The name of the layer used for the outline effect.")]
+    public string hightlightTag = "Choppingboard";
     public string outlineLayerName = "Outline";
+    public float highlightDistance = 0.12f;
+    public float sphereCastRadius = 0.15f;  
+    public float originForwardOffset = 0.12f; 
+    public float originUpOffset = 0.12f;     
 
-    [Tooltip("The maximum distance to check for highlightable objects below.")]
-    public float highlightDistance = 5f;
-
-    [Tooltip("Direction to check for highlightable objects.")]
-    public Vector3 checkDirection = Vector3.down;
-
-    [Tooltip("Check for highlights automatically during drag.")]
-    public bool autoCheckDuringDrag = true;
-
-    [Header("Advanced Settings")]
-    [Tooltip("Offset from object position when checking for highlights.")]
-    public Vector3 checkOffset = Vector3.zero;
-
-    [Tooltip("Use sphere cast instead of raycast for broader detection.")]
-    public bool useSphereCast = false;
-
-    [Tooltip("Radius for sphere cast if enabled.")]
-    public float sphereCastRadius = 0.5f;
-
-    // Internal state
-    private GameObject currentlyHighlighted;
-    private int previousLayer;
     private int outlineLayer;
+    private int previousLayer;
+    [HideInInspector]
+    public GameObject highlighted;
 
-    // Events
-    public delegate void HighlightAction(GameObject highlightedObject);
-    public static event HighlightAction OnHighlightStart;
-    public static event HighlightAction OnHighlightEnd;
-
-    void Start()
+    void Awake()
     {
         outlineLayer = LayerMask.NameToLayer(outlineLayerName);
+        if (outlineLayer < 0)
+            Debug.LogError($"Layer '{outlineLayerName}' not found. Add it in Project Settings > Tags and Layers.");
+    }
 
-        if (outlineLayer == -1)
+ 
+    public void HighlightBehind(Vector3 position, Camera cam)
+    {
+        if (cam == null) cam = Camera.main;
+        if (cam == null) { ClearHighlight(); return; }
+
+        Vector3 dir = cam.transform.forward.normalized; // direction away from camera
+        Vector3 origin = position + dir * originForwardOffset + Vector3.up * originUpOffset;
+
+        // 1) SphereCastAll to catch targets even if floating / slightly offset
+        RaycastHit[] hits = Physics.SphereCastAll(origin, sphereCastRadius, dir, highlightDistance);
+        if (hits != null && hits.Length > 0)
         {
-            Debug.LogWarning($"Outline layer '{outlineLayerName}' not found! Please create it in the layer settings.");
-        }
-    }
-
-    public void CheckForHighlightableObject(Vector3 position)
-    {
-        if (!autoCheckDuringDrag) return;
-
-        HighlightNearbyObject(position);
-    }
-
-    public void ManualCheckForHighlight()
-    {
-        HighlightNearbyObject(transform.position);
-    }
-
-    void HighlightNearbyObject(Vector3 position)
-    {
-        position += checkOffset;
-        GameObject hitObj = null;
-
-        if (useSphereCast)
-        {
-            // Use sphere cast for broader detection
-            if (Physics.SphereCast(position, sphereCastRadius, checkDirection, out RaycastHit hit, highlightDistance))
+            Array.Sort(hits, (a, b) => a.distance.CompareTo(b.distance));
+            foreach (var h in hits)
             {
-                hitObj = hit.collider.gameObject;
-            }
-        }
-        else
-        {
-            // Use standard raycast
-            Ray ray = new Ray(position, checkDirection);
+                var obj = h.collider.gameObject;
 
-            if (Physics.Raycast(ray, out RaycastHit hit, highlightDistance))
-            {
-                hitObj = hit.collider.gameObject;
+                // skip self and children
+                if (obj == this.gameObject || obj.transform.IsChildOf(transform)) continue;
+                if (!obj.CompareTag(hightlightTag)) continue;
+
+                if (obj != highlighted) { ClearHighlight(); SetHighlight(obj); }
+                return;
             }
         }
 
-        // Process the hit object
-        if (hitObj != null && hitObj.CompareTag(highlightableTag) && hitObj != gameObject)
+        // 2) Fallback: raycast with a downward bias to hit ground-level objects behind the dragged one
+        Vector3 biasDir = (dir + Vector3.down * 0.45f).normalized;
+        origin = position + Vector3.up * (originUpOffset + 0.25f); // higher origin for downward bias
+        if (Physics.Raycast(origin, biasDir, out RaycastHit hit2, highlightDistance * 1.5f))
         {
-            if (hitObj != currentlyHighlighted)
+            var obj = hit2.collider.gameObject;
+            if (obj != this.gameObject && !obj.transform.IsChildOf(transform) && obj.CompareTag(hightlightTag))
             {
-                ClearHighlight();
-                SetHighlight(hitObj);
+                if (obj != highlighted) { ClearHighlight(); SetHighlight(obj); }
+                return;
             }
         }
-        else
-        {
-            ClearHighlight();
-        }
+
+        // nothing valid found
+        ClearHighlight();
     }
+
+
 
     void SetHighlight(GameObject obj)
     {
-        if (outlineLayer == -1) return;
-
-        currentlyHighlighted = obj;
-        previousLayer = currentlyHighlighted.layer;
-        currentlyHighlighted.layer = outlineLayer;
-
-        OnHighlightStart?.Invoke(currentlyHighlighted);
+        highlighted = obj;
+        previousLayer = highlighted.layer;
+        highlighted.layer = outlineLayer;
     }
 
     public void ClearHighlight()
     {
-        if (currentlyHighlighted != null)
+        if (highlighted != null)
         {
-            currentlyHighlighted.layer = previousLayer;
-            GameObject clearedObject = currentlyHighlighted;
-            currentlyHighlighted = null;
-
-            OnHighlightEnd?.Invoke(clearedObject);
-        }
-    }
-
-    public GameObject GetCurrentlyHighlighted()
-    {
-        return currentlyHighlighted;
-    }
-
-    public bool IsHighlighting()
-    {
-        return currentlyHighlighted != null;
-    }
-
-    // Method for external objects to register as highlightable
-    public static void RegisterHighlightable(GameObject obj, string tag)
-    {
-        obj.tag = tag;
-    }
-
-    // Debug visualization
-    void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.yellow;
-        Vector3 startPos = transform.position + checkOffset;
-
-        if (useSphereCast)
-        {
-            // Draw sphere cast visualization
-            Gizmos.DrawWireSphere(startPos, sphereCastRadius);
-            Gizmos.DrawRay(startPos, checkDirection * highlightDistance);
-            Gizmos.DrawWireSphere(startPos + checkDirection * highlightDistance, sphereCastRadius);
-        }
-        else
-        {
-            // Draw raycast visualization
-            Gizmos.DrawRay(startPos, checkDirection * highlightDistance);
+            highlighted.layer = previousLayer;
+            highlighted = null;
         }
     }
 }

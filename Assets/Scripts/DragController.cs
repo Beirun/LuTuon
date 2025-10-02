@@ -1,44 +1,39 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
+using UnityEngine;
+
 
 #if UNITY_ANDROID || UNITY_IOS
-[RequireComponent(typeof(Rigidbody))]
-public class DragController : MonoBehaviour
+public class DragController : HighlightController
 {
     [Header("Camera & Drag Settings")]
     public Camera cam;
     public float liftHeight = 2f;
     public bool useRotation = false;
-    public Quaternion targetRotation = Quaternion.Euler(0f, 0f, 0f);
+    public Quaternion targetRotation = Quaternion.Euler(0f,0f,0f);
     public bool gravityOnEnd = false;
 
-    [Header("Animation Settings")]
+    [Header("Animations")]
+    public float returnDuration = .75f;
     public float liftDuration = 0.25f;
 
     private Rigidbody rb;
-    private PlacementController placementController;
-    private HighlightController highlightController;
-
     private bool isDragging = false;
     private Vector3 dragOffset;
-    private Vector3 dragEdgeOffset; // <-- persistent offset
 
-    private Vector3 originalPos;
-    private Quaternion originalRot;
+    [HideInInspector]
+    public Vector3 startPos;
+    [HideInInspector]
+    public Quaternion startRot;
 
-    public delegate void DragAction(Vector3 position);
-    public static event DragAction OnDragStart;
-    public static event DragAction OnDrag;
-    public static event DragAction OnDragEnd;
-
+    [Header("Z Offset")]
+    public bool addZOffset = false;
+    public float zOffsetAmount = 0.25f;
     void Start()
     {
-        if (cam == null)
-            cam = Camera.main;
-
+        if (cam == null) cam = Camera.main;
         rb = GetComponent<Rigidbody>();
-        placementController = GetComponent<PlacementController>();
-        highlightController = GetComponent<HighlightController>();
+        startPos = transform.position;
+        startRot = transform.rotation;
     }
 
     void Update()
@@ -46,148 +41,123 @@ public class DragController : MonoBehaviour
         if (Input.touchCount > 0)
         {
             Touch touch = Input.GetTouch(0);
-            HandleTouch(touch);
+            switch (touch.phase)
+            {
+                case TouchPhase.Began:
+                    StartDrag(touch.position);
+                    break;
+                case TouchPhase.Moved:
+                    if (isDragging) PerformDrag(touch.position);
+                    break;
+                case TouchPhase.Ended:
+                case TouchPhase.Canceled:
+                    if (isDragging) EndDrag();
+                    break;
+            }
         }
     }
 
-    void HandleTouch(Touch touch)
+    void StartDrag(Vector2 screenPos)
     {
-        switch (touch.phase)
+        Ray ray = cam.ScreenPointToRay(screenPos);
+        if (Physics.Raycast(ray, out RaycastHit hit))
         {
-            case TouchPhase.Began:
-                StartDrag(touch);
-                break;
+            if (hit.transform == transform || hit.transform.IsChildOf(transform))
+            {
+                isDragging = true;
+                dragOffset = transform.position - GetWorldPosition(screenPos);
 
-            case TouchPhase.Moved:
-                if (isDragging)
-                    PerformDrag(touch.position);
-                break;
-
-            case TouchPhase.Ended:
-            case TouchPhase.Canceled:
-                if (isDragging)
-                    EndDrag();
-                break;
+                if (rb != null)
+                {
+                    rb.useGravity = false;
+                    rb.isKinematic = true;
+                }
+                StartCoroutine(LiftObject());
+            }
         }
+
     }
 
-    void StartDrag(Touch touch)
+    IEnumerator LiftObject()
     {
-        Ray ray = cam.ScreenPointToRay(touch.position);
+        Debug.Log("Test");
 
-        if (Physics.Raycast(ray, out RaycastHit hit) && hit.transform == transform)
-        {
-            isDragging = true;
-            originalPos = transform.position;
-            originalRot = transform.rotation;
-
-            dragOffset = transform.position - GetWorldPosition(touch.position);
-
-            StartCoroutine(LiftObject(touch.position));
-            OnDragStart?.Invoke(transform.position);
-        }
-    }
-
-    IEnumerator LiftObject(Vector2 startScreenPos)
-    {
-        if (rb != null)
-        {
-            rb.useGravity = false;
-            rb.isKinematic = true;
-        }
-
-        Vector3 startPos = transform.position;
+        float startY = transform.position.y;
+        float startX = transform.position.x;
+        float startZ = transform.position.z;
+        float elapsed = 0f, liftDuration = 0.25f;
         Quaternion startRot = transform.rotation;
+        if (!useRotation) targetRotation = Quaternion.Euler(startRot.eulerAngles.x, startRot.eulerAngles.y, startRot.eulerAngles.z);
 
-        if (!useRotation)
-            targetRotation = Quaternion.Euler(0f, startRot.eulerAngles.y, 0f);
-
-        // calculate offset based on screen position
-        float screenHalfX = Screen.width * 0.5f;
-        float screenHalfY = Screen.height * 0.5f;
-        float edgeFactorX = (startScreenPos.x - screenHalfX) / screenHalfX;
-        float edgeFactorY = (startScreenPos.y - screenHalfY) / screenHalfY;
-
-        float maxOffsetX = 0.7f;
-        float maxOffsetZ = 0.7f;
-
-        dragEdgeOffset = Vector3.right * (-edgeFactorX * maxOffsetX) +
-                         Vector3.forward * (-edgeFactorY * maxOffsetZ);
-
-        Vector3 endPos = new Vector3(startPos.x, liftHeight, startPos.z) + dragEdgeOffset;
-
-        float elapsedTime = 0f;
-        while (elapsedTime < liftDuration)
+        while (elapsed < liftDuration)
         {
-            float t = elapsedTime / liftDuration;
-            t = t * t * (3f - 2f * t); // smoothstep
+            float t = elapsed / liftDuration;
+            t = t * t * (3f - 2f * t);
 
-            transform.position = Vector3.Lerp(startPos, endPos, t);
+            Vector3 pos = transform.position;
+            pos.y = Mathf.Lerp(startY, liftHeight, t);
+            pos.x = Mathf.Lerp(startX, startX - dragOffset.x, t);
+            if(!addZOffset) pos.z = Mathf.Lerp(startZ, startZ - dragOffset.z, t);
+            else pos.z = Mathf.Lerp(startZ, startZ - dragOffset.z - zOffsetAmount, t);
+
+            transform.position = pos;
             transform.rotation = Quaternion.Slerp(startRot, targetRotation, t);
 
-            elapsedTime += Time.deltaTime;
+            elapsed += Time.deltaTime;
             yield return null;
         }
 
-        transform.position = endPos;
         transform.rotation = targetRotation;
     }
 
     void PerformDrag(Vector2 screenPos)
     {
-        Vector3 targetPos = GetWorldPosition(screenPos) + dragOffset;
+        Vector3 pos = GetWorldPosition(screenPos);
+        pos.y = liftHeight;
+        if(addZOffset) pos.z = pos.z - zOffsetAmount;
+        transform.position = pos;
+        //HighlightBelow(pos);
+        HighlightBehind(pos,cam);
 
-        targetPos.y = liftHeight;
-        targetPos += dragEdgeOffset; // <-- keep offset applied
-
-        transform.position = targetPos;
-
-        OnDrag?.Invoke(transform.position);
-
-        if (highlightController != null)
-            highlightController.CheckForHighlightableObject(transform.position);
     }
 
-    void EndDrag()
+    public virtual void EndDrag()
     {
         isDragging = false;
-        OnDragEnd?.Invoke(transform.position);
-
-        if (placementController != null)
-        {
-            GameObject highlightedObject = highlightController != null ?
-                highlightController.GetCurrentlyHighlighted() : null;
-
-            placementController.HandlePlacement(highlightedObject);
-        }
-        else if (gravityOnEnd)
-        {
-            FinalizeDrag();
-        }
-
-        if (highlightController != null)
-            highlightController.ClearHighlight();
+        if (highlighted == null) StartCoroutine(ReturnToStart());
     }
 
-    public void FinalizeDrag()
+    public IEnumerator ReturnToStart()
     {
-        if (rb != null)
+        Vector3 fromPos = transform.position;
+        Quaternion fromRot = transform.rotation;
+        float elapsed = 0f;
+
+        while (elapsed < returnDuration)
+        {
+            float t = elapsed / returnDuration;
+            t = t * t * (3f - 2f * t);
+            transform.position = Vector3.Lerp(fromPos, startPos, t);
+            transform.rotation = Quaternion.Slerp(fromRot, startRot, t);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        transform.position = startPos;
+        transform.rotation = startRot;
+
+        if (gravityOnEnd && rb != null)
         {
             rb.useGravity = true;
             rb.isKinematic = false;
         }
     }
 
-    private Vector3 GetWorldPosition(Vector2 screenPos)
+    Vector3 GetWorldPosition(Vector2 screenPos)
     {
         Ray ray = cam.ScreenPointToRay(screenPos);
         Plane plane = new Plane(Vector3.up, new Vector3(0, liftHeight, 0));
-
         return plane.Raycast(ray, out float enter) ? ray.GetPoint(enter) : transform.position;
     }
-
-    public bool IsDragging() => isDragging;
-    public Vector3 GetOriginalPosition() => originalPos;
-    public Quaternion GetOriginalRotation() => originalRot;
 }
 #endif
