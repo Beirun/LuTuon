@@ -13,7 +13,7 @@ public class FeedbackManager : MonoBehaviour
     [SerializeField] TMP_InputField feedbackInput;
     [SerializeField] Button submitButton;
     [SerializeField] DialogManager dialogManager; // assign in Inspector
-    private const string BaseUrl = "http://localhost:4000";
+    private const string BaseUrl = "https://api.lutuon.app";
 
     void Awake()
     {

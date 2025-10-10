@@ -34,7 +34,7 @@ public class RefreshRequest { public string refreshToken; }
 
 public class AuthManager : MonoBehaviour
 {
-    private const string BaseUrl = "http://localhost:4000/game";
+    private const string BaseUrl = "https://api.lutuon.app/game";
     private Coroutine autoRefreshCoroutine;
 
     public void Login(string email, string password, Action<bool, string> callback)
