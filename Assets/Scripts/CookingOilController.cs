@@ -39,8 +39,8 @@ public class CookingOilController : DragController
 
         pouringWater.SetActive(true);
         Vector3 waterStartPos = pouringWater.transform.position;
-        pouringWater.transform.position += new Vector3(-20f, 0f, 0f);
-        yield return new WaitForSeconds(0.5f);
+        pouringWater.transform.position += new Vector3(-0.325f, 0.5f, 0f);
+        yield return new WaitForSeconds(0.75f);
 
         pouringWater.SetActive(false);
         pouringWater.transform.position = waterStartPos;
