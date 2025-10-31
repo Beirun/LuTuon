@@ -20,6 +20,9 @@ public class OnionManager : MonoBehaviour
 
     [Header("Onion Controller")]
     public OnionController onionController;
+
+    [Header("Diced Onions Controller")]
+    public DicedOnionsController dicedOnionsController;
     void Start()
     {
         
@@ -82,6 +85,10 @@ public class OnionManager : MonoBehaviour
                 dicedOnion_3.SetActive(true);
                 dicedOnion_4.SetActive(true);
                 onionController.enabled = false;
+                knifeController.cutsMade = 0;
+                dicedOnionsController.startPos = new Vector3(onionController.startPos.x, onionController.startPos.y - 0.25f, onionController.startPos.z);
+                StartCoroutine(dicedOnionsController.AnimatePlacement(dicedOnionsController.startPos, Quaternion.Euler(0f, 0f, 0f), 0.75f));
+                onionController.isPlaced = false;   
             }
         }
     }
