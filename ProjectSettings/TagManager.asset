@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Choppingboard
   - Pot
+  - Plate
   layers:
   - Default
   - TransparentFX

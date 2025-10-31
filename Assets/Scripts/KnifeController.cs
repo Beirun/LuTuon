@@ -58,6 +58,7 @@ public class KnifeController : DragController
                 yield return MoveTo(finalAbove, rot, cutDuration * 0.5f);
             }
         }
+        choppingboardManager.isOccupied = false;
         yield return ReturnToStart();
     }
 
