@@ -80,8 +80,6 @@ public class DragController : HighlightController
 
     IEnumerator LiftObject()
     {
-        Debug.Log("Test");
-
         float startY = transform.position.y;
         float startX = transform.position.x;
         float startZ = transform.position.z;
