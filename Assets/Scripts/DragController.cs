@@ -28,7 +28,7 @@ public class DragController : HighlightController
     [Header("Z Offset")]
     public bool addZOffset = false;
     public float zOffsetAmount = 0.25f;
-    void Start()
+    public virtual void Start()
     {
         if (cam == null) cam = Camera.main;
         rb = GetComponent<Rigidbody>();

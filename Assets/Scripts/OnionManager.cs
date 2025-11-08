@@ -86,8 +86,8 @@ public class OnionManager : MonoBehaviour
                 dicedOnion_4.SetActive(true);
                 onionController.enabled = false;
                 knifeController.cutsMade = 0;
-                dicedOnionsController.startPos = new Vector3(onionController.startPos.x, onionController.startPos.y - 0.25f, onionController.startPos.z);
-                StartCoroutine(dicedOnionsController.AnimatePlacement(dicedOnionsController.startPos, Quaternion.Euler(0f, 0f, 0f), 0.75f));
+                dicedOnionsController.startPos = new Vector3(onionController.startPos.x, onionController.startPos.y - 0.25f, onionController.startPos.z -0.25f);
+                StartCoroutine(dicedOnionsController.AnimatePlacement(dicedOnionsController.startPos, Quaternion.Euler(0f, 0f, 0f), 0.75f, false));
                 onionController.isPlaced = false;   
             }
         }
