@@ -53,26 +53,6 @@ public class SpoonController : DragController
         transform.position = firstStirPos;
         transform.rotation = stirRot;
 
-        // -------- FIGURE 8 PHASE --------
-        float eightDur = stirDuration * 0.5f;
-        float e = 0f;
-
-        while (e < eightDur)
-        {
-            float t = e / eightDur;
-            float angle = t * stirLoops * Mathf.PI * 2f;
-
-            // figure-8 pattern using Lissajous-like motion
-            float x = Mathf.Sin(angle);
-            float z = Mathf.Sin(angle * 2f) * 0.5f; // half amplitude for the “crossing”
-
-            Vector3 offset = new Vector3(x, -stirDepth, z) * stirRadius;
-            transform.position = center + offset;
-            transform.rotation = stirRot;
-
-            e += Time.deltaTime;
-            yield return null;
-        }
 
         float tr = 0f;
         float transitionDur = stirDuration * 0.025f;
@@ -89,6 +69,7 @@ public class SpoonController : DragController
             tr += Time.deltaTime;
             yield return null;
         }
+
 
         // -------- SPIRAL PHASE --------
         float spiralDur = stirDuration * 0.5f;
@@ -107,6 +88,29 @@ public class SpoonController : DragController
             transform.rotation = stirRot;
 
             s += Time.deltaTime;
+            yield return null;
+        }
+
+
+        // -------- FIGURE 8 PHASE --------
+
+        float eightDur = stirDuration * 0.5f;
+        float e = 0f;
+
+        while (e < eightDur)
+        {
+            float t = e / eightDur;
+            float angle = t * stirLoops * Mathf.PI * 2f;
+
+            // figure-8 pattern using Lissajous-like motion
+            float x = Mathf.Sin(angle);
+            float z = Mathf.Sin(angle * 2f) * 0.5f; // half amplitude for the “crossing”
+
+            Vector3 offset = new Vector3(x, -stirDepth, z) * stirRadius;
+            transform.position = center + offset;
+            transform.rotation = stirRot;
+
+            e += Time.deltaTime;
             yield return null;
         }
 
