@@ -60,6 +60,7 @@ public class KnifeController : DragController
         }
         choppingboardManager.isOccupied = false;
         yield return ReturnToStart();
+        isFinished = true;
     }
 
 

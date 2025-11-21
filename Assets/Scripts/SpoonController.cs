@@ -14,12 +14,13 @@ public class SpoonController : DragController
     public float stirDepth = 0.2f;        // how deep spoon dips while stirring
 
 
+    public LidController lid;
 
     public override void EndDrag()
     {
         base.EndDrag();
 
-        if (highlighted != null)
+        if (highlighted != null && !lid.isClose)
         {
             StartCoroutine(PlayStirAnimation(highlighted.transform.position));
         }
@@ -53,45 +54,6 @@ public class SpoonController : DragController
         transform.position = firstStirPos;
         transform.rotation = stirRot;
 
-
-        float tr = 0f;
-        float transitionDur = stirDuration * 0.025f;
-        Vector3 fromPosTransition = transform.position;
-        Vector3 targetPosTransition = fromPosTransition + new Vector3(stirRadius, 0f, 0);
-
-        while (tr < transitionDur)
-        {
-
-            float t = tr / transitionDur;
-            t = t * t * (3f - 2f * t);
-            Vector3 pos = Vector3.Lerp(fromPosTransition, targetPosTransition, t);
-            transform.position = pos;
-            tr += Time.deltaTime;
-            yield return null;
-        }
-
-
-        // -------- SPIRAL PHASE --------
-        float spiralDur = stirDuration * 0.5f;
-        float s = 0f;
-
-        while (s < spiralDur)
-        {
-            float t = s / spiralDur;
-
-            // radius shrinks → creates spiral
-            float r = Mathf.Lerp(stirRadius, 0f, t);
-            float angle = t * stirLoops * Mathf.PI * 2f;
-
-            Vector3 offset = new Vector3(Mathf.Cos(angle), -stirDepth, Mathf.Sin(angle)) * r;
-            transform.position = center + offset;
-            transform.rotation = stirRot;
-
-            s += Time.deltaTime;
-            yield return null;
-        }
-
-
         // -------- FIGURE 8 PHASE --------
 
         float eightDur = stirDuration * 0.5f;
@@ -114,9 +76,51 @@ public class SpoonController : DragController
             yield return null;
         }
 
+
+        float tr = 0f;
+        float transitionDur = stirDuration * 0.025f;
+        Vector3 fromPosTransition = transform.position;
+        Vector3 targetPosTransition = fromPosTransition + new Vector3(stirRadius, 0f, 0);
+
+        while (tr < transitionDur)
+        {
+
+            float t = tr / transitionDur;
+            t = t * t * (3f - 2f * t);
+            Vector3 pos = Vector3.Lerp(fromPosTransition, targetPosTransition, t);
+            transform.position = pos;
+            tr += Time.deltaTime;
+            yield return null;
+        }
+
+       
+        // -------- SPIRAL PHASE --------
+        float spiralDur = stirDuration * 0.5f;
+        float s = 0f;
+
+        while (s < spiralDur)
+        {
+            float t = s / spiralDur;
+
+            // radius shrinks → creates spiral
+            float r = Mathf.Lerp(stirRadius, 0f, t);
+            float angle = t * stirLoops * Mathf.PI * 2f;
+
+            Vector3 offset = new Vector3(Mathf.Cos(angle), -stirDepth, Mathf.Sin(angle)) * r;
+            transform.position = center + offset;
+            transform.rotation = stirRot;
+
+            s += Time.deltaTime;
+            yield return null;
+        }
+
+
+      
+
         yield return RestoreHeight(liftHeight, 0.2f);
         yield return RestoreRotation(startRot, 0.3f);
         yield return ReturnToStart();
+        isFinished = true;
     }
 
 

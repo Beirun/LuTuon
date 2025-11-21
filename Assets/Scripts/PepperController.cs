@@ -7,11 +7,12 @@ public class PepperController : DragController
 
     public ParticleSystem ps;
     public ParticleSystem ps2;
+    public LidController lid;
 
     public override void EndDrag()
     {
         base.EndDrag();
-        if (highlighted != null)
+        if (highlighted != null && !lid.isClose)
         {
             Vector3 target = highlighted.transform.position + new Vector3(-1.9f, 1.35f, 0f);
             Quaternion targetRot = Quaternion.Euler(-25f, 90f, -90f);
@@ -106,6 +107,7 @@ public class PepperController : DragController
         yield return new WaitForSeconds(0.15f);
         yield return Shake();
         yield return ReturnToStart();
+        isFinished = true;
     }
     
 }

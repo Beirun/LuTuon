@@ -1,8 +1,8 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PapayaController : DragController
+public class KnorrController : DragController
 {
     List<Rigidbody> rbs = new List<Rigidbody>();
     Dictionary<Rigidbody, Vector3> homePositions = new Dictionary<Rigidbody, Vector3>();
@@ -11,11 +11,11 @@ public class PapayaController : DragController
     public GameObject water;
 
     [Header("Pot Settings")]
-    public Transform potCenter; // assign your pot or water center
+    public Transform potCenter;
     public float potRadius = 0.67f;
 
     [Header("Floating Settings")]
-    public float waterSurfaceOffset = -0.2f; // initial depth offset (sink a bit below surface)
+    public float waterSurfaceOffset = 0.1f;
     public float floatRadius = 0.25f;
     public float floatStrength = 2f;
     public float driftSpeed = 0.5f;
@@ -23,8 +23,8 @@ public class PapayaController : DragController
     public float bobSpeed = 1f;
 
     bool floating;
-
     public LidController lid;
+
     public override void Start()
     {
         base.Start();
@@ -68,7 +68,7 @@ public class PapayaController : DragController
         {
             Vector3 p = highlighted.transform.position;
             p.y = water.transform.position.y + waterSurfaceOffset;
-            if(water.transform.position.y < 1f) p = highlighted.transform.position + new Vector3(0f, 0.2f, 0f);
+            if (water.transform.position.y < 1f) p = highlighted.transform.position + new Vector3(0f, 0.2f, 0f);
             StartCoroutine(AnimatePlacement(p, transform.rotation, 0.5f));
         }
         ClearHighlight();
@@ -93,7 +93,6 @@ public class PapayaController : DragController
         if (isDragging)
         {
             EnablePhysicsOnChildren(transform);
-            isFinished = true;
         }
     }
 
@@ -119,18 +118,64 @@ public class PapayaController : DragController
 
         foreach (var rb in rbs)
         {
-            // assign a random "home" point inside the pot
-            Vector2 randomCircle = Random.insideUnitCircle * (potRadius * 0.8f);
+            Vector2 rnd = Random.insideUnitCircle * (potRadius * 0.8f);
             Vector3 home = new Vector3(
-                potCenter.position.x + randomCircle.x,
-                water.transform.position.y + waterSurfaceOffset,
-                potCenter.position.z + randomCircle.y
+                potCenter.position.x + rnd.x,
+                water.transform.position.y,
+                potCenter.position.z + rnd.y
             );
             homePositions[rb] = home;
-
             StartCoroutine(FloatAndDrift(rb));
         }
+
+        // Start fadeout after floating begins
+        StartCoroutine(FadeOutAfterDelay(2f, 3f));
+        isFinished = true;
     }
+
+    IEnumerator FadeOutAfterDelay(float delay, float duration)
+    {
+        yield return new WaitForSeconds(delay);
+
+        Renderer[] renderers = GetComponentsInChildren<Renderer>();
+        List<Material> mats = new List<Material>();
+
+        foreach (var rend in renderers)
+        {
+            foreach (var mat in rend.materials)
+            {
+                // Ensure the material supports transparency
+                mat.SetFloat("_Mode", 2); // 2 = Transparent for standard shader
+                mat.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
+                mat.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
+                mat.SetInt("_ZWrite", 0);
+                mat.DisableKeyword("_ALPHATEST_ON");
+                mat.EnableKeyword("_ALPHABLEND_ON");
+                mat.DisableKeyword("_ALPHAPREMULTIPLY_ON");
+                mat.renderQueue = 3000;
+
+                mats.Add(mat);
+            }
+        }
+
+        float t = 0f;
+        while (t < duration)
+        {
+            t += Time.deltaTime;
+            float alpha = Mathf.Lerp(1f, 0f, t / duration);
+            foreach (var mat in mats)
+            {
+                Color c = mat.color;
+                c.a = alpha;
+                mat.color = c;
+            }
+            yield return null;
+        }
+
+        gameObject.SetActive(false); // Optionally deactivate after fadeout
+    }
+
+
 
     IEnumerator FloatAndDrift(Rigidbody rb)
     {
@@ -153,7 +198,6 @@ public class PapayaController : DragController
                 home.z + offsetZ
             );
 
-            // stay inside pot radius
             Vector3 centerXZ = new Vector3(potCenter.position.x, 0, potCenter.position.z);
             Vector3 posXZ = new Vector3(target.x, 0, target.z);
             Vector3 dir = posXZ - centerXZ;
@@ -164,4 +208,5 @@ public class PapayaController : DragController
             yield return null;
         }
     }
+
 }

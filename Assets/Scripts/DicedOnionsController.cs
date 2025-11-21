@@ -3,10 +3,11 @@ using System.Collections;
 
 public class DicedOnionsController : DragController
 {
+    public LidController lid;
     public override void EndDrag()
     {
         base.EndDrag();
-        if (highlighted != null)
+        if (highlighted != null && !lid.isClose)
         {
             Vector3 targetPos = highlighted.transform.position + new Vector3(0f, 0.125f, 0f);
             StartCoroutine(AnimatePlacement(targetPos, transform.rotation, 0.5f));
@@ -32,11 +33,14 @@ public class DicedOnionsController : DragController
             yield return null;
         }
 
+
         if(isDragging) EnablePhysicsOnChildren(transform);
+        isFinished = true;
     }
 
     void EnablePhysicsOnChildren(Transform parent)
     {
+        isInPot = true;
         foreach (Transform child in parent)
         {
             Rigidbody rb = child.GetComponent<Rigidbody>();

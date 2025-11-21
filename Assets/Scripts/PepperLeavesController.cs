@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PapayaController : DragController
+public class PepperLeavesController : DragController
 {
     List<Rigidbody> rbs = new List<Rigidbody>();
     Dictionary<Rigidbody, Vector3> homePositions = new Dictionary<Rigidbody, Vector3>();
@@ -11,11 +11,11 @@ public class PapayaController : DragController
     public GameObject water;
 
     [Header("Pot Settings")]
-    public Transform potCenter; // assign your pot or water center
-    public float potRadius = 0.67f;
+    public Transform potCenter; // assign your pot's center (often the water object)
+    public float potRadius = 0.67f; // maximum radius within the pot
 
     [Header("Floating Settings")]
-    public float waterSurfaceOffset = -0.2f; // initial depth offset (sink a bit below surface)
+    public float waterSurfaceOffset = 0.1f;
     public float floatRadius = 0.25f;
     public float floatStrength = 2f;
     public float driftSpeed = 0.5f;
@@ -23,8 +23,8 @@ public class PapayaController : DragController
     public float bobSpeed = 1f;
 
     bool floating;
-
     public LidController lid;
+
     public override void Start()
     {
         base.Start();
@@ -68,7 +68,7 @@ public class PapayaController : DragController
         {
             Vector3 p = highlighted.transform.position;
             p.y = water.transform.position.y + waterSurfaceOffset;
-            if(water.transform.position.y < 1f) p = highlighted.transform.position + new Vector3(0f, 0.2f, 0f);
+            if (water.transform.position.y < 1f) p = highlighted.transform.position + new Vector3(0f, 0.2f, 0f);
             StartCoroutine(AnimatePlacement(p, transform.rotation, 0.5f));
         }
         ClearHighlight();
@@ -119,11 +119,11 @@ public class PapayaController : DragController
 
         foreach (var rb in rbs)
         {
-            // assign a random "home" point inside the pot
+            // pick a random home position inside the pot radius
             Vector2 randomCircle = Random.insideUnitCircle * (potRadius * 0.8f);
             Vector3 home = new Vector3(
                 potCenter.position.x + randomCircle.x,
-                water.transform.position.y + waterSurfaceOffset,
+                water.transform.position.y,
                 potCenter.position.z + randomCircle.y
             );
             homePositions[rb] = home;
@@ -153,12 +153,12 @@ public class PapayaController : DragController
                 home.z + offsetZ
             );
 
-            // stay inside pot radius
+            // keep inside pot radius
             Vector3 centerXZ = new Vector3(potCenter.position.x, 0, potCenter.position.z);
             Vector3 posXZ = new Vector3(target.x, 0, target.z);
-            Vector3 dir = posXZ - centerXZ;
-            if (dir.sqrMagnitude > potRadius * potRadius)
-                target = centerXZ + dir.normalized * potRadius + Vector3.up * target.y;
+            Vector3 dirFromCenter = posXZ - centerXZ;
+            if (dirFromCenter.sqrMagnitude > potRadius * potRadius)
+                target = centerXZ + dirFromCenter.normalized * potRadius + Vector3.up * target.y;
 
             rb.MovePosition(Vector3.Lerp(rb.position, target, Time.deltaTime * floatStrength));
             yield return null;

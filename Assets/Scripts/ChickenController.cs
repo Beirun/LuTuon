@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PapayaController : DragController
+public class ChickenController : DragController
 {
     List<Rigidbody> rbs = new List<Rigidbody>();
     Dictionary<Rigidbody, Vector3> homePositions = new Dictionary<Rigidbody, Vector3>();
@@ -22,9 +22,14 @@ public class PapayaController : DragController
     public float bobAmplitude = 0.05f;
     public float bobSpeed = 1f;
 
+
     bool floating;
 
+    [Header("Timer Controller")]
+    public TimerController timerController;
+    public bool isTutorial = false; 
     public LidController lid;
+
     public override void Start()
     {
         base.Start();
@@ -68,7 +73,7 @@ public class PapayaController : DragController
         {
             Vector3 p = highlighted.transform.position;
             p.y = water.transform.position.y + waterSurfaceOffset;
-            if(water.transform.position.y < 1f) p = highlighted.transform.position + new Vector3(0f, 0.2f, 0f);
+            if (water.transform.position.y < 1f) p = highlighted.transform.position + new Vector3(0f, 0.2f, 0f);
             StartCoroutine(AnimatePlacement(p, transform.rotation, 0.5f));
         }
         ClearHighlight();
@@ -94,6 +99,10 @@ public class PapayaController : DragController
         {
             EnablePhysicsOnChildren(transform);
             isFinished = true;
+            if(!isTutorial){
+                timerController.enabled = true;
+                timerController.StartTimer(5);
+            }
         }
     }
 
@@ -163,5 +172,6 @@ public class PapayaController : DragController
             rb.MovePosition(Vector3.Lerp(rb.position, target, Time.deltaTime * floatStrength));
             yield return null;
         }
+
     }
 }

@@ -15,8 +15,9 @@ public class LidController : DragController
     [Tooltip("Time in seconds to place object on a highlight.")]
     public float placeDuration = 0.25f;
 
+    [HideInInspector]
+    public bool isClose = false;
 
-    
     public override void EndDrag()
     {
         base.EndDrag();
@@ -31,11 +32,12 @@ public class LidController : DragController
         {
             
             Vector3 targetPos = highlighted.transform.position + placementOffset;
-
+            isClose = true;
             StartCoroutine(AnimatePlacement(targetPos, Quaternion.Euler(0f, 0f, 0f), placeDuration, true));
         }
         else
         {
+            isClose = false;
             StartCoroutine(AnimatePlacement(startPos, startRot, returnDuration, true));
         }
     }
@@ -66,6 +68,7 @@ public class LidController : DragController
             yield return null;
         }
 
+        isFinished = true;
     }
 
 

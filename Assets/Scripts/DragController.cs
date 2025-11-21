@@ -1,6 +1,6 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
-
 
 #if UNITY_ANDROID || UNITY_IOS
 public class DragController : HighlightController
@@ -9,7 +9,7 @@ public class DragController : HighlightController
     public Camera cam;
     public float liftHeight = 2f;
     public bool useRotation = false;
-    public Quaternion targetRotation = Quaternion.Euler(0f,0f,0f);
+    public Quaternion targetRotation = Quaternion.Euler(0f, 0f, 0f);
     public bool gravityOnEnd = false;
 
     [Header("Animations")]
@@ -17,17 +17,20 @@ public class DragController : HighlightController
     public float liftDuration = 0.25f;
 
     private Rigidbody rb;
-    private bool isDragging = false;
+    [HideInInspector]
+    public bool isDragging = false;
     private Vector3 dragOffset;
 
-    [HideInInspector]
-    public Vector3 startPos;
-    [HideInInspector]
-    public Quaternion startRot;
+    [HideInInspector] public Vector3 startPos;
+    [HideInInspector] public Quaternion startRot;
 
     [Header("Z Offset")]
     public bool addZOffset = false;
     public float zOffsetAmount = 0.25f;
+
+    [HideInInspector] public bool isInPot = false;
+    [HideInInspector] public bool isFinished = false;
+
     public virtual void Start()
     {
         if (cam == null) cam = Camera.main;
@@ -36,9 +39,9 @@ public class DragController : HighlightController
         startRot = transform.rotation;
     }
 
-    void Update()
+    public virtual void Update()
     {
-        if (Input.touchCount > 0)
+        if (Input.touchCount > 0 && !isInPot)
         {
             Touch touch = Input.GetTouch(0);
             switch (touch.phase)
@@ -72,10 +75,19 @@ public class DragController : HighlightController
                     rb.useGravity = false;
                     rb.isKinematic = true;
                 }
+
+                SetLayerRecursive(gameObject, 0);  // CHANGE LAYER TO DEFAULT
+
                 StartCoroutine(LiftObject());
             }
         }
+    }
 
+    void SetLayerRecursive(GameObject obj, int layer)
+    {
+        obj.layer = layer;
+        foreach (Transform c in obj.transform)
+            SetLayerRecursive(c.gameObject, layer);
     }
 
     IEnumerator LiftObject()
@@ -83,23 +95,24 @@ public class DragController : HighlightController
         float startY = transform.position.y;
         float startX = transform.position.x;
         float startZ = transform.position.z;
-        float elapsed = 0f, liftDuration = 0.25f;
-        Quaternion startRot = transform.rotation;
-        if (!useRotation) targetRotation = Quaternion.Euler(startRot.eulerAngles.x, startRot.eulerAngles.y, startRot.eulerAngles.z);
+        float elapsed = 0f, ld = liftDuration;
+        Quaternion sr = transform.rotation;
+        if (!useRotation) targetRotation = Quaternion.Euler(sr.eulerAngles.x, sr.eulerAngles.y, sr.eulerAngles.z);
 
-        while (elapsed < liftDuration)
+        while (elapsed < ld)
         {
-            float t = elapsed / liftDuration;
+            float t = elapsed / ld;
             t = t * t * (3f - 2f * t);
 
             Vector3 pos = transform.position;
             pos.y = Mathf.Lerp(startY, liftHeight, t);
             pos.x = Mathf.Lerp(startX, startX - dragOffset.x, t);
-            if(!addZOffset) pos.z = Mathf.Lerp(startZ, startZ - dragOffset.z, t);
-            else pos.z = Mathf.Lerp(startZ, startZ - dragOffset.z - zOffsetAmount, t);
+            pos.z = addZOffset
+                ? Mathf.Lerp(startZ, startZ - dragOffset.z - zOffsetAmount, t)
+                : Mathf.Lerp(startZ, startZ - dragOffset.z, t);
 
             transform.position = pos;
-            transform.rotation = Quaternion.Slerp(startRot, targetRotation, t);
+            transform.rotation = Quaternion.Slerp(sr, targetRotation, t);
 
             elapsed += Time.deltaTime;
             yield return null;
@@ -120,23 +133,22 @@ public class DragController : HighlightController
 
     public virtual void EndDrag()
     {
-        isDragging = false;
         if (highlighted == null) StartCoroutine(ReturnToStart());
     }
 
     public IEnumerator ReturnToStart()
     {
-        Vector3 fromPos = transform.position;
-        Quaternion fromRot = transform.rotation;
-        float duration = Mathf.Max(Mathf.Max(Vector3.Distance(fromPos, startPos) * returnDuration,0.5f) / 8, returnDuration * .8f);
+        Vector3 fp = transform.position;
+        Quaternion fr = transform.rotation;
+        float duration = Mathf.Max(Mathf.Max(Vector3.Distance(fp, startPos) * returnDuration, 0.5f) / 8, returnDuration * .8f);
         float elapsed = 0f;
 
-        while(elapsed < duration)
+        while (elapsed < duration)
         {
             float t = elapsed / duration;
             t = t * t * (3f - 2f * t);
-            transform.position = Vector3.Lerp(fromPos, startPos, t);
-            transform.rotation = Quaternion.Slerp(fromRot, startRot, t);
+            transform.position = Vector3.Lerp(fp, startPos, t);
+            transform.rotation = Quaternion.Slerp(fr, startRot, t);
             elapsed += Time.deltaTime;
             yield return null;
         }
@@ -149,6 +161,7 @@ public class DragController : HighlightController
             rb.useGravity = true;
             rb.isKinematic = false;
         }
+        isDragging = false;
     }
 
     Vector3 GetWorldPosition(Vector2 screenPos)
