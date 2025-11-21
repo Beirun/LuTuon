@@ -26,7 +26,7 @@ public class GingerManager : MonoBehaviour
     public ChoppedGingerController choppedGingerController;
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
