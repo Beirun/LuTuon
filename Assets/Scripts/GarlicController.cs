@@ -16,7 +16,7 @@ public class GarlicController : DragController
         base.EndDrag();
         if (highlighted != null)
         {
-            Vector3 targetPos = highlighted.transform.position + new Vector3(0f, 0.125f, 0f);
+            Vector3 targetPos = highlighted.transform.position + new Vector3(0.15f, 0.125f, 0f);
 
             StartCoroutine(AnimatePlacement(targetPos, transform.rotation, 0.5f));
         }
@@ -44,5 +44,6 @@ public class GarlicController : DragController
         }
         isPlaced = true;
         choppingboardManager.isOccupied = true;
+        isFinished = true;
     }
 }
