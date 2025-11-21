@@ -44,5 +44,6 @@ public class GingerController : DragController
         }
         isPlaced = true;
         choppingboardManager.isOccupied = true;
+        isFinished = true;
     }
 }
