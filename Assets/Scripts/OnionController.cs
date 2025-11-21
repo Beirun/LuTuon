@@ -44,5 +44,6 @@ public class OnionController : DragController
         }
         isPlaced = true;
         choppingboardManager.isOccupied = true;
+        isFinished = true;
     }
 }
