@@ -8,10 +8,10 @@ public class CookingOilController : DragController
     public GameObject water;
     public GameObject pouringWater;
     public Color pouringColor = new Color(1f, 0.75f, 0f, 0.3f); // oil-like yellow tint
-    public Color SpecOilColor = new Color(1f, 0.75f, 0.15f);
     List<Material> pouringMats = new List<Material>();
     List<Color> originalColors = new List<Color>();
     List<Material> mainWaterMats = new List<Material>();
+    public LidController lid;
 
     public override void Start()
     {
@@ -54,7 +54,7 @@ public class CookingOilController : DragController
     public override void EndDrag()
     {
         base.EndDrag();
-        if (highlighted != null)
+        if (highlighted != null && !lid.isClose)
         {
             Vector3 targetPos = highlighted.transform.position + new Vector3(-2.1f, 1.35f, 0f);
             Quaternion targetRot = Quaternion.Euler(-25f, 90f, -90f);
@@ -81,14 +81,7 @@ public class CookingOilController : DragController
 
         pouringWater.SetActive(true);
 
-        // Change all pouring materials to oil color
-        foreach (Material m in pouringMats)
-        {
-            if (m.HasProperty("_BaseColor"))
-                m.SetColor("_BaseColor", pouringColor);
-            else if (m.HasProperty("_Color"))
-                m.SetColor("_Color", pouringColor);
-        }
+        
 
         yield return StartCoroutine(AnimateWaterLevel(0.8f, 0.75f));
     }
@@ -105,24 +98,60 @@ public class CookingOilController : DragController
 
         float elapsedTime = 0f;
 
-        // Change color of the main water once (does not reset later)
+        // Store initial colors for main water
+        List<Color> startColors = new List<Color>();
         foreach (Material m in mainWaterMats)
+        {
+            Color startC = m.HasProperty("_BaseColor")
+                ? m.GetColor("_BaseColor")
+                : m.HasProperty("_Color")
+                    ? m.GetColor("_Color")
+                    : Color.white;
+            startColors.Add(startC);
+        }
+
+        // Change all pouring materials to oil color instantly
+        foreach (Material m in pouringMats)
         {
             if (m.HasProperty("_BaseColor"))
                 m.SetColor("_BaseColor", pouringColor);
             else if (m.HasProperty("_Color"))
                 m.SetColor("_Color", pouringColor);
-            if(m.HasProperty("_SpecColor"))
-                m.SetColor("_SpecColor", SpecOilColor);
         }
 
         while (elapsedTime < duration)
         {
             float t = elapsedTime / duration;
             t = t * t * (3f - 2f * t);
-            water.transform.position = Vector3.Lerp(fromPosition, toPosition, t);
+
+            // Lerp position
+            if (water.transform.position.y < 0.8f)
+                water.transform.position = Vector3.Lerp(fromPosition, toPosition, t);
+
+            // Lerp color transition for main water
+            for (int i = 0; i < mainWaterMats.Count; i++)
+            {
+                Material m = mainWaterMats[i];
+                Color newColor = Color.Lerp(startColors[i], pouringColor, t);
+
+                if (m.HasProperty("_BaseColor"))
+                    m.SetColor("_BaseColor", newColor);
+                else if (m.HasProperty("_Color"))
+                    m.SetColor("_Color", newColor);
+
+            }
+
             elapsedTime += Time.deltaTime;
             yield return null;
+        }
+
+        // Ensure final state
+        foreach (Material m in mainWaterMats)
+        {
+            if (m.HasProperty("_BaseColor"))
+                m.SetColor("_BaseColor", pouringColor);
+            else if (m.HasProperty("_Color"))
+                m.SetColor("_Color", pouringColor);
         }
 
         pouringWater.SetActive(false);
@@ -140,5 +169,7 @@ public class CookingOilController : DragController
         }
 
         yield return ReturnToStart();
+        isFinished = true;
     }
+
 }
