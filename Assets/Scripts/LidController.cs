@@ -21,29 +21,30 @@ public class LidController : DragController
     public override void EndDrag()
     {
         base.EndDrag();
-        HandlePlacement();
-        ClearHighlight();
-    }
-
-    // Placement handling
-    void HandlePlacement()
-    {
-        if (highlighted != null)
+        if (highlighted != null && !isClose)
         {
-            
+
             Vector3 targetPos = highlighted.transform.position + placementOffset;
             isClose = true;
             StartCoroutine(AnimatePlacement(targetPos, Quaternion.Euler(0f, 0f, 0f), placeDuration, true));
         }
         else
         {
+            if(isClose)
+            {
+                isFinished = true;
+                Debug.LogWarning($"is Finished: {isFinished}");
+            }
             isClose = false;
-            StartCoroutine(AnimatePlacement(startPos, startRot, returnDuration, true));
         }
+        ClearHighlight();
     }
+
+    
 
     IEnumerator AnimatePlacement(Vector3 targetPos, Quaternion targetRot, float duration, bool useArc = false)
     {
+        isPerforming = true;
         Vector3 fromPos = transform.position;
         Quaternion fromRot = transform.rotation;
         float elapsedTime = 0f;
@@ -69,6 +70,8 @@ public class LidController : DragController
         }
 
         isFinished = true;
+        isDragging = false;
+        isPerforming = false;
     }
 
 
