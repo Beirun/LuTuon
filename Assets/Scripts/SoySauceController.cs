@@ -11,6 +11,7 @@ public class SoySauceController : DragController
     List<Material> pouringMats = new List<Material>();
     List<Color> originalColors = new List<Color>();
     List<Material> mainWaterMats = new List<Material>();
+    public float targetWaterLevelY = 0.8f;
     public LidController lid;
 
     public override void Start()
@@ -54,17 +55,20 @@ public class SoySauceController : DragController
     public override void EndDrag()
     {
         base.EndDrag();
-        if (highlighted != null && !lid.isClose)
+        if (highlighted != null && (lid == null || !lid.isClose))
         {
+            Debug.LogWarning("SoySauceController: Pouring action initiated.");
             Vector3 targetPos = highlighted.transform.position + new Vector3(-1.7f, 1.475f, 0f);
             Quaternion targetRot = Quaternion.Euler(-25f, 90f, -90f);
             StartCoroutine(AnimatePouring(targetPos, targetRot, 0.5f));
         }
+        else StartCoroutine(ReturnToStart());
         ClearHighlight();
     }
 
     IEnumerator AnimatePouring(Vector3 targetPos, Quaternion targetRot, float duration)
     {
+        isPerforming = true;
         Vector3 fromPos = transform.position;
         Quaternion fromRot = transform.rotation;
         float elapsedTime = 0f;
@@ -90,43 +94,83 @@ public class SoySauceController : DragController
                 m.SetColor("_Color", pouringColor);
         }
 
-        if(water.transform.position.y < 1f) yield return StartCoroutine(AnimateWaterLevel(0.8f, 0.75f));
+        yield return StartCoroutine(AnimateWaterLevel(targetWaterLevelY, 0.75f));
     }
 
     IEnumerator AnimateWaterLevel(float targetPosY, float duration)
     {
+        bool isWaterActive = water.activeInHierarchy;
         water.SetActive(true);
-
-        Vector3 waterStartPos = pouringWater.transform.position;
+        Vector3 pwStartPos = pouringWater.transform.position;
         pouringWater.transform.position += new Vector3(-0.325f, 0.5f, 0f);
 
-        Vector3 fromPosition = water.transform.position;
-        Vector3 toPosition = new Vector3(fromPosition.x, targetPosY, fromPosition.z);
+        Vector3 fromPos = water.transform.position;
+        Vector3 toPos = new Vector3(fromPos.x, targetPosY, fromPos.z);
 
-        float elapsedTime = 0f;
-
-        // Change color of the main water once (does not reset later)
-        foreach (Material m in mainWaterMats)
+        // Capture current material colors
+        int count = mainWaterMats.Count;
+        Color[] startColors = new Color[count];
+        for (int i = 0; i < count; i++)
         {
+            Material m = mainWaterMats[i];
             if (m.HasProperty("_BaseColor"))
-                m.SetColor("_BaseColor", pouringColor);
+                startColors[i] = m.GetColor("_BaseColor");
             else if (m.HasProperty("_Color"))
-                m.SetColor("_Color", pouringColor);
+                startColors[i] = m.GetColor("_Color");
+            else
+                startColors[i] = Color.white;
         }
 
-        while (elapsedTime < duration)
+        float elapsed = 0f;
+
+        while (elapsed < duration)
         {
-            float t = elapsedTime / duration;
-            t = t * t * (3f - 2f * t);
-            water.transform.position = Vector3.Lerp(fromPosition, toPosition, t);
-            elapsedTime += Time.deltaTime;
+            float t = elapsed / duration;
+            // Smooth step for movement
+            float smoothT = t * t * (3f - 2f * t);
+
+            // 1. Handle Movement
+            if (water.transform.position.y < 1f)
+            {
+                water.transform.position = Vector3.Lerp(fromPos, toPos, smoothT);
+            }
+
+            // 2. Handle Color Logic
+            // Calculate a specific 't' for color based on your condition
+            float colorT = smoothT;
+
+            // If we are above the threshold, cap the interpolation at 1/3 (0.33f)
+            if (water.transform.position.y > 1f)
+            {
+                // We map the 0-1 range to 0-0.33 range
+                colorT = smoothT * 0.23f;
+            }else if (isWaterActive)
+            {
+                colorT = smoothT * 0.73f;
+
+            }
+
+                for (int i = 0; i < count; i++)
+                {
+                    Material m = mainWaterMats[i];
+
+                    // Use colorT instead of t or smoothT here
+                    Color c = Color.Lerp(startColors[i], pouringColor, colorT);
+
+                    if (m.HasProperty("_BaseColor"))
+                        m.SetColor("_BaseColor", c);
+                    else if (m.HasProperty("_Color"))
+                        m.SetColor("_Color", c);
+                }
+
+            elapsed += Time.deltaTime;
             yield return null;
         }
 
+        // ... (Rest of your cleanup code remains the same) ...
         pouringWater.SetActive(false);
-        pouringWater.transform.position = waterStartPos;
+        pouringWater.transform.position = pwStartPos;
 
-        // Reset pouring water color only
         for (int i = 0; i < pouringMats.Count; i++)
         {
             Material m = pouringMats[i];
@@ -140,4 +184,5 @@ public class SoySauceController : DragController
         yield return ReturnToStart();
         isFinished = true;
     }
+
 }
