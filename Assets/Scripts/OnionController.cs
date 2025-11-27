@@ -25,6 +25,7 @@ public class OnionController : DragController
 
     IEnumerator AnimatePlacement(Vector3 targetPos, Quaternion targetRot, float duration)
     {
+        isPerforming = true;
         Vector3 fromPos = transform.position;
         Quaternion fromRot = transform.rotation;
         float elapsedTime = 0f;
@@ -45,5 +46,7 @@ public class OnionController : DragController
         isPlaced = true;
         choppingboardManager.isOccupied = true;
         isFinished = true;
+        isDragging = false;
+        isPerforming = false;
     }
 }
