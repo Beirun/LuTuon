@@ -13,10 +13,12 @@ public class ChoppedGingerController : DragController
 
             StartCoroutine(AnimatePlacement(targetPos, transform.rotation, 0.5f));
         }
+        else StartCoroutine(ReturnToStart());
         ClearHighlight();
     }
     public IEnumerator AnimatePlacement(Vector3 targetPos, Quaternion targetRot, float duration, bool isDragging = true)
     {
+        isPerforming = true;
         Vector3 fromPos = transform.position;
         Quaternion fromRot = transform.rotation;
         float elapsedTime = 0f;
@@ -37,6 +39,8 @@ public class ChoppedGingerController : DragController
         if (isDragging) EnablePhysicsOnChildren(transform);
 
         isFinished = true;
+        this.isDragging = false;
+        isPerforming = false;
     }
     void EnablePhysicsOnChildren(Transform parent)
     {
