@@ -20,10 +20,11 @@ public class SpoonController : DragController
     {
         base.EndDrag();
 
-        if (highlighted != null && !lid.isClose)
+        if (highlighted != null && (lid == null || !lid.isClose))
         {
             StartCoroutine(PlayStirAnimation(highlighted.transform.position));
         }
+        else StartCoroutine(ReturnToStart());
         ClearHighlight();
     }
 
