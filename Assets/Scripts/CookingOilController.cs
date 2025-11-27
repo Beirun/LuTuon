@@ -8,9 +8,11 @@ public class CookingOilController : DragController
     public GameObject water;
     public GameObject pouringWater;
     public Color pouringColor = new Color(1f, 0.75f, 0f, 0.3f); // oil-like yellow tint
+
     List<Material> pouringMats = new List<Material>();
     List<Color> originalColors = new List<Color>();
     List<Material> mainWaterMats = new List<Material>();
+
     public LidController lid;
 
     public override void Start()
@@ -54,17 +56,19 @@ public class CookingOilController : DragController
     public override void EndDrag()
     {
         base.EndDrag();
-        if (highlighted != null && !lid.isClose)
+        if (highlighted != null && (lid == null || !lid.isClose))
         {
             Vector3 targetPos = highlighted.transform.position + new Vector3(-2.1f, 1.35f, 0f);
             Quaternion targetRot = Quaternion.Euler(-25f, 90f, -90f);
             StartCoroutine(AnimatePouring(targetPos, targetRot, 0.5f));
         }
+        else StartCoroutine(ReturnToStart());
         ClearHighlight();
     }
 
     IEnumerator AnimatePouring(Vector3 targetPos, Quaternion targetRot, float duration)
     {
+        isPerforming = true;
         Vector3 fromPos = transform.position;
         Quaternion fromRot = transform.rotation;
         float elapsedTime = 0f;
@@ -81,15 +85,15 @@ public class CookingOilController : DragController
 
         pouringWater.SetActive(true);
 
-        
-
+        // You can change the target height here if you want to test the > 1f logic
         yield return StartCoroutine(AnimateWaterLevel(0.8f, 0.75f));
     }
 
+    // --- MODIFIED COROUTINE BELOW ---
     IEnumerator AnimateWaterLevel(float targetPosY, float duration)
     {
+        bool isWaterActive = water.activeInHierarchy;
         water.SetActive(true);
-
         Vector3 waterStartPos = pouringWater.transform.position;
         pouringWater.transform.position += new Vector3(-0.325f, 0.5f, 0f);
 
@@ -121,43 +125,73 @@ public class CookingOilController : DragController
 
         while (elapsedTime < duration)
         {
-            float t = elapsedTime / duration;
-            t = t * t * (3f - 2f * t);
+            float rawT = elapsedTime / duration;
+            float smoothT = rawT * rawT * (3f - 2f * rawT);
 
-            // Lerp position
-            if (water.transform.position.y < 0.8f)
-                water.transform.position = Vector3.Lerp(fromPosition, toPosition, t);
-
-            // Lerp color transition for main water
-            for (int i = 0; i < mainWaterMats.Count; i++)
+            // 1. Position Logic
+            // Note: logic kept to stop at 0.8f as per your original code, 
+            // but checking y < 1f as per your new request context.
+            if (water.transform.position.y < 1f)
             {
-                Material m = mainWaterMats[i];
-                Color newColor = Color.Lerp(startColors[i], pouringColor, t);
-
-                if (m.HasProperty("_BaseColor"))
-                    m.SetColor("_BaseColor", newColor);
-                else if (m.HasProperty("_Color"))
-                    m.SetColor("_Color", newColor);
-
+                water.transform.position = Vector3.Lerp(fromPosition, toPosition, smoothT);
             }
+
+            // 2. Color Logic
+            // Calculate the interpolation factor
+            float colorT = smoothT;
+
+            // KEY LOGIC: If water is too high, cap the color blending at 33%
+            if (water.transform.position.y > 1f)
+            {
+                colorT = smoothT * 0.13f;
+            }
+            else if (isWaterActive) { 
+                colorT = smoothT * 0.33f;
+                
+            }
+
+                // Apply Color
+                for (int i = 0; i < mainWaterMats.Count; i++)
+                {
+                    Material m = mainWaterMats[i];
+                    Color newColor = Color.Lerp(startColors[i], pouringColor, colorT);
+
+                    if (m.HasProperty("_BaseColor"))
+                        m.SetColor("_BaseColor", newColor);
+                    else if (m.HasProperty("_Color"))
+                        m.SetColor("_Color", newColor);
+                }
 
             elapsedTime += Time.deltaTime;
             yield return null;
         }
 
-        // Ensure final state
-        foreach (Material m in mainWaterMats)
+        // --- FINAL STATE CHECK ---
+        // We must respect the height rule even when the animation finishes.
+        // If we just set it to 'pouringColor', it would snap from 33% to 100% instantly.
+
+        float finalColorFactor = 1.0f;
+        if (water.transform.position.y > 1f)
         {
+            finalColorFactor = 0.13f;
+        }
+
+        for (int i = 0; i < mainWaterMats.Count; i++)
+        {
+            Material m = mainWaterMats[i];
+            // We use Lerp with finalColorFactor instead of setting directly to pouringColor
+            Color finalColor = Color.Lerp(startColors[i], pouringColor, finalColorFactor);
+
             if (m.HasProperty("_BaseColor"))
-                m.SetColor("_BaseColor", pouringColor);
+                m.SetColor("_BaseColor", finalColor);
             else if (m.HasProperty("_Color"))
-                m.SetColor("_Color", pouringColor);
+                m.SetColor("_Color", finalColor);
         }
 
         pouringWater.SetActive(false);
         pouringWater.transform.position = waterStartPos;
 
-        // Reset pouring water color only
+        // Reset pouring water stream color
         for (int i = 0; i < pouringMats.Count; i++)
         {
             Material m = pouringMats[i];
@@ -171,5 +205,4 @@ public class CookingOilController : DragController
         yield return ReturnToStart();
         isFinished = true;
     }
-
 }

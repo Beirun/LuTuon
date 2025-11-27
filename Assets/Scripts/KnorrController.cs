@@ -71,11 +71,13 @@ public class KnorrController : DragController
             if (water.transform.position.y < 1f) p = highlighted.transform.position + new Vector3(0f, 0.2f, 0f);
             StartCoroutine(AnimatePlacement(p, transform.rotation, 0.5f));
         }
+        else StartCoroutine(ReturnToStart());
         ClearHighlight();
     }
 
     public IEnumerator AnimatePlacement(Vector3 targetPos, Quaternion targetRot, float duration, bool isDragging = true)
     {
+        isPerforming = true;
         Vector3 a = transform.position;
         Quaternion b = transform.rotation;
         float t0 = 0f;
@@ -94,6 +96,8 @@ public class KnorrController : DragController
         {
             EnablePhysicsOnChildren(transform);
         }
+        isPerforming = false;
+        this.isDragging = false;
     }
 
     void EnablePhysicsOnChildren(Transform p)

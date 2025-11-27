@@ -9,8 +9,7 @@ public class PitcherController : DragController
 
     Renderer[] waterRenderers;
     Color[] startColors;
-    Color targetColor = Color.black;
-    Color targetSpecColor = new Color(0.5f, 0.5f, 0.5f); // #A4A4A4
+    public Color targetColor = Color.black;
     public LidController lid;
 
     public override void Start()
@@ -41,11 +40,14 @@ public class PitcherController : DragController
             Quaternion targetRot = Quaternion.Euler(-25f, 90f, -90f);
             StartCoroutine(AnimatePouring(targetPos, targetRot, 0.5f));
         }
+        else StartCoroutine(ReturnToStart());
         ClearHighlight();
     }
 
     IEnumerator AnimatePouring(Vector3 targetPos, Quaternion targetRot, float duration)
     {
+        isPerforming = true;
+
         Vector3 fromPos = transform.position;
         Quaternion fromRot = transform.rotation;
         float elapsedTime = 0f;
@@ -99,15 +101,12 @@ public class PitcherController : DragController
             {
                 Material m = waterRenderers[i].material;
                 Color newColor = Color.Lerp(currentColors[i], targetColor, t);
-                Color newSpecColor = Color.Lerp(currentSpecColors[i], targetSpecColor, t);
 
                 if (m.HasProperty("_BaseColor"))
                     m.SetColor("_BaseColor", newColor);
                 else if (m.HasProperty("_Color"))
                     m.SetColor("_Color", newColor);
 
-                if (m.HasProperty("_SpecColor"))
-                    m.SetColor("_SpecColor", newSpecColor);
             }
 
             elapsedTime += Time.deltaTime;
@@ -122,8 +121,6 @@ public class PitcherController : DragController
                 m.SetColor("_BaseColor", targetColor);
             else if (m.HasProperty("_Color"))
                 m.SetColor("_Color", targetColor);
-            if (m.HasProperty("_SpecColor"))
-                m.SetColor("_SpecColor", targetSpecColor);
         }
 
         pouringWater.SetActive(false);

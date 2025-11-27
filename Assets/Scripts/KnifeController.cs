@@ -30,6 +30,7 @@ public class KnifeController : DragController
     // --- Animations ---
     IEnumerator PlayCutAnimation(Vector3 boardPos)
     {
+        isPerforming = true;
         Quaternion rot = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, 0f);
 
         float[] xOffsets = { -0.15f, -0.05f, 0.05f, 0.15f };
