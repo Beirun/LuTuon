@@ -12,12 +12,13 @@ public class PepperController : DragController
     public override void EndDrag()
     {
         base.EndDrag();
-        if (highlighted != null && !lid.isClose)
+        if (highlighted != null && (lid == null || !lid.isClose))
         {
             Vector3 target = highlighted.transform.position + new Vector3(-1.9f, 1.35f, 0f);
             Quaternion targetRot = Quaternion.Euler(-25f, 90f, -90f);
             StartCoroutine(MoveThenAnimate(target, targetRot, 0.5f));
         }
+        else StartCoroutine(ReturnToStart());
         ClearHighlight();
     }
 
@@ -42,7 +43,7 @@ public class PepperController : DragController
 
     IEnumerator AnimateShake(Vector3 basePos, Quaternion baseRot, float duration)
     {
-        
+        isPerforming = true;
 
         IEnumerator Shake()
         {
