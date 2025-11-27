@@ -24,6 +24,9 @@ public class GarlicManager : MonoBehaviour
 
     [Header("Chopped Garlic Controller")]
     public ChoppedGarlicController choppedGarlicController;
+
+    [Header("X Offset")]
+    public float xOffset = 0.3f;
     void Start()
     {
 
@@ -81,7 +84,7 @@ public class GarlicManager : MonoBehaviour
                 choppedGarlic_4.SetActive(true);
                 garlicController.enabled = false;
                 knifeController.cutsMade = 0;
-                choppedGarlicController.startPos = new Vector3(garlicController.startPos.x - 0.3f, garlicController.startPos.y - 0.05f, garlicController.startPos.z - 0.05f);
+                choppedGarlicController.startPos = new Vector3(garlicController.startPos.x - xOffset, garlicController.startPos.y - 0.05f, garlicController.startPos.z - 0.05f);
                 StartCoroutine(choppedGarlicController.AnimatePlacement(choppedGarlicController.startPos, Quaternion.Euler(0f, 0f, 0f), 0.75f, false));
                 garlicController.isPlaced = false;
             }
