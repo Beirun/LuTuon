@@ -21,8 +21,11 @@ public class TutorialManager : MonoBehaviour
     public GameObject showStepButton;
     public TMP_Text uiText;
     public DialogManager dialogManager;
+    public DialogManager endManager;
     public AttemptManager attemptManager;  // Assign in inspector
 
+    [Header("Food Id")]
+    public string foodId = "30045842-6118-4539-8577-07181b09dfc9";
     public List<string> steps = new List<string>();
     public List<StepControlledScript> controlledScripts = new List<StepControlledScript>();
 
@@ -86,7 +89,8 @@ public class TutorialManager : MonoBehaviour
 
             if (stepIndex >= steps.Count)
             {
-                SendAttemptOnTutorialComplete();
+                
+                StartCoroutine(WaitAndFinish());
             }
             else
             {
@@ -94,17 +98,21 @@ public class TutorialManager : MonoBehaviour
             }
         }
     }
-
+    IEnumerator WaitAndFinish()
+    {
+        yield return new WaitForSeconds(1f);
+        SendAttemptOnTutorialComplete();
+    }
     void SendAttemptOnTutorialComplete()
     {
         if (attemptManager == null) return;
 
-        string foodId = "tutorialDish";   // Replace with actual ID
-        int points = 100;                  // Assign earned points
-        string type = "tutorial";          // Attempt type
+        string foodId = this.foodId;   
+        int points = 100;
+        string type = "tutorial";
 
         attemptManager.SendAttempt(foodId, points, type);
-        Debug.Log("Tutorial complete attempt sent.");
+        endManager.OpenDialog("EndGame");
     }
 
     void HandleBlinking()
@@ -123,11 +131,15 @@ public class TutorialManager : MonoBehaviour
 
             var t = e.script.GetType();
             var f = t.GetField("isDragging");
+            var h = t.GetField("isFinished");
             if (f == null || f.FieldType != typeof(bool)) continue;
+            if (h == null || h.FieldType != typeof(bool)) continue;
 
             bool dragging = (bool)f.GetValue(e.script);
-
-            if (!dragging)
+            bool finished = (bool)h.GetValue(e.script);
+            Debug.LogWarning($"Finished: {finished}");
+            Debug.LogWarning($"Dragging: {dragging}");
+            if (!dragging && !finished)
             {
                 if (!blinkCoroutines.ContainsKey(e.script))
                 {
