@@ -11,6 +11,8 @@ public class DragController : HighlightController
     public bool useRotation = false;
     public Quaternion targetRotation = Quaternion.Euler(0f, 0f, 0f);
     public bool gravityOnEnd = false;
+    public DragManager manager;
+    public bool isPerforming = false;
 
     [Header("Animations")]
     public float returnDuration = .5f;
@@ -34,6 +36,7 @@ public class DragController : HighlightController
     public virtual void Start()
     {
         if (cam == null) cam = Camera.main;
+        if(manager == null) manager = manager = FindFirstObjectByType<DragManager>();
         rb = GetComponent<Rigidbody>();
         startPos = transform.position;
         startRot = transform.rotation;
@@ -41,7 +44,7 @@ public class DragController : HighlightController
 
     public virtual void Update()
     {
-        if (Input.touchCount > 0 && !isInPot)
+        if (Input.touchCount > 0 && !isInPot && (isDragging || !manager.isStillDragging) && !isPerforming)
         {
             Touch touch = Input.GetTouch(0);
             switch (touch.phase)
@@ -62,6 +65,7 @@ public class DragController : HighlightController
 
     void StartDrag(Vector2 screenPos)
     {
+        if (isDragging) return;
         Ray ray = cam.ScreenPointToRay(screenPos);
         if (Physics.Raycast(ray, out RaycastHit hit))
         {
@@ -162,6 +166,7 @@ public class DragController : HighlightController
             rb.isKinematic = false;
         }
         isDragging = false;
+        isPerforming = false;
     }
 
     Vector3 GetWorldPosition(Vector2 screenPos)
