@@ -69,18 +69,20 @@ public class ChickenController : DragController
     public override void EndDrag()
     {
         base.EndDrag();
-        if (highlighted != null && !lid.isClose)
+        if (highlighted != null && (lid == null || !lid.isClose))
         {
             Vector3 p = highlighted.transform.position;
             p.y = water.transform.position.y + waterSurfaceOffset;
             if (water.transform.position.y < 1f) p = highlighted.transform.position + new Vector3(0f, 0.2f, 0f);
             StartCoroutine(AnimatePlacement(p, transform.rotation, 0.5f));
         }
+        else StartCoroutine(ReturnToStart());
         ClearHighlight();
     }
 
     public IEnumerator AnimatePlacement(Vector3 targetPos, Quaternion targetRot, float duration, bool isDragging = true)
     {
+        isPerforming = true;
         Vector3 a = transform.position;
         Quaternion b = transform.rotation;
         float t0 = 0f;
@@ -104,6 +106,8 @@ public class ChickenController : DragController
                 timerController.StartTimer(5);
             }
         }
+        this.isDragging = false;
+        isPerforming = false;
     }
 
     void EnablePhysicsOnChildren(Transform p)
