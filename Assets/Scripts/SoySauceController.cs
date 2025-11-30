@@ -84,6 +84,7 @@ public class SoySauceController : DragController
         }
 
         pouringWater.SetActive(true);
+        pouringWater.transform.position = targetPos + new Vector3(1.4f,-1.6f,0f);
 
         // Change all pouring materials to oil color
         foreach (Material m in pouringMats)
