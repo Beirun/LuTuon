@@ -10,6 +10,9 @@ public class PitcherController : DragController
     Renderer[] waterRenderers;
     Color[] startColors;
     public Color targetColor = Color.black;
+    public float targetWaterLevelY = 1.55f;
+    public float pouringDuration = 0.5f;
+    public bool changeWaterColor = true;
     public LidController lid;
 
     public override void Start()
@@ -34,11 +37,11 @@ public class PitcherController : DragController
     public override void EndDrag()
     {
         base.EndDrag();
-        if (highlighted != null && !lid.isClose)
+        if (highlighted != null && (lid == null || !lid.isClose))
         {
             Vector3 targetPos = highlighted.transform.position + new Vector3(-2.1f, 1.35f, 0f);
             Quaternion targetRot = Quaternion.Euler(-25f, 90f, -90f);
-            StartCoroutine(AnimatePouring(targetPos, targetRot, 0.5f));
+            StartCoroutine(AnimatePouring(targetPos, targetRot, pouringDuration));
         }
         else StartCoroutine(ReturnToStart());
         ClearHighlight();
@@ -63,7 +66,7 @@ public class PitcherController : DragController
         }
 
         pouringWater.SetActive(true);
-        yield return StartCoroutine(AnimateWaterLevel(1.55f, 3f));
+        yield return StartCoroutine(AnimateWaterLevel(targetWaterLevelY, 3f));
     }
 
     IEnumerator AnimateWaterLevel(float targetPosY, float duration)
@@ -97,16 +100,20 @@ public class PitcherController : DragController
             water.transform.position = Vector3.Lerp(fromPosition, toPosition, t);
 
             // Smoothly blend diffuse and specular colors
-            for (int i = 0; i < waterRenderers.Length; i++)
+            if (changeWaterColor)
             {
-                Material m = waterRenderers[i].material;
-                Color newColor = Color.Lerp(currentColors[i], targetColor, t);
 
-                if (m.HasProperty("_BaseColor"))
-                    m.SetColor("_BaseColor", newColor);
-                else if (m.HasProperty("_Color"))
-                    m.SetColor("_Color", newColor);
+                for (int i = 0; i < waterRenderers.Length; i++)
+                {
+                    Material m = waterRenderers[i].material;
+                    Color newColor = Color.Lerp(currentColors[i], targetColor, t);
 
+                    if (m.HasProperty("_BaseColor"))
+                        m.SetColor("_BaseColor", newColor);
+                    else if (m.HasProperty("_Color"))
+                        m.SetColor("_Color", newColor);
+
+                }
             }
 
             elapsedTime += Time.deltaTime;
@@ -114,15 +121,18 @@ public class PitcherController : DragController
         }
 
         // Final ensure
-        for (int i = 0; i < waterRenderers.Length; i++)
+        if (changeWaterColor)
         {
-            Material m = waterRenderers[i].material;
-            if (m.HasProperty("_BaseColor"))
-                m.SetColor("_BaseColor", targetColor);
-            else if (m.HasProperty("_Color"))
-                m.SetColor("_Color", targetColor);
-        }
+            for (int i = 0; i < waterRenderers.Length; i++)
+            {
+                Material m = waterRenderers[i].material;
+                if (m.HasProperty("_BaseColor"))
+                    m.SetColor("_BaseColor", targetColor);
+                else if (m.HasProperty("_Color"))
+                    m.SetColor("_Color", targetColor);
+            }
 
+        }
         pouringWater.SetActive(false);
         yield return ReturnToStart();
         isFinished = true;

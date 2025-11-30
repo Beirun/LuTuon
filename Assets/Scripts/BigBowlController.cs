@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class SoySauceController : DragController
+public class BigBowlController : DragController
 {
     [Header("Water Objects")]
     public GameObject water;
@@ -13,7 +13,7 @@ public class SoySauceController : DragController
     List<Material> mainWaterMats = new List<Material>();
     public float targetWaterLevelY = 0.8f;
     public LidController lid;
-
+    public ChickenController chickenController;
     public override void Start()
     {
         base.Start();
@@ -51,15 +51,23 @@ public class SoySauceController : DragController
             Debug.LogWarning("water not assigned!");
         }
     }
+    public override void Update()
+    {
+        if (chickenController != null && !chickenController.isInPot)
+        {
+            return;
+        }
+
+        base.Update();
+    }
 
     public override void EndDrag()
     {
         base.EndDrag();
         if (highlighted != null && (lid == null || !lid.isClose))
         {
-            Debug.LogWarning("SoySauceController: Pouring action initiated.");
-            Vector3 targetPos = highlighted.transform.position + new Vector3(-1.7f, 1.475f, 0f);
-            Quaternion targetRot = Quaternion.Euler(-25f, 90f, -90f);
+            Vector3 targetPos = highlighted.transform.position + new Vector3(1.3f, 1.8f, -0.8f);
+            Quaternion targetRot = Quaternion.Euler(-165f, 125f, 180f);
             StartCoroutine(AnimatePouring(targetPos, targetRot, 0.5f));
         }
         else StartCoroutine(ReturnToStart());
@@ -84,7 +92,7 @@ public class SoySauceController : DragController
         }
 
         pouringWater.SetActive(true);
-        pouringWater.transform.position = targetPos + new Vector3(1.4f,-1.6f,0f);
+        pouringWater.transform.position = targetPos + new Vector3(-0.6f, -2.8f, 0.3f);
 
         // Change all pouring materials to oil color
         foreach (Material m in pouringMats)
@@ -145,24 +153,25 @@ public class SoySauceController : DragController
             {
                 // We map the 0-1 range to 0-0.33 range
                 colorT = smoothT * 0.23f;
-            }else if (isWaterActive)
+            }
+            else if (isWaterActive)
             {
                 colorT = smoothT * 0.73f;
 
             }
 
-                for (int i = 0; i < count; i++)
-                {
-                    Material m = mainWaterMats[i];
+            for (int i = 0; i < count; i++)
+            {
+                Material m = mainWaterMats[i];
 
-                    // Use colorT instead of t or smoothT here
-                    Color c = Color.Lerp(startColors[i], pouringColor, colorT);
+                // Use colorT instead of t or smoothT here
+                Color c = Color.Lerp(startColors[i], pouringColor, colorT);
 
-                    if (m.HasProperty("_BaseColor"))
-                        m.SetColor("_BaseColor", c);
-                    else if (m.HasProperty("_Color"))
-                        m.SetColor("_Color", c);
-                }
+                if (m.HasProperty("_BaseColor"))
+                    m.SetColor("_BaseColor", c);
+                else if (m.HasProperty("_Color"))
+                    m.SetColor("_Color", c);
+            }
 
             elapsed += Time.deltaTime;
             yield return null;

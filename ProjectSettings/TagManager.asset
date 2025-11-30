@@ -8,6 +8,7 @@ TagManager:
   - Pot
   - Plate
   - ChickenBowl
+  - Pan
   layers:
   - Default
   - TransparentFX

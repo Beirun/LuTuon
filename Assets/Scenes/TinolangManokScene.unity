@@ -14565,6 +14565,7 @@ MonoBehaviour:
   knifeController: {fileID: 3469287837344748557}
   garlicController: {fileID: 153979232}
   choppedGarlicController: {fileID: 492978578}
+  xOffset: 0.3
 --- !u!4 &531077548
 Transform:
   m_ObjectHideFlags: 0
@@ -15027,7 +15028,7 @@ MonoBehaviour:
   isFinished: 0
   water: {fileID: 2077343976}
   pouringWater: {fileID: 878411929}
-  pouringColor: {r: 1, g: 0.8, b: 0, a: 0.4}
+  pouringColor: {r: 1, g: 0.8, b: 0, a: 0.2}
   lid: {fileID: 1377150664}
 --- !u!1 &548045693
 GameObject:
@@ -41761,6 +41762,7 @@ MonoBehaviour:
   water: {fileID: 2077343976}
   pouringWater: {fileID: 878411929}
   targetColor: {r: 0.5882353, g: 0.5882353, b: 0.5882353, a: 0.2}
+  targetWaterLevelY: 1.55
   lid: {fileID: 1377150664}
 --- !u!1001 &1703950036
 PrefabInstance:
@@ -49197,6 +49199,7 @@ MonoBehaviour:
   water: {fileID: 2077343976}
   pouringWater: {fileID: 878411929}
   pouringColor: {r: 0.16, g: 0.11, b: 0.09, a: 0.827451}
+  targetWaterLevelY: 0.8
   lid: {fileID: 1377150664}
 --- !u!1001 &1828122630
 PrefabInstance:

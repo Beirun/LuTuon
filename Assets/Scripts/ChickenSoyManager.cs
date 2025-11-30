@@ -47,9 +47,8 @@ public class ChickenSoyManager : MonoBehaviour
 
     IEnumerator DoTransition()
     {
-        yield return new WaitForSeconds(5f);
 
-        float d = 5f;
+        float d = 10f;
         float t = 0f;
 
         while (t < d)

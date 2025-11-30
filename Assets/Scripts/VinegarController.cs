@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
-public class SoySauceController : DragController
+public class VinegarController : DragController
 {
     [Header("Water Objects")]
     public GameObject water;
@@ -59,7 +59,7 @@ public class SoySauceController : DragController
         {
             Debug.LogWarning("SoySauceController: Pouring action initiated.");
             Vector3 targetPos = highlighted.transform.position + new Vector3(-1.7f, 1.475f, 0f);
-            Quaternion targetRot = Quaternion.Euler(-25f, 90f, -90f);
+            Quaternion targetRot = Quaternion.Euler(65f, 90f, 0f);
             StartCoroutine(AnimatePouring(targetPos, targetRot, 0.5f));
         }
         else StartCoroutine(ReturnToStart());
@@ -84,7 +84,7 @@ public class SoySauceController : DragController
         }
 
         pouringWater.SetActive(true);
-        pouringWater.transform.position = targetPos + new Vector3(1.4f,-1.6f,0f);
+        pouringWater.transform.position = targetPos + new Vector3(1.4f, -1.6f, 0f);
 
         // Change all pouring materials to oil color
         foreach (Material m in pouringMats)
@@ -145,24 +145,25 @@ public class SoySauceController : DragController
             {
                 // We map the 0-1 range to 0-0.33 range
                 colorT = smoothT * 0.23f;
-            }else if (isWaterActive)
+            }
+            else if (isWaterActive)
             {
                 colorT = smoothT * 0.73f;
 
             }
 
-                for (int i = 0; i < count; i++)
-                {
-                    Material m = mainWaterMats[i];
+            for (int i = 0; i < count; i++)
+            {
+                Material m = mainWaterMats[i];
 
-                    // Use colorT instead of t or smoothT here
-                    Color c = Color.Lerp(startColors[i], pouringColor, colorT);
+                // Use colorT instead of t or smoothT here
+                Color c = Color.Lerp(startColors[i], pouringColor, colorT);
 
-                    if (m.HasProperty("_BaseColor"))
-                        m.SetColor("_BaseColor", c);
-                    else if (m.HasProperty("_Color"))
-                        m.SetColor("_Color", c);
-                }
+                if (m.HasProperty("_BaseColor"))
+                    m.SetColor("_BaseColor", c);
+                else if (m.HasProperty("_Color"))
+                    m.SetColor("_Color", c);
+            }
 
             elapsed += Time.deltaTime;
             yield return null;
