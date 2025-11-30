@@ -84,6 +84,7 @@ public class CookingOilController : DragController
         }
 
         pouringWater.SetActive(true);
+        pouringWater.transform.position = targetPos + new Vector3(1.9f, -1.4f, 0f);
 
         // You can change the target height here if you want to test the > 1f logic
         yield return StartCoroutine(AnimateWaterLevel(0.8f, 0.75f));
