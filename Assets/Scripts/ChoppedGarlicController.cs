@@ -1,9 +1,10 @@
 using UnityEngine;
 using System.Collections;
+
 public class ChoppedGarlicController : DragController
 {
     public LidController lid;
-
+    public bool makeChildAfterPlacement = false;   // toggle
 
     public override void EndDrag()
     {
@@ -11,50 +12,56 @@ public class ChoppedGarlicController : DragController
         if (highlighted != null && (lid == null || !lid.isClose))
         {
             Vector3 targetPos = highlighted.transform.position + new Vector3(0f, 0.125f, 0f);
-
+            if (makeChildAfterPlacement && highlighted != null)
+            {
+                transform.SetParent(highlighted.transform, true);
+            }
             StartCoroutine(AnimatePlacement(targetPos, transform.rotation, 0.5f));
         }
-        else StartCoroutine(ReturnToStart());
+        else
+        {
+            StartCoroutine(ReturnToStart());
+        }
         ClearHighlight();
     }
+
     public IEnumerator AnimatePlacement(Vector3 targetPos, Quaternion targetRot, float duration, bool isDragging = true)
     {
-        isPerforming= true;
+        isPerforming = true;
         Vector3 fromPos = transform.position;
         Quaternion fromRot = transform.rotation;
-        float elapsedTime = 0f;
-        while (elapsedTime < duration)
+        float elapsed = 0f;
+
+        while (elapsed < duration)
         {
-            float t = elapsedTime / duration;
+            float t = elapsed / duration;
             t = t * t * (3f - 2f * t);
-
-            Vector3 pos = Vector3.Lerp(fromPos, targetPos, t);
-
-
-            transform.position = pos;
+            transform.position = Vector3.Lerp(fromPos, targetPos, t);
             transform.rotation = Quaternion.Slerp(fromRot, targetRot, t);
-
-            elapsedTime += Time.deltaTime;
+            elapsed += Time.deltaTime;
             yield return null;
         }
+
         if (isDragging) EnablePhysicsOnChildren(transform);
+
         isFinished = true;
         isPerforming = false;
         this.isDragging = false;
     }
-    void EnablePhysicsOnChildren(Transform parent)
+
+    void EnablePhysicsOnChildren(Transform p)
     {
         isInPot = true;
-        foreach (Transform child in parent)
+        foreach (Transform c in p)
         {
-            Rigidbody rb = child.GetComponent<Rigidbody>();
+            Rigidbody rb = c.GetComponent<Rigidbody>();
             if (rb != null)
             {
                 rb.isKinematic = false;
                 rb.useGravity = true;
             }
-            if (child.childCount > 0)
-                EnablePhysicsOnChildren(child);
+            if (c.childCount > 0)
+                EnablePhysicsOnChildren(c);
         }
     }
 }
