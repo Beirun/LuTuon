@@ -64,7 +64,7 @@ public class PepperLeavesController : DragController
     public override void EndDrag()
     {
         base.EndDrag();
-        if (highlighted != null && !lid.isClose)
+        if (highlighted != null && (lid == null || !lid.isClose))
         {
             Vector3 p = highlighted.transform.position;
             p.y = water.transform.position.y + waterSurfaceOffset;
