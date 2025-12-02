@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class PitcherController : DragController
 {
@@ -7,30 +8,45 @@ public class PitcherController : DragController
     public GameObject water;
     public GameObject pouringWater;
 
-    Renderer[] waterRenderers;
-    Color[] startColors;
-    public Color targetColor = Color.black;
+    public Color pouringColor = new Color(1f, 0.75f, 0f, 0.3f);
     public float targetWaterLevelY = 1.55f;
     public float pouringDuration = 0.5f;
-    public bool changeWaterColor = true;
+    public float waterDuration = 3f;
     public LidController lid;
+
+    List<Material> pouringMats = new List<Material>();
+    List<Color> originalPourColors = new List<Color>();
+    List<Material> mainWaterMats = new List<Material>();
 
     public override void Start()
     {
         base.Start();
-        if (water)
+
+        // Collect pouring-water materials
+        if (pouringWater)
         {
-            waterRenderers = water.GetComponentsInChildren<Renderer>(true);
-            startColors = new Color[waterRenderers.Length];
-            for (int i = 0; i < waterRenderers.Length; i++)
+            Renderer[] rens = pouringWater.GetComponentsInChildren<Renderer>(true);
+            foreach (Renderer r in rens)
             {
-                Material m = waterRenderers[i].material;
-                startColors[i] = m.HasProperty("_BaseColor")
+                Material m = r.material;
+                pouringMats.Add(m);
+
+                Color c = m.HasProperty("_BaseColor")
                     ? m.GetColor("_BaseColor")
                     : m.HasProperty("_Color")
                         ? m.GetColor("_Color")
                         : Color.white;
+
+                originalPourColors.Add(c);
             }
+        }
+
+        // Collect main-water materials for color blending
+        if (water)
+        {
+            Renderer[] rens = water.GetComponentsInChildren<Renderer>(true);
+            foreach (Renderer r in rens)
+                mainWaterMats.Add(r.material);
         }
     }
 
@@ -39,11 +55,12 @@ public class PitcherController : DragController
         base.EndDrag();
         if (highlighted != null && (lid == null || !lid.isClose))
         {
-            Vector3 targetPos = highlighted.transform.position + new Vector3(-2.1f, 1.35f, 0f);
-            Quaternion targetRot = Quaternion.Euler(-25f, 90f, -90f);
-            StartCoroutine(AnimatePouring(targetPos, targetRot, pouringDuration));
+            Vector3 pos = highlighted.transform.position + new Vector3(-2.1f, 1.35f, 0f);
+            Quaternion rot = Quaternion.Euler(-25f, 90f, -90f);
+            StartCoroutine(AnimatePouring(pos, rot, pouringDuration));
         }
         else StartCoroutine(ReturnToStart());
+
         ClearHighlight();
     }
 
@@ -51,88 +68,103 @@ public class PitcherController : DragController
     {
         isPerforming = true;
 
-        Vector3 fromPos = transform.position;
-        Quaternion fromRot = transform.rotation;
-        float elapsedTime = 0f;
+        Vector3 startPos = transform.position;
+        Quaternion startRot = transform.rotation;
+        float t = 0f;
 
-        while (elapsedTime < duration)
+        while (t < duration)
         {
-            float t = elapsedTime / duration;
-            t = t * t * (3f - 2f * t);
-            transform.position = Vector3.Lerp(fromPos, targetPos, t);
-            transform.rotation = Quaternion.Slerp(fromRot, targetRot, t);
-            elapsedTime += Time.deltaTime;
+            float k = t / duration;
+            k = k * k * (3f - 2f * k);
+
+            transform.position = Vector3.Lerp(startPos, targetPos, k);
+            transform.rotation = Quaternion.Slerp(startRot, targetRot, k);
+            t += Time.deltaTime;
+
             yield return null;
         }
 
         pouringWater.SetActive(true);
-        yield return StartCoroutine(AnimateWaterLevel(targetWaterLevelY, 3f));
+        pouringWater.transform.position = targetPos + new Vector3(1.9f, -1.4f, 0f);
+
+        // Apply pouring color
+        for (int i = 0; i < pouringMats.Count; i++)
+        {
+            Material m = pouringMats[i];
+            if (m.HasProperty("_BaseColor"))
+                m.SetColor("_BaseColor", pouringColor);
+            else if (m.HasProperty("_Color"))
+                m.SetColor("_Color", pouringColor);
+        }
+
+        yield return StartCoroutine(AnimateWaterLevel(targetWaterLevelY, waterDuration));
     }
 
     IEnumerator AnimateWaterLevel(float targetPosY, float duration)
     {
+        bool wasActive = water.activeInHierarchy;
         water.SetActive(true);
-        Vector3 fromPosition = water.transform.position;
-        Vector3 toPosition = new Vector3(fromPosition.x, targetPosY, fromPosition.z);
 
-        // Capture current starting colors at the start of animation (so transitions are smooth even if reused)
-        Color[] currentColors = new Color[waterRenderers.Length];
-        Color[] currentSpecColors = new Color[waterRenderers.Length];
-        for (int i = 0; i < waterRenderers.Length; i++)
+        Vector3 fromPos = water.transform.position;
+        Vector3 toPos = new Vector3(fromPos.x, targetPosY, fromPos.z);
+
+        int count = mainWaterMats.Count;
+        Color[] startColors = new Color[count];
+
+        for (int i = 0; i < count; i++)
         {
-            Material m = waterRenderers[i].material;
-            currentColors[i] = m.HasProperty("_BaseColor")
+            Material m = mainWaterMats[i];
+            startColors[i] = m.HasProperty("_BaseColor")
                 ? m.GetColor("_BaseColor")
                 : m.HasProperty("_Color")
                     ? m.GetColor("_Color")
                     : Color.white;
-            currentSpecColors[i] = m.HasProperty("_SpecColor")
-                ? m.GetColor("_SpecColor")
-                : Color.white;
         }
 
-        float elapsedTime = 0f;
+        float t = 0f;
 
-        while (elapsedTime < duration)
+        while (t < duration)
         {
-            float t = elapsedTime / duration;
-            t = t * t * (3f - 2f * t);
-            water.transform.position = Vector3.Lerp(fromPosition, toPosition, t);
+            float k = t / duration;
+            k = k * k * (3f - 2f * k);
 
-            // Smoothly blend diffuse and specular colors
-            if (changeWaterColor)
+            // Water elevation
+            if (!wasActive)
+                water.transform.position = Vector3.Lerp(fromPos, toPos, k);
+
+            // Smooth transition based on Vinegar logic
+            float colorT = k;
+
+            if (wasActive && targetWaterLevelY < 1f) colorT = k * 0.23f;
+            else if (!wasActive && water.transform.position.y < 1f) colorT = k * 0.73f;
+
+            for (int i = 0; i < count; i++)
             {
+                Material m = mainWaterMats[i];
+                Color c = Color.Lerp(startColors[i], pouringColor, colorT);
 
-                for (int i = 0; i < waterRenderers.Length; i++)
-                {
-                    Material m = waterRenderers[i].material;
-                    Color newColor = Color.Lerp(currentColors[i], targetColor, t);
-
-                    if (m.HasProperty("_BaseColor"))
-                        m.SetColor("_BaseColor", newColor);
-                    else if (m.HasProperty("_Color"))
-                        m.SetColor("_Color", newColor);
-
-                }
+                if (m.HasProperty("_BaseColor"))
+                    m.SetColor("_BaseColor", c);
+                else if (m.HasProperty("_Color"))
+                    m.SetColor("_Color", c);
             }
 
-            elapsedTime += Time.deltaTime;
+            t += Time.deltaTime;
             yield return null;
         }
 
-        // Final ensure
-        if (changeWaterColor)
+        // Reset pouring-water colors
+        for (int i = 0; i < pouringMats.Count; i++)
         {
-            for (int i = 0; i < waterRenderers.Length; i++)
-            {
-                Material m = waterRenderers[i].material;
-                if (m.HasProperty("_BaseColor"))
-                    m.SetColor("_BaseColor", targetColor);
-                else if (m.HasProperty("_Color"))
-                    m.SetColor("_Color", targetColor);
-            }
+            Material m = pouringMats[i];
+            Color c = originalPourColors[i];
 
+            if (m.HasProperty("_BaseColor"))
+                m.SetColor("_BaseColor", c);
+            else if (m.HasProperty("_Color"))
+                m.SetColor("_Color", c);
         }
+
         pouringWater.SetActive(false);
         yield return ReturnToStart();
         isFinished = true;
