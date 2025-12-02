@@ -6,6 +6,7 @@ using UnityEngine.Networking;
 
 [Serializable]
 public class LoginRequest { public string email; public string password; }
+public class GoogleRequest { public string email; }
 
 
 [Serializable]
@@ -36,6 +37,8 @@ public class AuthManager : MonoBehaviour
 {
     private const string BaseUrl = "https://api.lutuon.app/game";
     private Coroutine autoRefreshCoroutine;
+    [Serializable]
+    private class AccessTokenOnly { public string accessToken; }
 
     public void Login(string email, string password, Action<bool, string> callback)
     {
@@ -48,6 +51,56 @@ public class AuthManager : MonoBehaviour
         string json = JsonUtility.ToJson(reqData);
 
         using (UnityWebRequest request = new UnityWebRequest($"{BaseUrl}/login", "POST"))
+        {
+            request.uploadHandler = new UploadHandlerRaw(System.Text.Encoding.UTF8.GetBytes(json));
+            request.downloadHandler = new DownloadHandlerBuffer();
+            request.SetRequestHeader("Content-Type", "application/json");
+
+            yield return request.SendWebRequest();
+
+            if (request.result == UnityWebRequest.Result.ConnectionError ||
+                request.result == UnityWebRequest.Result.ProtocolError)
+            {
+                callback(false, request.error);
+            }
+            else
+            {
+                var res = JsonUtility.FromJson<LoginResponse>(request.downloadHandler.text);
+                DateTime expiry = DateTime.UtcNow.AddHours(1);
+
+                AccountManager.Instance.SetAccountData(new AccountData
+                {
+                    userId = res.user.userId,
+                    userEmail = res.user.userEmail,
+                    userName = res.user.userName,
+                    userDob = res.user.userDob,
+                    avatarId = res.user.avatarId,
+                    accessToken = res.accessToken,
+                    refreshToken = res.refreshToken,
+                    accessTokenExpiry = expiry,
+                    attempts = new List<AttemptData>(res.attempts ?? Array.Empty<AttemptData>()),
+                    stats = res.stats,
+                    achievements = new List<AchievementData>(res.achievements ?? Array.Empty<AchievementData>())
+                });
+
+                if (autoRefreshCoroutine != null) StopCoroutine(autoRefreshCoroutine);
+                autoRefreshCoroutine = StartCoroutine(AutoRefreshCoroutine());
+
+                callback(true, null);
+            }
+        }
+    }
+    public void Google(string email, Action<bool, string> callback)
+    {
+        StartCoroutine(GoogleCoroutine(email, callback));
+    }
+
+    private IEnumerator GoogleCoroutine(string email, Action<bool, string> callback)
+    {
+        var reqData = new GoogleRequest { email = email };
+        string json = JsonUtility.ToJson(reqData);
+
+        using (UnityWebRequest request = new UnityWebRequest($"{BaseUrl}/google", "POST"))
         {
             request.uploadHandler = new UploadHandlerRaw(System.Text.Encoding.UTF8.GetBytes(json));
             request.downloadHandler = new DownloadHandlerBuffer();
@@ -148,8 +201,7 @@ public class AuthManager : MonoBehaviour
         }
     }
 
-    [Serializable]
-    private class AccessTokenOnly { public string accessToken; }
+    
 
     public void Logout(Action<bool, string> callback)
     {
