@@ -6909,7 +6909,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &150892964
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6985,6 +6985,10 @@ MonoBehaviour:
     isFinishedBoolName: isFinished
     keepEnabled: 0
   - script: {fileID: 1059730041}
+    activeStep: 9
+    isFinishedBoolName: isFinished
+    keepEnabled: 0
+  - script: {fileID: 941747709}
     activeStep: 9
     isFinishedBoolName: isFinished
     keepEnabled: 0
@@ -14378,6 +14382,7 @@ MonoBehaviour:
   isInPot: 0
   isFinished: 0
   lid: {fileID: 0}
+  makeChildAfterPlacement: 1
 --- !u!4 &515296394
 Transform:
   m_ObjectHideFlags: 0
@@ -28047,6 +28052,18 @@ MonoBehaviour:
           m_StringArgument: Pause
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 1429411276}
+        m_TargetAssemblyTypeName: TimerController, Assembly-CSharp
+        m_MethodName: Resume
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &970006657
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28841,7 +28858,7 @@ MeshCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 5
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -462981019419857548, guid: 4246398387a2bc549baf1007d20287c0, type: 3}
 --- !u!54 &1028057388
@@ -31247,10 +31264,10 @@ MonoBehaviour:
   isFinished: 0
   water: {fileID: 1959170071}
   pouringWater: {fileID: 1431625624}
-  targetColor: {r: 0.5882353, g: 0.5882353, b: 0.5882353, a: 0.2}
-  targetWaterLevelY: 1
-  pouringDuration: 0.1
-  changeWaterColor: 0
+  pouringColor: {r: 0.6784314, g: 0.6784314, b: 0.6784314, a: 0.2}
+  targetWaterLevelY: 0.9
+  pouringDuration: 0.5
+  waterDuration: 1
   lid: {fileID: 0}
 --- !u!64 &1297521984
 MeshCollider:
@@ -32696,7 +32713,7 @@ MeshCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 5
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -462981019419857548, guid: 4246398387a2bc549baf1007d20287c0, type: 3}
 --- !u!54 &1420354788
@@ -33629,7 +33646,7 @@ MeshCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 5
-  m_Convex: 0
+  m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -462981019419857548, guid: 4246398387a2bc549baf1007d20287c0, type: 3}
 --- !u!54 &1487950187

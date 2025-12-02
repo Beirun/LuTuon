@@ -118,12 +118,25 @@ public class ChickenController : DragController
             var rb = c.GetComponent<Rigidbody>();
             if (rb != null)
             {
-                rb.isKinematic = water.transform.position.y > 1f;
-                rb.useGravity = water.transform.position.y < 1f;
+                bool enable = water.transform.position.y > 1f;
+                rb.isKinematic = enable;
+                rb.useGravity = !enable;
+
+                StartCoroutine(DisablePhysicsAfterDelay(rb, 1f));
             }
             if (c.childCount > 0) EnablePhysicsOnChildren(c);
         }
     }
+
+    IEnumerator DisablePhysicsAfterDelay(Rigidbody rb, float d)
+    {
+        yield return new WaitForSeconds(d);
+        if (rb == null) yield break;
+
+        rb.isKinematic = true;
+        rb.useGravity = false;
+    }
+
 
     void StartFloating()
     {
