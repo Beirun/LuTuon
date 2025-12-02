@@ -142,11 +142,11 @@ public class CookingOilController : DragController
             float colorT = smoothT;
 
             // KEY LOGIC: If water is too high, cap the color blending at 33%
-            if (water.transform.position.y > 1f)
+            if (isWaterActive)
             {
                 colorT = smoothT * 0.13f;
             }
-            else if (isWaterActive) { 
+            else if (water.transform.position.y < 0.5f) { 
                 colorT = smoothT * 0.33f;
                 
             }
