@@ -57,7 +57,6 @@ public class VinegarController : DragController
         base.EndDrag();
         if (highlighted != null && (lid == null || !lid.isClose))
         {
-            Debug.LogWarning("SoySauceController: Pouring action initiated.");
             Vector3 targetPos = highlighted.transform.position + new Vector3(-1.7f, 1.475f, 0f);
             Quaternion targetRot = Quaternion.Euler(65f, 90f, 0f);
             StartCoroutine(AnimatePouring(targetPos, targetRot, 0.5f));
@@ -131,7 +130,7 @@ public class VinegarController : DragController
             float smoothT = t * t * (3f - 2f * t);
 
             // 1. Handle Movement
-            if (water.transform.position.y < 1f)
+            if (!isWaterActive)
             {
                 water.transform.position = Vector3.Lerp(fromPos, toPos, smoothT);
             }
@@ -141,12 +140,12 @@ public class VinegarController : DragController
             float colorT = smoothT;
 
             // If we are above the threshold, cap the interpolation at 1/3 (0.33f)
-            if (water.transform.position.y > 1f)
+            if (isWaterActive)
             {
                 // We map the 0-1 range to 0-0.33 range
                 colorT = smoothT * 0.23f;
             }
-            else if (isWaterActive)
+            else if(water.transform.position.y < 0.5f)
             {
                 colorT = smoothT * 0.73f;
 
