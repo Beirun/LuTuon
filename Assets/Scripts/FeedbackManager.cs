@@ -12,6 +12,7 @@ public class FeedbackManager : MonoBehaviour
 {
     [SerializeField] TMP_InputField feedbackInput;
     [SerializeField] Button submitButton;
+    [SerializeField] MessageManager messageManager;
     [SerializeField] DialogManager dialogManager; // assign in Inspector
     private const string BaseUrl = "https://api.lutuon.app";
 
@@ -27,12 +28,14 @@ public class FeedbackManager : MonoBehaviour
         if (string.IsNullOrEmpty(msg))
         {
             Debug.LogWarning("Feedback is empty");
+            messageManager.ShowMessage("Please enter feedback before submitting");
             return;
         }
         var acc = AccountManager.Instance.CurrentAccount;
         if (acc == null || string.IsNullOrEmpty(acc.accessToken))
         {
             Debug.LogWarning("User not logged in");
+            messageManager.ShowMessage("You must be logged in to submit feedback");
             return;
         }
         StartCoroutine(SendFeedbackCoroutine(msg, acc.accessToken));
@@ -56,10 +59,12 @@ public class FeedbackManager : MonoBehaviour
                 request.result == UnityWebRequest.Result.ProtocolError)
             {
                 Debug.LogError("Feedback failed: " + request.error);
+                messageManager.ShowMessage("Failed to send feedback. Please try again later");
             }
             else
             {
                 Debug.Log("Feedback sent successfully");
+                messageManager.ShowMessage("Feedback sent successfully");
                 if (dialogManager != null)
                 {
                     dialogManager.CloseDialogWithoutOverlay("Feedback");
