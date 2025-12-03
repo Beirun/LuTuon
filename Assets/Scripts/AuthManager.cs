@@ -1,14 +1,16 @@
+using Google;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 
-[Serializable]
-public class LoginRequest { public string email; public string password; }
-public class GoogleRequest { public string email; }
+[Serializable] public class LoginRequest { public string email; public string password; }
+[Serializable] public class GoogleRequest { public string email; }
+[Serializable] public class RefreshRequest { public string refreshToken; }
+[Serializable] public class AccessTokenOnly { public string accessToken; }
 
-
+// Using the same response structure for Login and Fetch Details
 [Serializable]
 public class LoginResponse
 {
@@ -30,15 +32,60 @@ public class User
     public string avatarId;
 }
 
-[Serializable]
-public class RefreshRequest { public string refreshToken; }
-
 public class AuthManager : MonoBehaviour
 {
+    public static AuthManager Instance { get; private set; }
     private const string BaseUrl = "https://api.lutuon.app/game";
     private Coroutine autoRefreshCoroutine;
-    [Serializable]
-    private class AccessTokenOnly { public string accessToken; }
+    private void Awake()
+    {
+        // Singleton Pattern logic
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
+    private void Start()
+    {
+        // 1. Check if tokens exist in AccountManager (loaded from disk)
+        if (AccountManager.Instance.HasTokens())
+        {
+            var acc = AccountManager.Instance.CurrentAccount;
+
+            // 2. Check if Access Token is expired
+            if (DateTime.UtcNow > acc.accessTokenExpiry)
+            {
+                Debug.Log("Saved token expired. Refreshing...");
+                StartCoroutine(RefreshToken((success, error) =>
+                {
+                    if (success)
+                    {
+                        // 3a. Refresh Success -> Fetch Profile
+                        StartCoroutine(FetchUserData((dataSuccess, dataError) => {
+                            if (!dataSuccess) Debug.LogError("Failed to fetch profile after refresh: " + dataError);
+                        }));
+                    }
+                    else
+                    {
+                        // 3b. Refresh Failed -> Logout
+                        Debug.LogWarning("Session expired. Logging out.");
+                        AccountManager.Instance.ClearAccountData();
+                    }
+                }));
+            }
+            else
+            {
+                // 4. Token Valid -> Fetch Profile Directly
+                Debug.Log("Saved token valid. Fetching user data...");
+                StartCoroutine(FetchUserData((success, error) => {
+                    if (!success) Debug.LogError("Failed to fetch profile: " + error);
+                }));
+            }
+        }
+    }
 
     public void Login(string email, string password, Action<bool, string> callback)
     {
@@ -58,38 +105,18 @@ public class AuthManager : MonoBehaviour
 
             yield return request.SendWebRequest();
 
-            if (request.result == UnityWebRequest.Result.ConnectionError ||
-                request.result == UnityWebRequest.Result.ProtocolError)
+            if (request.result == UnityWebRequest.Result.Success)
             {
-                callback(false, request.error);
+                ProcessSuccessfulLogin(request.downloadHandler.text);
+                callback(true, null);
             }
             else
             {
-                var res = JsonUtility.FromJson<LoginResponse>(request.downloadHandler.text);
-                DateTime expiry = DateTime.UtcNow.AddHours(1);
-
-                AccountManager.Instance.SetAccountData(new AccountData
-                {
-                    userId = res.user.userId,
-                    userEmail = res.user.userEmail,
-                    userName = res.user.userName,
-                    userDob = res.user.userDob,
-                    avatarId = res.user.avatarId,
-                    accessToken = res.accessToken,
-                    refreshToken = res.refreshToken,
-                    accessTokenExpiry = expiry,
-                    attempts = new List<AttemptData>(res.attempts ?? Array.Empty<AttemptData>()),
-                    stats = res.stats,
-                    achievements = new List<AchievementData>(res.achievements ?? Array.Empty<AchievementData>())
-                });
-
-                if (autoRefreshCoroutine != null) StopCoroutine(autoRefreshCoroutine);
-                autoRefreshCoroutine = StartCoroutine(AutoRefreshCoroutine());
-
-                callback(true, null);
+                callback(false, request.error);
             }
         }
     }
+
     public void Google(string email, Action<bool, string> callback)
     {
         StartCoroutine(GoogleCoroutine(email, callback));
@@ -108,62 +135,76 @@ public class AuthManager : MonoBehaviour
 
             yield return request.SendWebRequest();
 
-            if (request.result == UnityWebRequest.Result.ConnectionError ||
-                request.result == UnityWebRequest.Result.ProtocolError)
+            if (request.result == UnityWebRequest.Result.Success)
             {
-                callback(false, request.error);
+                ProcessSuccessfulLogin(request.downloadHandler.text);
+                callback(true, null);
             }
             else
             {
-                var res = JsonUtility.FromJson<LoginResponse>(request.downloadHandler.text);
-                DateTime expiry = DateTime.UtcNow.AddHours(1);
+                callback(false, request.error);
+            }
+        }
+    }
 
-                AccountManager.Instance.SetAccountData(new AccountData
-                {
-                    userId = res.user.userId,
-                    userEmail = res.user.userEmail,
-                    userName = res.user.userName,
-                    userDob = res.user.userDob,
-                    avatarId = res.user.avatarId,
-                    accessToken = res.accessToken,
-                    refreshToken = res.refreshToken,
-                    accessTokenExpiry = expiry,
-                    attempts = new List<AttemptData>(res.attempts ?? Array.Empty<AttemptData>()),
-                    stats = res.stats,
-                    achievements = new List<AchievementData>(res.achievements ?? Array.Empty<AchievementData>())
-                });
+    // --- NEW: Fetch Data using Token ---
+    public IEnumerator FetchUserData(Action<bool, string> callback)
+    {
+        string token = AccountManager.Instance.CurrentAccount.accessToken;
 
-                if (autoRefreshCoroutine != null) StopCoroutine(autoRefreshCoroutine);
-                autoRefreshCoroutine = StartCoroutine(AutoRefreshCoroutine());
+        // IMPORTANT: Ensure this endpoint exists on your backend!
+        using (UnityWebRequest request = UnityWebRequest.Get($"{BaseUrl}/profile"))
+        {
+            request.SetRequestHeader("Authorization", "Bearer " + token);
+            request.SetRequestHeader("Content-Type", "application/json");
 
+            yield return request.SendWebRequest();
+
+            if (request.result == UnityWebRequest.Result.Success)
+            {
+                // We use the same parsing logic as Login because the structure is the same
+                ProcessSuccessfulLogin(request.downloadHandler.text);
                 callback(true, null);
             }
-        }
-    }
-
-    private IEnumerator AutoRefreshCoroutine()
-    {
-        while (AccountManager.Instance.IsLoggedIn())
-        {
-            var acc = AccountManager.Instance.CurrentAccount;
-            float secondsToExpiry = (float)(acc.accessTokenExpiry - DateTime.UtcNow).TotalSeconds;
-
-            if (secondsToExpiry > 60)
-                yield return new WaitForSeconds(secondsToExpiry - 60);
-
-            bool success = false;
-            string error = null;
-            yield return RefreshToken((s, e) => { success = s; error = e; });
-
-            if (!success)
+            else
             {
-                Debug.LogWarning("Auto-refresh failed: " + error);
-                AccountManager.Instance.ClearAccountData();
-                yield break;
+                // If fetch fails (e.g. 401 Unauthorized), the token is bad
+                if (request.responseCode == 401) AccountManager.Instance.ClearAccountData();
+                callback(false, request.error);
             }
         }
     }
 
+    // Helper to reduce code duplication between Login, Google, and Fetch
+    private void ProcessSuccessfulLogin(string jsonResponse)
+    {
+        var res = JsonUtility.FromJson<LoginResponse>(jsonResponse);
+
+        // If the fetch didn't return a new token, use the existing one
+        string accessTok = string.IsNullOrEmpty(res.accessToken) ? AccountManager.Instance.CurrentAccount.accessToken : res.accessToken;
+        string refreshTok = string.IsNullOrEmpty(res.refreshToken) ? AccountManager.Instance.CurrentAccount.refreshToken : res.refreshToken;
+        DateTime expiry = DateTime.UtcNow.AddHours(1);
+
+        AccountManager.Instance.SetAccountData(new AccountData
+        {
+            userId = res.user.userId,
+            userEmail = res.user.userEmail,
+            userName = res.user.userName,
+            userDob = res.user.userDob,
+            avatarId = res.user.avatarId,
+            accessToken = accessTok,
+            refreshToken = refreshTok,
+            accessTokenExpiry = expiry,
+            attempts = new List<AttemptData>(res.attempts ?? Array.Empty<AttemptData>()),
+            stats = res.stats,
+            achievements = new List<AchievementData>(res.achievements ?? Array.Empty<AchievementData>())
+        });
+
+        if (autoRefreshCoroutine != null) StopCoroutine(autoRefreshCoroutine);
+        autoRefreshCoroutine = StartCoroutine(AutoRefreshCoroutine());
+    }
+
+    // --- REFRESH LOGIC ---
     public IEnumerator RefreshToken(Action<bool, string> callback)
     {
         var acc = AccountManager.Instance.CurrentAccount;
@@ -184,24 +225,47 @@ public class AuthManager : MonoBehaviour
 
             yield return request.SendWebRequest();
 
-            if (request.result == UnityWebRequest.Result.ConnectionError ||
-                request.result == UnityWebRequest.Result.ProtocolError)
+            if (request.result == UnityWebRequest.Result.Success)
             {
-                callback(false, request.error);
+                var tokenWrapper = JsonUtility.FromJson<AccessTokenOnly>(request.downloadHandler.text);
+
+                // Update Tokens in Memory and Disk
+                AccountManager.Instance.UpdateTokens(
+                    tokenWrapper.accessToken,
+                    acc.refreshToken, // Keep old refresh token
+                    DateTime.UtcNow.AddHours(1)
+                );
+
+                callback(true, null);
             }
             else
             {
-                // refresh endpoint only returns accessToken
-                var tokenWrapper = JsonUtility.FromJson<AccessTokenOnly>(request.downloadHandler.text);
-                acc.accessToken = tokenWrapper.accessToken;
-                acc.accessTokenExpiry = DateTime.UtcNow.AddHours(1);
-                AccountManager.Instance.SetAccountData(acc);
-                callback(true, null);
+                callback(false, request.error);
             }
         }
     }
 
-    
+    private IEnumerator AutoRefreshCoroutine()
+    {
+        while (AccountManager.Instance.HasTokens())
+        {
+            var acc = AccountManager.Instance.CurrentAccount;
+            float secondsToExpiry = (float)(acc.accessTokenExpiry - DateTime.UtcNow).TotalSeconds;
+
+            if (secondsToExpiry > 60)
+                yield return new WaitForSeconds(secondsToExpiry - 60);
+
+            bool success = false;
+            yield return RefreshToken((s, e) => { success = s; });
+
+            if (!success)
+            {
+                Debug.LogWarning("Auto-refresh failed. Clearing session.");
+                AccountManager.Instance.ClearAccountData();
+                yield break;
+            }
+        }
+    }
 
     public void Logout(Action<bool, string> callback)
     {
@@ -212,9 +276,11 @@ public class AuthManager : MonoBehaviour
     private IEnumerator LogoutCoroutine(Action<bool, string> callback)
     {
         var acc = AccountManager.Instance.CurrentAccount;
-        if (acc == null || string.IsNullOrEmpty(acc.refreshToken))
+        // Even if no user is logged in, we clear local data
+        if (acc == null)
         {
-            callback(false, "No user logged in");
+            AccountManager.Instance.ClearAccountData();
+            callback(true, null);
             yield break;
         }
 
@@ -229,16 +295,21 @@ public class AuthManager : MonoBehaviour
 
             yield return request.SendWebRequest();
 
-            if (request.result == UnityWebRequest.Result.ConnectionError ||
-                request.result == UnityWebRequest.Result.ProtocolError)
+            // Clear local data regardless of server response
+            AccountManager.Instance.ClearAccountData();
+            try
             {
-                callback(false, request.error);
+                GoogleSignIn.DefaultInstance.SignOut();
+
+            }catch(Exception e)
+            {
+                Debug.LogWarning("Google SignOut failed: " + e.Message);
             }
-            else
-            {
-                AccountManager.Instance.ClearAccountData();
+
+            if (request.result == UnityWebRequest.Result.Success)
                 callback(true, null);
-            }
+            else
+                callback(false, request.error);
         }
     }
 }
