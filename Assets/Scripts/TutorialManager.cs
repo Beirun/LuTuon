@@ -109,7 +109,7 @@ public class TutorialManager : MonoBehaviour
 
         string foodId = this.foodId;   
         int points = 100;
-        string type = "tutorial";
+        string type = "Tutorial";
 
         attemptManager.SendAttempt(foodId, points, type);
         endManager.OpenDialog("EndGame");
