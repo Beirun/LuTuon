@@ -6,6 +6,7 @@ public class ImageEntranceAnimator : MonoBehaviour
     [Header("UI Elements to Animate")]
     [SerializeField] private RectTransform imageRectTransform; // Assign the RectTransform of the image
     [SerializeField] private RectTransform buttonRectTransform; // Assign the RectTransform of the button
+    [SerializeField] private CanvasGroup textCanvasGroup; // Assign the RectTransform of the button
     [SerializeField] private CanvasGroup buttonCanvasGroup; // Assign the CanvasGroup of the button (for fading)
 
     [Header("Animation Settings - Image")]
@@ -23,7 +24,7 @@ public class ImageEntranceAnimator : MonoBehaviour
         // Start the image animation immediately
         if (imageRectTransform != null)
         {
-            StartCoroutine(MoveRectTransformUpward(imageRectTransform, imageMoveDistance, imageMoveDuration, 0f, null)); // No delay for image, no CanvasGroup
+            StartCoroutine(MoveRectTransformUpward(imageRectTransform, imageMoveDistance, imageMoveDuration, 0f, null, null)); // No delay for image, no CanvasGroup
         }
         else
         {
@@ -38,7 +39,11 @@ public class ImageEntranceAnimator : MonoBehaviour
             {
                 buttonCanvasGroup.alpha = 0f;
             }
-            StartCoroutine(MoveRectTransformUpward(buttonRectTransform, buttonMoveDistance, buttonMoveDuration, buttonDelay, buttonCanvasGroup));
+            if(textCanvasGroup != null)
+            {
+                textCanvasGroup.alpha = 0f;
+            }
+            StartCoroutine(MoveRectTransformUpward(buttonRectTransform, buttonMoveDistance, buttonMoveDuration, buttonDelay, buttonCanvasGroup, textCanvasGroup));
         }
         else
         {
@@ -54,7 +59,7 @@ public class ImageEntranceAnimator : MonoBehaviour
     /// <param name="duration">The duration of the animation in seconds.</param>
     /// <param name="delay">Optional: Delay before starting the animation.</param>
     /// <param name="canvasGroup">Optional: CanvasGroup for fading the element. If null, no fade occurs.</param>
-    private IEnumerator MoveRectTransformUpward(RectTransform rectTransform, float moveDistance, float duration, float delay, CanvasGroup canvasGroup)
+    private IEnumerator MoveRectTransformUpward(RectTransform rectTransform, float moveDistance, float duration, float delay, CanvasGroup canvasGroup, CanvasGroup textCanvas)
     {
         if (delay > 0)
         {
@@ -86,6 +91,31 @@ public class ImageEntranceAnimator : MonoBehaviour
         rectTransform.anchoredPosition = endPos;
 
         // Ensure final alpha is 1 if fading
+        if (canvasGroup != null && buttonFadeIn)
+        {
+            canvasGroup.alpha = 1f;
+        }
+        yield return FadeText(textCanvas);
+    }
+
+    private IEnumerator FadeText(CanvasGroup canvasGroup)
+    {
+        float timer = 0f;
+        float duration = 0.5f;
+
+        while (timer < duration)
+        {
+            timer += Time.deltaTime;
+            float t = timer / duration; // Normalized time (0 to 1)
+
+            // Animate alpha if CanvasGroup is provided and fading is enabled for button
+            if (canvasGroup != null && buttonFadeIn)
+            {
+                canvasGroup.alpha = Mathf.Lerp(0f, 1f, t);
+            }
+
+            yield return null; // Wait for the next frame
+        }
         if (canvasGroup != null && buttonFadeIn)
         {
             canvasGroup.alpha = 1f;
