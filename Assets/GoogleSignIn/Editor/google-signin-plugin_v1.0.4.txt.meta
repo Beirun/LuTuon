@@ -3,8 +3,7 @@ guid: a67d5f0cfc09749e6b1ce13e8b8e6e1d
 labels:
 - gvh
 - gvh_manifest
-timeCreated: 1508953127
-licenseType: Free
+- gvh_version-1.0.4
 TextScriptImporter:
   externalObjects: {}
   userData: 
