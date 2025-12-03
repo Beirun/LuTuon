@@ -32,6 +32,7 @@ public class LoginButtonController : MonoBehaviour
         if (buttonText != null)
             buttonText.text = loggedIn ? "Play" : "Login";
 
+
         myButton.onClick.RemoveAllListeners();
 
         if (loggedIn)
