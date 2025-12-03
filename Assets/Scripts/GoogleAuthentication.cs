@@ -1,19 +1,20 @@
+using Google;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using TMPro;
-using UnityEngine.UI;
-using Google;
 using System.Threading.Tasks;
-using UnityEngine.Networking;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
 
 public class GoogleAuthentication : MonoBehaviour
 {
     private GoogleSignInConfiguration configuration;
-    public string webClientId = "911883016735-e40ase5r6ufitng11ku8uofoagg01032.apps.googleusercontent.com";
+    private string webClientId = "911883016735-9or0d1speu4llgcijd2ti0o2pfgb9pe6.apps.googleusercontent.com";
     [SerializeField] AuthManager authManager;
     [SerializeField] DialogManager dialogManager;
     [SerializeField] LoginButtonController loginButtonController; // drag in Inspector
+    [SerializeField] MessageManager messageManager;
+    public Button loginButton;
 
 
 
@@ -33,6 +34,9 @@ public class GoogleAuthentication : MonoBehaviour
         GoogleSignIn.Configuration = configuration;
         GoogleSignIn.DefaultInstance.SignIn().ContinueWith(
             OnAuthenticationFinished, TaskScheduler.Default);
+
+
+
     }
 
     internal void OnAuthenticationFinished(Task<GoogleSignInUser> task)
@@ -66,10 +70,15 @@ public class GoogleAuthentication : MonoBehaviour
                 {
                     Debug.Log("Google Login successful!");
                     dialogManager.CloseDialog("LoginDialog");
+                    messageManager.ShowMessage("Login successful");
                     loginButtonController.Refresh();
                 }
                 else
+                {
                     Debug.LogError("Google Login failed: " + error);
+                    messageManager.ShowMessage("Email has not been registered yet");
+                    OnSignOut();
+                }
             });
         }
     }
