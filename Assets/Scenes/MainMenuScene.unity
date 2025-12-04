@@ -7215,7 +7215,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ca1683938804f94b8bae076ec90ce42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  messageManager: {fileID: 0}
 --- !u!1 &298549549
 GameObject:
   m_ObjectHideFlags: 0
@@ -33429,7 +33428,7 @@ MonoBehaviour:
   canvasGroup: {fileID: 1833128238}
   messageText: {fileID: 1984039613}
   fadeInTime: 0.5
-  stayTime: 2
+  stayTime: 1
   fadeOutTime: 0.5
   startOffsetY: -100
   endOffsetY: 100
