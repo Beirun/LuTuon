@@ -93,8 +93,6 @@ public class MessageManager : MonoBehaviour
         canvasGroup.alpha = 0f;
         canvasGroup.blocksRaycasts = false;
 
-        // NEW: Disable the object completely to save performance
-        uiTransform.gameObject.SetActive(false);
     }
 
     private float EaseOutBack(float x)
