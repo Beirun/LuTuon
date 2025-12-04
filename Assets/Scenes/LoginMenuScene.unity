@@ -239,7 +239,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &245783351
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2307,6 +2307,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myButton: {fileID: 0}
   buttonText: {fileID: 1377918912}
+  emailText: {fileID: 1383600230}
   dialogManager: {fileID: 1929498218}
 --- !u!1 &1019578216
 GameObject:
@@ -2512,7 +2513,7 @@ MonoBehaviour:
   canvasGroup: {fileID: 1027375475}
   messageText: {fileID: 792745344}
   fadeInTime: 0.5
-  stayTime: 2
+  stayTime: 1
   fadeOutTime: 0.5
   startOffsetY: -100
   endOffsetY: 100
@@ -3518,7 +3519,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 42.09578}
+  m_AnchoredPosition: {x: 0, y: 42.095825}
   m_SizeDelta: {x: 500, y: 50}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!225 &1383600229
