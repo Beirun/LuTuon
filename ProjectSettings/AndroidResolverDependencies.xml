@@ -1,6 +1,5 @@
 <dependencies>
   <packages>
-    <package>com.google.android.gms:play-services-auth:16+</package>
     <package>com.google.signin:google-signin-support:1.0.4</package>
   </packages>
   <files>
