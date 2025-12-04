@@ -6,6 +6,7 @@ public class LoginButtonController : MonoBehaviour
 {
     [SerializeField] Button myButton;
     [SerializeField] TMP_Text buttonText; // assign the Button's Text in the Inspector
+    [SerializeField] TMP_Text emailText; // assign the Button's Text in the Inspector
     [SerializeField] DialogManager dialogManager;
 
     private void Start()
@@ -31,7 +32,12 @@ public class LoginButtonController : MonoBehaviour
         bool loggedIn = AccountManager.Instance != null && AccountManager.Instance.IsLoggedIn();
         if (buttonText != null)
             buttonText.text = loggedIn ? "Play" : "Login";
-
+        if (emailText != null)
+        {
+            var acc = AccountManager.Instance.CurrentAccount;
+            emailText.text = acc != null ? acc.userEmail : "";
+            Debug.LogWarning("test");
+        }
 
         myButton.onClick.RemoveAllListeners();
 
