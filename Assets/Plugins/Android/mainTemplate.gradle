@@ -6,6 +6,9 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation (name:'google-signin-support-1.0.4', ext:'aar')
+// Android Resolver Dependencies Start
+    implementation 'com.google.android.gms:play-services-auth:16+' // Assets/GoogleSignIn/Editor/GoogleSignInDependencies.xml:10
+// Android Resolver Dependencies End
 **DEPS**}
 
 // Android Resolver Exclusions Start
