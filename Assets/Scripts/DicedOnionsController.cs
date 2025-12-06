@@ -7,7 +7,7 @@ public class DicedOnionsController : DragController
     public override void EndDrag()
     {
         base.EndDrag();
-        if (highlighted != null && !lid.isClose)
+        if (highlighted != null && (lid == null || !lid.isClose))
         {
             Vector3 targetPos = highlighted.transform.position + new Vector3(0f, 0.125f, 0f);
             StartCoroutine(AnimatePlacement(targetPos, transform.rotation, 0.5f));
