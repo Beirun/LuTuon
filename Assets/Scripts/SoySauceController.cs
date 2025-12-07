@@ -97,15 +97,18 @@ public class SoySauceController : DragController
 
         yield return StartCoroutine(AnimateWaterLevel(targetWaterLevelY, 0.75f));
     }
-
+    float GetLuminance(Color c)
+    {
+        return 0.299f * c.r + 0.587f * c.g + 0.114f * c.b;
+    }
     IEnumerator AnimateWaterLevel(float targetPosY, float duration)
     {
-        bool isWaterActive = water.activeInHierarchy;
         water.SetActive(true);
         Vector3 pwStartPos = pouringWater.transform.position;
         pouringWater.transform.position += new Vector3(-0.325f, 0.5f, 0f);
 
         Vector3 fromPos = water.transform.position;
+        if(fromPos.y > targetPosY) targetPosY = fromPos.y;
         Vector3 toPos = new Vector3(fromPos.x, targetPosY, fromPos.z);
 
         // Capture current material colors
@@ -127,42 +130,48 @@ public class SoySauceController : DragController
         while (elapsed < duration)
         {
             float t = elapsed / duration;
-            // Smooth step for movement
             float smoothT = t * t * (3f - 2f * t);
 
-            // 1. Handle Movement
             if (water.transform.position.y < 1f)
             {
                 water.transform.position = Vector3.Lerp(fromPos, toPos, smoothT);
             }
 
-            // 2. Handle Color Logic
-            // Calculate a specific 't' for color based on your condition
-            float colorT = smoothT;
-
-            // If we are above the threshold, cap the interpolation at 1/3 (0.33f)
-            if (water.transform.position.y > 1f)
+            float baseT = smoothT;
+            for (int i = 0; i < mainWaterMats.Count; i++)
             {
-                // We map the 0-1 range to 0-0.33 range
-                colorT = smoothT * 0.23f;
-            }else if (isWaterActive)
-            {
-                colorT = smoothT * 0.73f;
+                Material m = mainWaterMats[i];
+                Color start = startColors[i];
 
-            }
+                float lum = GetLuminance(start);
 
-                for (int i = 0; i < count; i++)
+                bool nearWhite = lum > 0.85f;
+                bool nearBlack = lum < 0.15f;
+
+
+                if (nearWhite)
                 {
-                    Material m = mainWaterMats[i];
-
-                    // Use colorT instead of t or smoothT here
-                    Color c = Color.Lerp(startColors[i], pouringColor, colorT);
-
-                    if (m.HasProperty("_BaseColor"))
-                        m.SetColor("_BaseColor", c);
-                    else if (m.HasProperty("_Color"))
-                        m.SetColor("_Color", c);
+                    baseT = smoothT * 0.83f;
+                    if(water.transform.position.y > 1.1f)
+                    {
+                        baseT = smoothT * 0.1f;
+                    }
                 }
+                else if (nearBlack)
+                {
+                    baseT = smoothT * 0.23f;
+                }
+
+                if (!nearWhite && !nearBlack)
+                    baseT = smoothT;
+
+                Color c = Color.Lerp(start, pouringColor, baseT);
+
+                if (m.HasProperty("_BaseColor"))
+                    m.SetColor("_BaseColor", c);
+                else if (m.HasProperty("_Color"))
+                    m.SetColor("_Color", c);
+            }
 
             elapsed += Time.deltaTime;
             yield return null;
