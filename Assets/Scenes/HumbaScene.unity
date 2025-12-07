@@ -38692,7 +38692,7 @@ MonoBehaviour:
   isFinished: 0
   water: {fileID: 1081484678}
   pouringWater: {fileID: 1144921405}
-  pouringColor: {r: 0.7735849, g: 0.7735849, b: 0.7735849, a: 0.2}
+  pouringColor: {r: 0.7735849, g: 0.7735849, b: 0.7735849, a: 0.101960786}
   targetWaterLevelY: 0.8
   lid: {fileID: 0}
 --- !u!1001 &1863499219

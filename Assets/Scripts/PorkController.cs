@@ -123,7 +123,7 @@ public class PorkController : DragController
                 rb.isKinematic = enable;
                 rb.useGravity = !enable;
 
-                StartCoroutine(DisablePhysicsAfterDelay(rb, 1f));
+                //StartCoroutine(DisablePhysicsAfterDelay(rb, 1f));
             }
             if (c.childCount > 0) EnablePhysicsOnChildren(c);
         }
