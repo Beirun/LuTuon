@@ -1,18 +1,16 @@
 fileFormatVersion: 2
 guid: 50b2e1c9319e4446e9dbd9b183790472
 labels:
+- gvh_v1.0.4
 - gvh
-- gvh_version-1.0.4
+timeCreated: 1490998272
+licenseType: Pro
 PluginImporter:
-  externalObjects: {}
-  serializedVersion: 3
+  serializedVersion: 1
   iconMap: {}
   executionOrder: {}
-  defineConstraints: []
   isPreloaded: 0
   isOverridable: 0
-  isExplicitlyReferenced: 0
-  validateReferences: 1
   platformData:
     Any:
       enabled: 0
