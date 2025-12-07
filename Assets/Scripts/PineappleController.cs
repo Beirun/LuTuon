@@ -89,16 +89,19 @@ public class PineappleController : DragController
         // You can change the target height here if you want to test the > 1f logic
         yield return StartCoroutine(AnimateWaterLevel(0.8f, 0.75f));
     }
+    float GetLuminance(Color c)
+    {
+        return 0.299f * c.r + 0.587f * c.g + 0.114f * c.b;
+    }
 
-    // --- MODIFIED COROUTINE BELOW ---
     IEnumerator AnimateWaterLevel(float targetPosY, float duration)
     {
-        bool isWaterActive = water.activeInHierarchy;
         water.SetActive(true);
         Vector3 waterStartPos = pouringWater.transform.position;
         pouringWater.transform.position += new Vector3(-0.325f, 0.5f, 0f);
 
         Vector3 fromPosition = water.transform.position;
+        if(fromPosition.y < 1f) targetPosY += 0.1f;
         Vector3 toPosition = new Vector3(fromPosition.x, targetPosY, fromPosition.z);
 
         float elapsedTime = 0f;
@@ -129,66 +132,43 @@ public class PineappleController : DragController
             float rawT = elapsedTime / duration;
             float smoothT = rawT * rawT * (3f - 2f * rawT);
 
-            // 1. Position Logic
-            // Note: logic kept to stop at 0.8f as per your original code, 
-            // but checking y < 1f as per your new request context.
             if (water.transform.position.y < 1f)
             {
                 water.transform.position = Vector3.Lerp(fromPosition, toPosition, smoothT);
             }
 
-            // 2. Color Logic
-            // Calculate the interpolation factor
-            float colorT = smoothT;
-
-            // KEY LOGIC: If water is too high, cap the color blending at 33%
-            if (isWaterActive)
-            {
-                colorT = smoothT * 0.13f;
-            }
-            else if (water.transform.position.y < 0.5f)
-            {
-                colorT = smoothT * 0.33f;
-
-            }
-
-            // Apply Color
+            float baseT = smoothT;
             for (int i = 0; i < mainWaterMats.Count; i++)
             {
                 Material m = mainWaterMats[i];
-                Color newColor = Color.Lerp(startColors[i], pouringColor, colorT);
+                Color start = startColors[i];
+
+                float lum = GetLuminance(start);
+
+                bool nearWhite = lum > 0.85f;
+                bool nearBlack = lum < 0.15f;
+
+
+                if (nearWhite) baseT = smoothT * 0.73f;
+                else if (nearBlack) baseT = smoothT * 0.05f;
+
+                if (!nearWhite && !nearBlack)
+                    baseT = smoothT;
+
+                Color c = Color.Lerp(start, pouringColor, baseT);
 
                 if (m.HasProperty("_BaseColor"))
-                    m.SetColor("_BaseColor", newColor);
+                    m.SetColor("_BaseColor", c);
                 else if (m.HasProperty("_Color"))
-                    m.SetColor("_Color", newColor);
+                    m.SetColor("_Color", c);
             }
+
+           
 
             elapsedTime += Time.deltaTime;
             yield return null;
         }
 
-        // --- FINAL STATE CHECK ---
-        // We must respect the height rule even when the animation finishes.
-        // If we just set it to 'pouringColor', it would snap from 33% to 100% instantly.
-
-        float finalColorFactor = 1.0f;
-        if (water.transform.position.y > 1f)
-        {
-            finalColorFactor = 0.13f;
-        }
-
-        for (int i = 0; i < mainWaterMats.Count; i++)
-        {
-            Material m = mainWaterMats[i];
-            // We use Lerp with finalColorFactor instead of setting directly to pouringColor
-            Color finalColor = Color.Lerp(startColors[i], pouringColor, finalColorFactor);
-
-            if (m.HasProperty("_BaseColor"))
-                m.SetColor("_BaseColor", finalColor);
-            else if (m.HasProperty("_Color"))
-                m.SetColor("_Color", finalColor);
-        }
 
         pouringWater.SetActive(false);
         pouringWater.transform.position = waterStartPos;
