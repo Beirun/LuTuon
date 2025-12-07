@@ -17153,7 +17153,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &879563550
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38692,7 +38692,7 @@ MonoBehaviour:
   isFinished: 0
   water: {fileID: 1081484678}
   pouringWater: {fileID: 1144921405}
-  pouringColor: {r: 0.7735849, g: 0.7735849, b: 0.7735849, a: 0.2}
+  pouringColor: {r: 0.7735849, g: 0.7735849, b: 0.7735849, a: 0.101960786}
   targetWaterLevelY: 0.8
   lid: {fileID: 0}
 --- !u!1001 &1863499219
