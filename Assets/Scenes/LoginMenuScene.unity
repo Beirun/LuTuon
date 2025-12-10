@@ -239,7 +239,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &245783351
 RectTransform:
   m_ObjectHideFlags: 0
@@ -424,6 +424,7 @@ MonoBehaviour:
   passwordInput: {fileID: 762852985}
   loginButton: {fileID: 1189380602}
   authManager: {fileID: 1720842371}
+  entranceAnimator: {fileID: 80173740}
   messageManager: {fileID: 1027375476}
   dialogManager: {fileID: 1929498218}
   loginButtonController: {fileID: 987318599}
@@ -797,11 +798,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b07512cd73e7f124e871a3bcb0892133, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  authManager: {fileID: 1720842371}
-  dialogManager: {fileID: 1929498218}
-  loginButtonController: {fileID: 987318599}
-  messageManager: {fileID: 1027375476}
   loginButton: {fileID: 1348479236}
+  loginButtonController: {fileID: 987318599}
+  dialogManager: {fileID: 1929498218}
+  messageManager: {fileID: 1027375476}
+  authManager: {fileID: 1720842371}
 --- !u!1 &369489654
 GameObject:
   m_ObjectHideFlags: 0

@@ -9,6 +9,7 @@ TagManager:
   - Plate
   - ChickenBowl
   - Pan
+  - EggBowl
   layers:
   - Default
   - TransparentFX
