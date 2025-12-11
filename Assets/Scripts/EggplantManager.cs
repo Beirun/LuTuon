@@ -46,12 +46,15 @@ public class EggplantManager : MonoBehaviour
 
     IEnumerator StartPeeling()
     {
+        touchManager.isPerforming = true;
+        touchManager.HideButton();
         for (int i = 0; i < peeledEggplantMaterials.Length; i++)
         {
             mesh.material = peeledEggplantMaterials[i];
             yield return new WaitForSeconds(0.5f);
         }
         touchManager.isFinished = true;
+        touchManager.isPerforming = false;
         eggplant.tag = "PeeledEggplant";
     }
 }
