@@ -1673,7 +1673,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ace6f250a1f9bc4588f7b5899ae7593, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hightlightTag: Pot
+  highlightTags:
+  - Pot
   outlineLayerName: Outline
   maxDistance: 10
   highlighted: {fileID: 0}
@@ -3170,7 +3171,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc7e134f5e2c7ac49832737e696cf6ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hightlightTag: Choppingboard
+  highlightTags:
+  - Choppingboard
   outlineLayerName: Outline
   maxDistance: 10
   highlighted: {fileID: 0}
@@ -8837,7 +8839,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b1013a70d674c64694f20f79660a4a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hightlightTag: Pot
+  highlightTags:
+  - Pot
   outlineLayerName: Outline
   maxDistance: 10
   highlighted: {fileID: 0}
@@ -15007,7 +15010,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a14b591367cd58418eefd740035867c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hightlightTag: Pot
+  highlightTags:
+  - Pot
   outlineLayerName: Outline
   maxDistance: 10
   highlighted: {fileID: 0}
@@ -21631,7 +21635,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be81574b5b329974a9df1a50ff445ff6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hightlightTag: Pot
+  highlightTags:
+  - Pot
   outlineLayerName: Outline
   maxDistance: 10
   highlighted: {fileID: 0}
@@ -31670,7 +31675,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4efd42639a04f3140b05498f35ba1733, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hightlightTag: Pot
+  highlightTags:
+  - Pot
   outlineLayerName: Outline
   maxDistance: 10
   highlighted: {fileID: 0}
@@ -33632,7 +33638,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bdda6d3bf03e4864bb4fd40f07312f11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hightlightTag: Pot
+  highlightTags:
+  - Pot
   outlineLayerName: Outline
   maxDistance: 10
   highlighted: {fileID: 0}
@@ -35912,7 +35919,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa02970d2452a1245b3e18a183aa7dea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hightlightTag: Pot
+  highlightTags:
+  - Pot
   outlineLayerName: Outline
   maxDistance: 10
   highlighted: {fileID: 0}
@@ -39994,7 +40002,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c1bed6ab961be042b6a90b8ee3a8912, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hightlightTag: Pot
+  highlightTags:
+  - Pot
   outlineLayerName: Outline
   maxDistance: 10
   highlighted: {fileID: 0}
@@ -41905,7 +41914,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afc2cee08b6f90348ae371cc2b8b3710, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hightlightTag: Pot
+  highlightTags:
+  - Pot
   outlineLayerName: Outline
   maxDistance: 10
   highlighted: {fileID: 0}
@@ -49179,7 +49189,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36af3ea61296e0e45bce34a96bccfe23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hightlightTag: Pot
+  highlightTags:
+  - Pot
   outlineLayerName: Outline
   maxDistance: 10
   highlighted: {fileID: 0}
@@ -51135,7 +51146,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c56169d42cbc84b40b45e62e76635f40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hightlightTag: Pot
+  highlightTags:
+  - Pot
   outlineLayerName: Outline
   maxDistance: 10
   highlighted: {fileID: 0}
@@ -51736,7 +51748,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 130c4fc4e9568d6459b044b845f76ddb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hightlightTag: Pot
+  highlightTags:
+  - Pot
   outlineLayerName: Outline
   maxDistance: 10
   highlighted: {fileID: 0}
@@ -52943,7 +52956,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8f634c098b80a342be391977af20909, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hightlightTag: Pot
+  highlightTags:
+  - Pot
   outlineLayerName: Outline
   maxDistance: 10
   highlighted: {fileID: 0}
@@ -53236,7 +53250,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fa5d9d3092406a42a81cbb2a9719565, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hightlightTag: Pot
+  highlightTags:
+  - Pot
   outlineLayerName: Outline
   maxDistance: 10
   highlighted: {fileID: 0}
@@ -56782,7 +56797,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4f9b237feaa1cd498cbbd31f6e854ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hightlightTag: Choppingboard
+  highlightTags:
+  - Choppingboard
   outlineLayerName: Outline
   maxDistance: 10
   highlighted: {fileID: 0}
@@ -59656,7 +59672,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41457d4b5bce8b44d80c365f1881e135, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hightlightTag: Choppingboard
+  highlightTags:
+  - Choppingboard
   outlineLayerName: Outline
   maxDistance: 10
   highlighted: {fileID: 0}
@@ -59926,7 +59943,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea58c4d962c70474caa75eea7ebd48a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hightlightTag: Choppingboard
+  highlightTags:
+  - Choppingboard
   outlineLayerName: Outline
   maxDistance: 10
   highlighted: {fileID: 0}
