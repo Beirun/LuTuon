@@ -137,8 +137,6 @@ public class TutorialManager : MonoBehaviour
 
             bool dragging = (bool)f.GetValue(e.script);
             bool finished = (bool)h.GetValue(e.script);
-            Debug.LogWarning($"Finished: {finished}");
-            Debug.LogWarning($"Dragging: {dragging}");
             if (!dragging && !finished)
             {
                 if (!blinkCoroutines.ContainsKey(e.script))
