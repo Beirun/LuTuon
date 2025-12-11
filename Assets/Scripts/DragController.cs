@@ -13,6 +13,7 @@ public class DragController : HighlightController
     public bool gravityOnEnd = false;
     public DragManager manager;
     public bool isPerforming = false;
+    public bool isDisabled = false;
 
     [Header("Animations")]
     public float returnDuration = .5f;
@@ -44,7 +45,7 @@ public class DragController : HighlightController
 
     public virtual void Update()
     {
-        if (Input.touchCount > 0 && !isInPot && (isDragging || !manager.isStillDragging) && !isPerforming)
+        if (Input.touchCount > 0 && !isInPot && (isDragging || !manager.isStillDragging) && !isPerforming && !isDisabled)
         {
             Touch touch = Input.GetTouch(0);
             switch (touch.phase)
