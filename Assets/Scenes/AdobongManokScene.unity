@@ -6879,6 +6879,7 @@ MonoBehaviour:
   gravityOnEnd: 0
   manager: {fileID: 0}
   isPerforming: 0
+  isDisabled: 0
   returnDuration: 0.5
   liftDuration: 0.25
   isDragging: 0
@@ -7000,7 +7001,7 @@ MonoBehaviour:
   - script: {fileID: 1353735036}
     activeStep: 11
     isFinishedBoolName: isFinished
-    keepEnabled: 1
+    keepEnabled: 0
   - script: {fileID: 1955525159}
     activeStep: 12
     isFinishedBoolName: isFinished
@@ -7148,6 +7149,7 @@ MonoBehaviour:
   gravityOnEnd: 0
   manager: {fileID: 0}
   isPerforming: 0
+  isDisabled: 0
   returnDuration: 0.5
   liftDuration: 0.25
   isDragging: 0
@@ -14376,6 +14378,7 @@ MonoBehaviour:
   gravityOnEnd: 0
   manager: {fileID: 0}
   isPerforming: 0
+  isDisabled: 0
   returnDuration: 0.5
   liftDuration: 0.25
   isDragging: 0
@@ -15154,6 +15157,7 @@ MonoBehaviour:
   gravityOnEnd: 0
   manager: {fileID: 0}
   isPerforming: 0
+  isDisabled: 0
   returnDuration: 0.5
   liftDuration: 0.25
   isDragging: 0
@@ -16455,6 +16459,7 @@ MonoBehaviour:
   gravityOnEnd: 0
   manager: {fileID: 0}
   isPerforming: 0
+  isDisabled: 0
   returnDuration: 0.5
   liftDuration: 0.25
   isDragging: 0
@@ -26936,6 +26941,7 @@ MonoBehaviour:
   gravityOnEnd: 0
   manager: {fileID: 0}
   isPerforming: 0
+  isDisabled: 0
   returnDuration: 0.5
   liftDuration: 0.25
   isDragging: 0
@@ -27796,6 +27802,7 @@ MonoBehaviour:
   gravityOnEnd: 0
   manager: {fileID: 0}
   isPerforming: 0
+  isDisabled: 0
   returnDuration: 0.5
   liftDuration: 0.25
   isDragging: 0
@@ -28413,6 +28420,7 @@ MonoBehaviour:
   gravityOnEnd: 0
   manager: {fileID: 0}
   isPerforming: 0
+  isDisabled: 0
   returnDuration: 0.5
   liftDuration: 0.25
   isDragging: 0
@@ -29090,6 +29098,7 @@ MonoBehaviour:
   gravityOnEnd: 0
   manager: {fileID: 0}
   isPerforming: 0
+  isDisabled: 0
   returnDuration: 0.5
   liftDuration: 0.25
   isDragging: 0
@@ -29605,6 +29614,7 @@ MonoBehaviour:
   gravityOnEnd: 0
   manager: {fileID: 0}
   isPerforming: 0
+  isDisabled: 0
   returnDuration: 1
   liftDuration: 0.25
   isDragging: 0
@@ -31265,6 +31275,7 @@ MonoBehaviour:
   gravityOnEnd: 0
   manager: {fileID: 0}
   isPerforming: 0
+  isDisabled: 0
   returnDuration: 0.75
   liftDuration: 0.25
   isDragging: 0
@@ -31689,6 +31700,7 @@ MonoBehaviour:
   gravityOnEnd: 0
   manager: {fileID: 0}
   isPerforming: 0
+  isDisabled: 0
   returnDuration: 0.5
   liftDuration: 0.25
   isDragging: 0
@@ -34581,6 +34593,7 @@ MonoBehaviour:
   gravityOnEnd: 0
   manager: {fileID: 0}
   isPerforming: 0
+  isDisabled: 0
   returnDuration: 0.5
   liftDuration: 0.25
   isDragging: 0
@@ -41594,6 +41607,7 @@ MonoBehaviour:
   gravityOnEnd: 0
   manager: {fileID: 0}
   isPerforming: 0
+  isDisabled: 0
   returnDuration: 0.5
   liftDuration: 0.25
   isDragging: 0
@@ -41988,6 +42002,7 @@ MonoBehaviour:
   gravityOnEnd: 0
   manager: {fileID: 0}
   isPerforming: 0
+  isDisabled: 0
   returnDuration: 1
   liftDuration: 0.25
   isDragging: 0
