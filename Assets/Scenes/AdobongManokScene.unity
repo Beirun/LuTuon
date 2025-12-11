@@ -6867,7 +6867,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bd8379c4edf9444d82f6ec5e68c29d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hightlightTag: Pan
+  highlightTags:
+  - Pan
   outlineLayerName: Outline
   maxDistance: 10
   highlighted: {fileID: 0}
@@ -6909,7 +6910,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &150892964
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7135,7 +7136,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5beb69819efc483458d55c8cf05f9382, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hightlightTag: Pan
+  highlightTags:
+  - Pan
   outlineLayerName: Outline
   maxDistance: 10
   highlighted: {fileID: 0}
@@ -7157,6 +7159,7 @@ MonoBehaviour:
   isFinished: 0
   ps: {fileID: 1831316096}
   ps2: {fileID: 813514685}
+  highlightOffset: {x: -1.9, y: 1.35, z: 0}
   lid: {fileID: 0}
 --- !u!1 &217809726 stripped
 GameObject:
@@ -14361,7 +14364,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b1013a70d674c64694f20f79660a4a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hightlightTag: ChickenBowl
+  highlightTags:
+  - ChickenBowl
   outlineLayerName: Outline
   maxDistance: 10
   highlighted: {fileID: 0}
@@ -15138,7 +15142,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36af3ea61296e0e45bce34a96bccfe23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hightlightTag: ChickenBowl
+  highlightTags:
+  - ChickenBowl
   outlineLayerName: Outline
   maxDistance: 10
   highlighted: {fileID: 0}
@@ -16438,7 +16443,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc7e134f5e2c7ac49832737e696cf6ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hightlightTag: Choppingboard
+  highlightTags:
+  - Choppingboard
   outlineLayerName: Outline
   maxDistance: 10
   highlighted: {fileID: 0}
@@ -26918,7 +26924,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5bd8379c4edf9444d82f6ec5e68c29d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hightlightTag: Choppingboard
+  highlightTags:
+  - Choppingboard
   outlineLayerName: Outline
   maxDistance: 10
   highlighted: {fileID: 0}
@@ -27777,7 +27784,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13f30fc591ab14d4ea6977f7dc30c4d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hightlightTag: Pan
+  highlightTags:
+  - Pan
   outlineLayerName: Outline
   maxDistance: 10
   highlighted: {fileID: 0}
@@ -28393,7 +28401,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1a14b591367cd58418eefd740035867c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hightlightTag: Pan
+  highlightTags:
+  - Pan
   outlineLayerName: Outline
   maxDistance: 10
   highlighted: {fileID: 0}
@@ -29069,7 +29078,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 130c4fc4e9568d6459b044b845f76ddb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hightlightTag: Pan
+  highlightTags:
+  - Pan
   outlineLayerName: Outline
   maxDistance: 10
   highlighted: {fileID: 0}
@@ -29583,7 +29593,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4f9b237feaa1cd498cbbd31f6e854ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hightlightTag: Choppingboard
+  highlightTags:
+  - Choppingboard
   outlineLayerName: Outline
   maxDistance: 10
   highlighted: {fileID: 0}
@@ -31242,7 +31253,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afc2cee08b6f90348ae371cc2b8b3710, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hightlightTag: Pan
+  highlightTags:
+  - Pan
   outlineLayerName: Outline
   maxDistance: 10
   highlighted: {fileID: 0}
@@ -31665,7 +31677,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2a61b87e98d9894d82d0057ca779923, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hightlightTag: Pan
+  highlightTags:
+  - Pan
   outlineLayerName: Outline
   maxDistance: 10
   highlighted: {fileID: 0}
@@ -34556,7 +34569,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4efd42639a04f3140b05498f35ba1733, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hightlightTag: Pan
+  highlightTags:
+  - Pan
   outlineLayerName: Outline
   maxDistance: 10
   highlighted: {fileID: 0}
@@ -34597,7 +34611,7 @@ Transform:
   m_GameObject: {fileID: 1620777523}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 3.865, y: 0.318, z: 0.163}
+  m_LocalPosition: {x: 3.865, y: 0.318, z: 0.049}
   m_LocalScale: {x: 1.21, y: 1.21, z: 1.21}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -41568,7 +41582,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e10cf02f3f88a9348852042d1fdfd373, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hightlightTag: Pan
+  highlightTags:
+  - Pan
   outlineLayerName: Outline
   maxDistance: 10
   highlighted: {fileID: 0}
@@ -41961,7 +41976,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c1bed6ab961be042b6a90b8ee3a8912, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hightlightTag: Pot
+  highlightTags:
+  - Pan
   outlineLayerName: Outline
   maxDistance: 10
   highlighted: {fileID: 0}
