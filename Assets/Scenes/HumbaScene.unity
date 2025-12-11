@@ -10814,7 +10814,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36af3ea61296e0e45bce34a96bccfe23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hightlightTag: Pan
+  highlightTags:
+  - Choppingboard
   outlineLayerName: Outline
   maxDistance: 10
   highlighted: {fileID: 0}
@@ -11054,7 +11055,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 130c4fc4e9568d6459b044b845f76ddb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hightlightTag: Pan
+  highlightTags:
+  - Choppingboard
   outlineLayerName: Outline
   maxDistance: 10
   highlighted: {fileID: 0}
@@ -11206,7 +11208,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc7e134f5e2c7ac49832737e696cf6ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hightlightTag: Choppingboard
+  highlightTags:
+  - Choppingboard
   outlineLayerName: Outline
   maxDistance: 10
   highlighted: {fileID: 0}
@@ -11784,118 +11787,6 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -362046790695249943, guid: b286b2d6205842046a6b9ce11390a340, type: 3}
---- !u!1001 &470527395
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: -8679921383154817045, guid: 03100e864e058654fb30bfc3f7399dc1, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 03100e864e058654fb30bfc3f7399dc1, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 03100e864e058654fb30bfc3f7399dc1, type: 3}
-      propertyPath: m_LocalScale.z
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 03100e864e058654fb30bfc3f7399dc1, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.07
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 03100e864e058654fb30bfc3f7399dc1, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1.446
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 03100e864e058654fb30bfc3f7399dc1, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 3.4870117
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 03100e864e058654fb30bfc3f7399dc1, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 03100e864e058654fb30bfc3f7399dc1, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 03100e864e058654fb30bfc3f7399dc1, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 03100e864e058654fb30bfc3f7399dc1, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 03100e864e058654fb30bfc3f7399dc1, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 03100e864e058654fb30bfc3f7399dc1, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -8679921383154817045, guid: 03100e864e058654fb30bfc3f7399dc1, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: -7483246535803693235, guid: 03100e864e058654fb30bfc3f7399dc1, type: 3}
-      propertyPath: m_Materials.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -7483246535803693235, guid: 03100e864e058654fb30bfc3f7399dc1, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 761dc950745382a4f85782411753db67, type: 2}
-    - target: {fileID: -7483246535803693235, guid: 03100e864e058654fb30bfc3f7399dc1, type: 3}
-      propertyPath: 'm_Materials.Array.data[1]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 45d70d6eee7784e4db0fd465f12792e2, type: 2}
-    - target: {fileID: -4128898617204176409, guid: 03100e864e058654fb30bfc3f7399dc1, type: 3}
-      propertyPath: 'm_Materials.Array.data[0]'
-      value: 
-      objectReference: {fileID: 2100000, guid: 761dc950745382a4f85782411753db67, type: 2}
-    - target: {fileID: -2006245496401310365, guid: 03100e864e058654fb30bfc3f7399dc1, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.825
-      objectReference: {fileID: 0}
-    - target: {fileID: -2006245496401310365, guid: 03100e864e058654fb30bfc3f7399dc1, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.2519886
-      objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: 03100e864e058654fb30bfc3f7399dc1, type: 3}
-      propertyPath: m_Name
-      value: pot
-      objectReference: {fileID: 0}
-    - target: {fileID: 919132149155446097, guid: 03100e864e058654fb30bfc3f7399dc1, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4375277187236221422, guid: 03100e864e058654fb30bfc3f7399dc1, type: 3}
-      propertyPath: m_Layer
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4375277187236221422, guid: 03100e864e058654fb30bfc3f7399dc1, type: 3}
-      propertyPath: m_TagString
-      value: Highlightable
-      objectReference: {fileID: 0}
-    - target: {fileID: 8520451096756400487, guid: 03100e864e058654fb30bfc3f7399dc1, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects:
-    - {fileID: 6966158573820801410, guid: 03100e864e058654fb30bfc3f7399dc1, type: 3}
-    - {fileID: -3456402307994059679, guid: 03100e864e058654fb30bfc3f7399dc1, type: 3}
-    - {fileID: 4375277187236221422, guid: 03100e864e058654fb30bfc3f7399dc1, type: 3}
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 03100e864e058654fb30bfc3f7399dc1, type: 3}
 --- !u!1001 &474268105
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16361,7 +16252,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ace6f250a1f9bc4588f7b5899ae7593, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hightlightTag: Pan
+  highlightTags:
+  - Choppingboard
   outlineLayerName: Outline
   maxDistance: 10
   highlighted: {fileID: 0}
@@ -17773,7 +17665,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aca512666bedf4443816c9317fcc2ee7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hightlightTag: Pan
+  highlightTags:
+  - Choppingboard
   outlineLayerName: Outline
   maxDistance: 10
   highlighted: {fileID: 0}
@@ -18659,7 +18552,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c1bed6ab961be042b6a90b8ee3a8912, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hightlightTag: Pan
+  highlightTags:
+  - Choppingboard
   outlineLayerName: Outline
   maxDistance: 10
   highlighted: {fileID: 0}
@@ -18877,7 +18771,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e10cf02f3f88a9348852042d1fdfd373, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hightlightTag: Pan
+  highlightTags:
+  - Choppingboard
   outlineLayerName: Outline
   maxDistance: 10
   highlighted: {fileID: 0}
@@ -24594,7 +24489,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13f30fc591ab14d4ea6977f7dc30c4d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hightlightTag: Pan
+  highlightTags:
+  - Choppingboard
   outlineLayerName: Outline
   maxDistance: 10
   highlighted: {fileID: 0}
@@ -27367,7 +27263,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ecb10255b667b34fb95f03fcb1deeb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hightlightTag: Pan
+  highlightTags:
+  - Choppingboard
   outlineLayerName: Outline
   maxDistance: 10
   highlighted: {fileID: 0}
@@ -28098,7 +27995,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c3965141de8d3646ae3e0f1a29dd806, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hightlightTag: Pan
+  highlightTags:
+  - Choppingboard
   outlineLayerName: Outline
   maxDistance: 10
   highlighted: {fileID: 0}
@@ -31437,7 +31335,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4f9b237feaa1cd498cbbd31f6e854ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hightlightTag: Choppingboard
+  highlightTags:
+  - Choppingboard
   outlineLayerName: Outline
   maxDistance: 10
   highlighted: {fileID: 0}
@@ -36878,7 +36777,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41457d4b5bce8b44d80c365f1881e135, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hightlightTag: Choppingboard
+  highlightTags:
+  - Choppingboard
   outlineLayerName: Outline
   maxDistance: 10
   highlighted: {fileID: 0}
@@ -37263,7 +37163,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2a61b87e98d9894d82d0057ca779923, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hightlightTag: Pan
+  highlightTags:
+  - Choppingboard
   outlineLayerName: Outline
   maxDistance: 10
   highlighted: {fileID: 0}
@@ -44502,7 +44403,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b1013a70d674c64694f20f79660a4a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hightlightTag: Pan
+  highlightTags:
+  - Pan
   outlineLayerName: Outline
   maxDistance: 10
   highlighted: {fileID: 0}
@@ -49662,7 +49564,6 @@ SceneRoots:
   - {fileID: 1638283774}
   - {fileID: 62579791}
   - {fileID: 543450651942269505}
-  - {fileID: 470527395}
   - {fileID: 325171861}
   - {fileID: 147480842}
   - {fileID: 1220198787}
