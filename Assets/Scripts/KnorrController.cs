@@ -98,6 +98,8 @@ public class KnorrController : DragController
         }
         isPerforming = false;
         this.isDragging = false;
+        yield return StartCoroutine(FadeOutAfterDelay(2f, 3f));
+        isFinished = true;
     }
 
     void EnablePhysicsOnChildren(Transform p)
@@ -176,7 +178,7 @@ public class KnorrController : DragController
             yield return null;
         }
 
-        gameObject.SetActive(false); // Optionally deactivate after fadeout
+        gameObject.SetActive(false); 
     }
 
 
