@@ -23,6 +23,7 @@ public class EggplantController : DragController
         }
         ClearHighlight();
     }
+    
 
     IEnumerator AnimatePlacement(Vector3 targetPos, Quaternion targetRot, float duration)
     {

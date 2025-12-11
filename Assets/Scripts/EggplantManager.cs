@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class EggplantManager : MonoBehaviour
 {
+    public bool isFinished = false;
     bool isModified = false;
     public EggplantController controller;
     public ForkController forkController;
@@ -38,6 +39,7 @@ public class EggplantManager : MonoBehaviour
         controller.startRot = controller.transform.rotation;
         controller.isPlaced = false;
         controller.enabled = true;
+        isFinished = true;  
     }
     public void Peel()
     {
