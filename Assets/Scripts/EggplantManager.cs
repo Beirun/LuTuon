@@ -1,0 +1,57 @@
+using System.Collections;
+using System.Linq;
+using UnityEngine;
+
+public class EggplantManager : MonoBehaviour
+{
+    bool isModified = false;
+    public EggplantController controller;
+    public ForkController forkController;
+    public GameObject eggplant;
+    [Header("Eggplant Texture")]
+    public Material[] peeledEggplantMaterials;
+    public Material cookedEggPlantMaterial;
+    public MeshRenderer mesh;
+
+    public EggplantTouchManager touchManager;
+ 
+
+    void Update()
+    {
+        if(controller.isPlaced && !isModified)
+        {
+            controller.enabled = false;
+            StartCoroutine(ChangeMaterial());
+        }
+
+    }
+    IEnumerator ChangeMaterial()
+    {
+        isModified = true;
+        yield return new WaitForSeconds(5f);
+        mesh.material = cookedEggPlantMaterial;
+        controller.newTargetPos = new Vector3(-2.894f, 0.362f, 0.628f);
+        controller.highlightTags.Remove("Grill");
+        controller.highlightTags.Add("EggplantPlate");
+
+        controller.startPos = controller.transform.position;
+        controller.startRot = controller.transform.rotation;
+        controller.isPlaced = false;
+        controller.enabled = true;
+    }
+    public void Peel()
+    {
+        StartCoroutine(StartPeeling());
+    }
+
+    IEnumerator StartPeeling()
+    {
+        for (int i = 0; i < peeledEggplantMaterials.Length; i++)
+        {
+            mesh.material = peeledEggplantMaterials[i];
+            yield return new WaitForSeconds(0.5f);
+        }
+        touchManager.isFinished = true;
+        eggplant.tag = "PeeledEggplant";
+    }
+}

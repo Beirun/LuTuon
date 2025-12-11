@@ -7,14 +7,20 @@ public class SaltController : DragController
 
     public ParticleSystem ps;
     public ParticleSystem ps2;
+
+
+    [Header("Other")]
+    public Vector3 highlightOffset = new Vector3(-1.9f, 1.35f, 0f);
     public LidController lid;
+
+
 
     public override void EndDrag()
     {
         base.EndDrag();
         if (highlighted != null && (lid == null || !lid.isClose))
         {
-            Vector3 target = highlighted.transform.position + new Vector3(-1.9f, 1.35f, 0f);
+            Vector3 target = highlighted.transform.position + highlightOffset;
             Quaternion targetRot = Quaternion.Euler(-25f, 0f, -90f);
             StartCoroutine(MoveThenAnimate(target, targetRot, 0.5f));
         }

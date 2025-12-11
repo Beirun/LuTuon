@@ -10,6 +10,13 @@ TagManager:
   - ChickenBowl
   - Pan
   - EggBowl
+  - Grill
+  - EggplantPlate
+  - Eggplant
+  - PeeledEggplant
+  - Bowl
+  - Forkify
+  - ScrambledEggBowl
   layers:
   - Default
   - TransparentFX
