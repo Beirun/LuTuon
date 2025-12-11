@@ -151,7 +151,7 @@ public class SoySauceController : DragController
 
                 if (nearWhite)
                 {
-                    baseT = smoothT * 0.83f;
+                    baseT = smoothT * 0.93f;
                     if(water.transform.position.y > 1.1f)
                     {
                         baseT = smoothT * 0.1f;
