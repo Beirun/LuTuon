@@ -2,23 +2,25 @@ using UnityEngine;
 
 public class ForkHighlightManager : MonoBehaviour
 {
-    public GameObject Eggplant;
-    public GameObject Bowl;
     public TutorialManager TutorialManager;
+    public ForkController forkController;
+    bool hasRemovedEggplantTag = false;
+    bool hasRemovedBowlTag = false;
     public string EggplantHighlightTag = "Untagged";
     public string BowlHighlightTag = "Untagged";
 
     void Update()
     {
-        if(TutorialManager.stepIndex == 8)
+        if(TutorialManager.stepIndex == 8 && !hasRemovedEggplantTag)
         {
-            EggplantHighlightTag = Eggplant.tag;
-            Eggplant.tag = "Untagged";
-
-        }else if(TutorialManager.stepIndex == 9)
+            forkController.highlightTags.Remove(EggplantHighlightTag);
+            hasRemovedEggplantTag = true;
+        }
+        else if(TutorialManager.stepIndex == 9 && !hasRemovedBowlTag)
         {
-            BowlHighlightTag = Bowl.tag;
-            Bowl.tag = "Untagged";
+            forkController.highlightTags.Remove(BowlHighlightTag);
+            forkController.highlightTags.Add(EggplantHighlightTag);
+            hasRemovedBowlTag = true;   
         }
     }
 }
