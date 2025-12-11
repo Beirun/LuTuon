@@ -10842,6 +10842,7 @@ MonoBehaviour:
   gravityOnEnd: 0
   manager: {fileID: 0}
   isPerforming: 0
+  isDisabled: 0
   returnDuration: 0.5
   liftDuration: 0.25
   isDragging: 0
@@ -11083,6 +11084,7 @@ MonoBehaviour:
   gravityOnEnd: 0
   manager: {fileID: 0}
   isPerforming: 0
+  isDisabled: 0
   returnDuration: 0.5
   liftDuration: 0.25
   isDragging: 0
@@ -11236,6 +11238,7 @@ MonoBehaviour:
   gravityOnEnd: 0
   manager: {fileID: 0}
   isPerforming: 0
+  isDisabled: 0
   returnDuration: 0.5
   liftDuration: 0.25
   isDragging: 0
@@ -16396,6 +16399,7 @@ MonoBehaviour:
   gravityOnEnd: 0
   manager: {fileID: 0}
   isPerforming: 0
+  isDisabled: 0
   returnDuration: 0.5
   liftDuration: 0.25
   isDragging: 0
@@ -17829,6 +17833,7 @@ MonoBehaviour:
   gravityOnEnd: 0
   manager: {fileID: 0}
   isPerforming: 0
+  isDisabled: 0
   returnDuration: 0.5
   liftDuration: 0.25
   isDragging: 0
@@ -18721,6 +18726,7 @@ MonoBehaviour:
   gravityOnEnd: 0
   manager: {fileID: 0}
   isPerforming: 0
+  isDisabled: 0
   returnDuration: 1
   liftDuration: 0.25
   isDragging: 0
@@ -18940,6 +18946,7 @@ MonoBehaviour:
   gravityOnEnd: 0
   manager: {fileID: 0}
   isPerforming: 0
+  isDisabled: 0
   returnDuration: 0.5
   liftDuration: 0.25
   isDragging: 0
@@ -24176,6 +24183,7 @@ MonoBehaviour:
   gravityOnEnd: 0
   manager: {fileID: 0}
   isPerforming: 0
+  isDisabled: 0
   returnDuration: 0.5
   liftDuration: 0.25
   isDragging: 0
@@ -24380,6 +24388,55 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -5495902117074765545, guid: 8d0248332b88d414184d55194a51564f, type: 3}
+--- !u!1 &1274047923
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1274047925}
+  - component: {fileID: 1274047924}
+  m_Layer: 0
+  m_Name: PorkManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1274047924
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1274047923}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cd2c83147180274e8a8c44ea5fbbc41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  luspad: {fileID: 2100000, guid: bde44274bfe0d4f4893bb67b78253440, type: 2}
+  pork: {fileID: 1437305960}
+  soyController: {fileID: 407842774}
+  porkController: {fileID: 1437305962}
+  porkLuto: {fileID: 2100000, guid: 3b7e1d45e1966a84cb469ddfd6e479c4, type: 2}
+--- !u!4 &1274047925
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1274047923}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 3.9285753, y: 0.10811412, z: 0.39621893}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1274937621
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -25090,6 +25147,7 @@ MonoBehaviour:
   gravityOnEnd: 0
   manager: {fileID: 0}
   isPerforming: 0
+  isDisabled: 0
   returnDuration: 0.5
   liftDuration: 0.25
   isDragging: 0
@@ -27753,6 +27811,7 @@ MonoBehaviour:
   gravityOnEnd: 0
   manager: {fileID: 0}
   isPerforming: 0
+  isDisabled: 0
   returnDuration: 0.5
   liftDuration: 0.25
   isDragging: 0
@@ -27762,18 +27821,6 @@ MonoBehaviour:
   zOffsetAmount: 0.25
   isInPot: 0
   isFinished: 0
-  water: {fileID: 1081484678}
-  potCenter: {fileID: 1081484681}
-  potRadius: 0.67
-  waterSurfaceOffset: -0.2
-  floatRadius: 0.25
-  floatStrength: 2
-  driftSpeed: 0.5
-  bobAmplitude: 0.05
-  bobSpeed: 1
-  timerController: {fileID: 1542999766}
-  isTutorial: 1
-  lid: {fileID: 0}
 --- !u!1 &1444211727
 GameObject:
   m_ObjectHideFlags: 0
@@ -28485,6 +28532,7 @@ MonoBehaviour:
   gravityOnEnd: 0
   manager: {fileID: 109940062}
   isPerforming: 0
+  isDisabled: 0
   returnDuration: 0.5
   liftDuration: 0.25
   isDragging: 0
@@ -31997,6 +32045,7 @@ MonoBehaviour:
   gravityOnEnd: 0
   manager: {fileID: 0}
   isPerforming: 0
+  isDisabled: 0
   returnDuration: 1
   liftDuration: 0.25
   isDragging: 0
@@ -37439,6 +37488,7 @@ MonoBehaviour:
   gravityOnEnd: 0
   manager: {fileID: 0}
   isPerforming: 0
+  isDisabled: 0
   returnDuration: 0.5
   liftDuration: 0.15
   isDragging: 0
@@ -37825,6 +37875,7 @@ MonoBehaviour:
   gravityOnEnd: 0
   manager: {fileID: 0}
   isPerforming: 0
+  isDisabled: 0
   returnDuration: 0.5
   liftDuration: 0.25
   isDragging: 0
@@ -45125,6 +45176,7 @@ MonoBehaviour:
   gravityOnEnd: 0
   manager: {fileID: 0}
   isPerforming: 0
+  isDisabled: 0
   returnDuration: 0.5
   liftDuration: 0.25
   isDragging: 0
@@ -50413,3 +50465,4 @@ SceneRoots:
   - {fileID: 1324526974}
   - {fileID: 1149209031}
   - {fileID: 853643991}
+  - {fileID: 1274047925}
