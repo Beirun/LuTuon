@@ -8,6 +8,7 @@ public class EggplantTouchManager : MonoBehaviour
     public Button tmpBtn;
     public float offset = 0.55f;
     public bool isFinished = false;
+    public bool isDragging = false;
     public bool isPerforming = false;
     public string targetTag = "Eggplant";
 
@@ -67,6 +68,7 @@ public class EggplantTouchManager : MonoBehaviour
     {
         target = null;
         tmpBtn.gameObject.SetActive(false);
+        if(!isPerforming) isDragging = false;
     }
 
     void Position()
@@ -75,6 +77,7 @@ public class EggplantTouchManager : MonoBehaviour
         Vector3 screen = cam.WorldToScreenPoint(p);
         if (screen.z < 0) screen = cam.WorldToScreenPoint(target.position);
         tmpBtn.transform.position = screen;
+        isDragging = true;  
     }
 
     bool IsPointerOverUI(Touch t)
