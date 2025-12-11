@@ -8,6 +8,7 @@ public class FlatEggplantController : DragController
     [HideInInspector]
     public bool isPlaced = false;
 
+    public EggBowlController bowlController;
 
     public override void EndDrag()
     {
@@ -21,7 +22,7 @@ public class FlatEggplantController : DragController
         ClearHighlight();
     }
 
-    IEnumerator AnimatePlacement(Vector3 targetPos, Quaternion targetRot, float duration)
+    public IEnumerator AnimatePlacement(Vector3 targetPos, Quaternion targetRot, float duration)
     {
         isPerforming = true;
         Vector3 fromPos = transform.position;
@@ -45,7 +46,8 @@ public class FlatEggplantController : DragController
         isFinished = true;
         isDragging = false;
         isPerforming = false;
-
+        isDisabled = true;
+        bowlController.enabled = true;
     }
 
 }
