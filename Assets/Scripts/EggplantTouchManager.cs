@@ -8,7 +8,7 @@ public class EggplantTouchManager : MonoBehaviour
     public Button tmpBtn;
     public float offset = 0.55f;
     public bool isFinished = false;
-
+    public bool isPerforming = false;
     public string targetTag = "Eggplant";
 
     Transform target;
@@ -25,7 +25,7 @@ public class EggplantTouchManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.touchCount > 0)
+        if (Input.touchCount > 0 && !isPerforming)
         {
             Touch t = Input.GetTouch(0);
 
@@ -63,7 +63,7 @@ public class EggplantTouchManager : MonoBehaviour
         }
     }
 
-    void HideButton()
+    public void HideButton()
     {
         target = null;
         tmpBtn.gameObject.SetActive(false);
