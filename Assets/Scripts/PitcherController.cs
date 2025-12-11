@@ -129,13 +129,13 @@ public class PitcherController : DragController
             k = k * k * (3f - 2f * k);
 
             // Water elevation
-            if (!wasActive)
+            if (!wasActive || targetWaterLevelY == 1.55f)
                 water.transform.position = Vector3.Lerp(fromPos, toPos, k);
 
             // Smooth transition based on Vinegar logic
             float colorT = k;
 
-            if (wasActive && targetWaterLevelY < 1f) colorT = k * 0.23f;
+            if (wasActive && targetWaterLevelY < 1f) colorT = k * 0.13f;
             else if (!wasActive && water.transform.position.y < 1f) colorT = k * 0.73f;
 
             for (int i = 0; i < count; i++)
