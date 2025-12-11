@@ -96,10 +96,6 @@ public class VinegarController : DragController
 
         yield return StartCoroutine(AnimateWaterLevel(targetWaterLevelY, 0.75f));
     }
-    float GetLuminance(Color c)
-    {
-        return 0.299f * c.r + 0.587f * c.g + 0.114f * c.b;
-    }
     IEnumerator AnimateWaterLevel(float targetPosY, float duration)
     {
         bool isWaterActive = water.activeInHierarchy;
@@ -143,18 +139,10 @@ public class VinegarController : DragController
                 Material m = mainWaterMats[i];
                 Color start = startColors[i];
 
-                float lum = GetLuminance(start);
-
-                // near white or near black
-                bool nearWhite = lum > 0.85f;
-                bool nearBlack = lum < 0.15f;
 
 
-                if (nearWhite) baseT = smoothT * 0.73f;
-                else if (nearBlack) baseT = smoothT * 0.13f;
-
-                if (!nearWhite && !nearBlack)
-                    baseT = smoothT;
+                if (water.activeInHierarchy) baseT = smoothT * 0.03f;
+                else baseT = smoothT;
 
                 Color c = Color.Lerp(start, pouringColor, baseT);
 
