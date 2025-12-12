@@ -2,7 +2,6 @@ using UnityEngine;
 using System;
 using System.Collections.Generic;
 
-// --- DATA CLASSES ---
 [Serializable]
 public class AttemptData
 {
@@ -28,32 +27,27 @@ public class AchievementData
     public string achievementId;
     public string achievementName;
     public int progress;
-    public string dateCompleted; // Keeping as string for JSON compatibility
+    public string dateCompleted; 
 }
 
-// Used for In-Memory Storage (Full Data)
 [Serializable]
 public class AccountData
 {
-    // User Profile
     public string userId;
     public string userEmail;
     public string userName;
     public string userDob;
     public string avatarId;
 
-    // Tokens
     public string accessToken;
     public string refreshToken;
     public DateTime accessTokenExpiry;
 
-    // Game Data
     public List<AttemptData> attempts;
     public StatsData stats;
     public List<AchievementData> achievements;
 }
 
-// Used for Disk Storage (Tokens Only)
 [Serializable]
 public class TokenData
 {
@@ -79,18 +73,15 @@ public class AccountManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
-        // Load tokens immediately on startup
         LoadTokens();
     }
 
-    // Called when Login/Google/FetchDetails returns full data
     public void SetAccountData(AccountData data)
     {
         CurrentAccount = data;
-        SaveTokens(); // We only extract and save the tokens from this
+        SaveTokens(); 
     }
 
-    // Called when we just refresh the token (data hasn't changed, just the key)
     public void UpdateTokens(string newAccess, string newRefresh, DateTime newExpiry)
     {
         if (CurrentAccount == null) CurrentAccount = new AccountData();
@@ -109,20 +100,16 @@ public class AccountManager : MonoBehaviour
         PlayerPrefs.Save();
     }
 
-    // Helper: Do we have a token? (Used to start the fetching process)
     public bool HasTokens()
     {
         return CurrentAccount != null && !string.IsNullOrEmpty(CurrentAccount.accessToken);
     }
 
-    // Helper: Is the user fully loaded? (Used to hide the Loading Screen)
     public bool IsLoggedIn()
     {
-        // We check for userId to confirm the profile fetch finished
         return HasTokens() && !string.IsNullOrEmpty(CurrentAccount.userId);
     }
 
-    // --- SAVE/LOAD LOGIC ---
 
     private void SaveTokens()
     {
@@ -149,8 +136,6 @@ public class AccountManager : MonoBehaviour
                 string json = PlayerPrefs.GetString(PREFS_KEY);
                 TokenData t = JsonUtility.FromJson<TokenData>(json);
 
-                // Initialize AccountData with ONLY tokens. 
-                // The rest (userId, stats) is null until we fetch it.
                 CurrentAccount = new AccountData
                 {
                     accessToken = t.accessToken,
