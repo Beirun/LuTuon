@@ -7,7 +7,7 @@ public class PineappleController : DragController
     [Header("Water Objects")]
     public GameObject water;
     public GameObject pouringWater;
-    public Color pouringColor = new Color(1f, 0.75f, 0f, 0.3f); // oil-like yellow tint
+    public Color pouringColor = new Color(1f, 0.75f, 0f, 0.3f); 
 
     List<Material> pouringMats = new List<Material>();
     List<Color> originalColors = new List<Color>();
@@ -19,7 +19,6 @@ public class PineappleController : DragController
     {
         base.Start();
 
-        // Collect pouring water materials
         if (pouringWater)
         {
             Renderer[] renderers = pouringWater.GetComponentsInChildren<Renderer>(true);
@@ -40,7 +39,6 @@ public class PineappleController : DragController
             Debug.LogWarning("pouringWater not assigned!");
         }
 
-        // Collect main water materials (for color change that persists)
         if (water)
         {
             Renderer[] waterRenderers = water.GetComponentsInChildren<Renderer>(true);
@@ -86,7 +84,6 @@ public class PineappleController : DragController
         pouringWater.SetActive(true);
         pouringWater.transform.position = targetPos + new Vector3(1.7f, -1.47f, 0f);
 
-        // You can change the target height here if you want to test the > 1f logic
         yield return StartCoroutine(AnimateWaterLevel(0.8f, 0.75f));
     }
     float GetLuminance(Color c)
@@ -106,7 +103,6 @@ public class PineappleController : DragController
 
         float elapsedTime = 0f;
 
-        // Store initial colors for main water
         List<Color> startColors = new List<Color>();
         foreach (Material m in mainWaterMats)
         {
@@ -118,7 +114,6 @@ public class PineappleController : DragController
             startColors.Add(startC);
         }
 
-        // Change all pouring materials to oil color instantly
         foreach (Material m in pouringMats)
         {
             if (m.HasProperty("_BaseColor"))
@@ -173,7 +168,6 @@ public class PineappleController : DragController
         pouringWater.SetActive(false);
         pouringWater.transform.position = waterStartPos;
 
-        // Reset pouring water stream color
         for (int i = 0; i < pouringMats.Count; i++)
         {
             Material m = pouringMats[i];
