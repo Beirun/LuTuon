@@ -39248,6 +39248,244 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -362046790695249943, guid: b286b2d6205842046a6b9ce11390a340, type: 3}
+--- !u!1 &1589121102
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1589121104}
+  - component: {fileID: 1589121103}
+  m_Layer: 0
+  m_Name: PointManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1589121103
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1589121102}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e1fc6ad9a1f34b46bf79e1e58a33687, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controlledScripts:
+  - script: {fileID: 8632055957890638621}
+    isDone: 0
+    isOnlyOnce: 0
+    step: 1
+    usedCounter: 0
+    isFinishedBoolName: isFinished
+    prerequisiteSteps: 
+  - script: {fileID: 3469287837344748557}
+    isDone: 0
+    isOnlyOnce: 0
+    step: 2
+    usedCounter: 0
+    isFinishedBoolName: isFinished
+    prerequisiteSteps: 
+  - script: {fileID: 8927668547881423814}
+    isDone: 0
+    isOnlyOnce: 0
+    step: 3
+    usedCounter: 0
+    isFinishedBoolName: isFinished
+    prerequisiteSteps: 
+  - script: {fileID: 3469287837344748557}
+    isDone: 0
+    isOnlyOnce: 0
+    step: 4
+    usedCounter: 0
+    isFinishedBoolName: isFinished
+    prerequisiteSteps: 
+  - script: {fileID: 153979232}
+    isDone: 0
+    isOnlyOnce: 0
+    step: 5
+    usedCounter: 0
+    isFinishedBoolName: isFinished
+    prerequisiteSteps: 
+  - script: {fileID: 3469287837344748557}
+    isDone: 0
+    isOnlyOnce: 0
+    step: 6
+    usedCounter: 0
+    isFinishedBoolName: isFinished
+    prerequisiteSteps: 06000000
+  - script: {fileID: 547204328}
+    isDone: 0
+    isOnlyOnce: 0
+    step: 7
+    usedCounter: 0
+    isFinishedBoolName: isFinished
+    prerequisiteSteps: 07000000
+  - script: {fileID: 98123952}
+    isDone: 0
+    isOnlyOnce: 0
+    step: 8
+    usedCounter: 0
+    isFinishedBoolName: isFinished
+    prerequisiteSteps: 05000000
+  - script: {fileID: 492978578}
+    isDone: 0
+    isOnlyOnce: 0
+    step: 8
+    usedCounter: 0
+    isFinishedBoolName: isFinished
+    prerequisiteSteps: 
+  - script: {fileID: 1290393816}
+    isDone: 0
+    isOnlyOnce: 0
+    step: 8
+    usedCounter: 0
+    isFinishedBoolName: isFinished
+    prerequisiteSteps: 
+  - script: {fileID: 664857283}
+    isDone: 0
+    isOnlyOnce: 0
+    step: 9
+    usedCounter: 0
+    isFinishedBoolName: isFinished
+    prerequisiteSteps: 0b000000
+  - script: {fileID: 1218842439}
+    isDone: 0
+    isOnlyOnce: 0
+    step: 10
+    usedCounter: 0
+    isFinishedBoolName: isFinished
+    prerequisiteSteps: 0c000000
+  - script: {fileID: 747560596}
+    isDone: 0
+    isOnlyOnce: 0
+    step: 11
+    usedCounter: 0
+    isFinishedBoolName: isFinished
+    prerequisiteSteps: 0c000000
+  - script: {fileID: 1702188146}
+    isDone: 0
+    isOnlyOnce: 0
+    step: 12
+    usedCounter: 0
+    isFinishedBoolName: isFinished
+    prerequisiteSteps: 0c000000
+  - script: {fileID: 1377150664}
+    isDone: 0
+    isOnlyOnce: 0
+    step: 13
+    usedCounter: 0
+    isFinishedBoolName: isFinished
+    prerequisiteSteps: 0c000000
+  - script: {fileID: 747560596}
+    isDone: 0
+    isOnlyOnce: 0
+    step: 14
+    usedCounter: 0
+    isFinishedBoolName: isFinished
+    prerequisiteSteps: 0c000000
+  - script: {fileID: 1377150664}
+    isDone: 0
+    isOnlyOnce: 0
+    step: 15
+    usedCounter: 0
+    isFinishedBoolName: isFinished
+    prerequisiteSteps: 0c000000
+  - script: {fileID: 1895442186}
+    isDone: 0
+    isOnlyOnce: 0
+    step: 15
+    usedCounter: 0
+    isFinishedBoolName: isFinished
+    prerequisiteSteps: 0c000000
+  - script: {fileID: 2023022861}
+    isDone: 0
+    isOnlyOnce: 0
+    step: 15
+    usedCounter: 0
+    isFinishedBoolName: isFinished
+    prerequisiteSteps: 0c000000
+  - script: {fileID: 1583688351}
+    isDone: 0
+    isOnlyOnce: 0
+    step: 16
+    usedCounter: 0
+    isFinishedBoolName: isFinished
+    prerequisiteSteps: 0c000000
+  - script: {fileID: 1377150664}
+    isDone: 0
+    isOnlyOnce: 0
+    step: 17
+    usedCounter: 0
+    isFinishedBoolName: isFinished
+    prerequisiteSteps: 0c000000
+  - script: {fileID: 747560596}
+    isDone: 0
+    isOnlyOnce: 0
+    step: 18
+    usedCounter: 0
+    isFinishedBoolName: isFinished
+    prerequisiteSteps: 0c000000
+  - script: {fileID: 1377150664}
+    isDone: 0
+    isOnlyOnce: 0
+    step: 19
+    usedCounter: 0
+    isFinishedBoolName: isFinished
+    prerequisiteSteps: 0c000000
+  - script: {fileID: 2015510499}
+    isDone: 0
+    isOnlyOnce: 0
+    step: 19
+    usedCounter: 0
+    isFinishedBoolName: isFinished
+    prerequisiteSteps: 0c000000
+  - script: {fileID: 0}
+    isDone: 0
+    isOnlyOnce: 0
+    step: 19
+    usedCounter: 0
+    isFinishedBoolName: isFinished
+    prerequisiteSteps: 0c000000
+  - script: {fileID: 0}
+    isDone: 0
+    isOnlyOnce: 0
+    step: 19
+    usedCounter: 0
+    isFinishedBoolName: isFinished
+    prerequisiteSteps: 0c000000
+  - script: {fileID: 0}
+    isDone: 0
+    isOnlyOnce: 0
+    step: 19
+    usedCounter: 0
+    isFinishedBoolName: isFinished
+    prerequisiteSteps: 0c000000
+  point: 100
+  attemptManager: {fileID: 0}
+  endManager: {fileID: 0}
+  foodId: 30045842-6118-4539-8577-07181b09dfc9
+--- !u!4 &1589121104
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1589121102}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1560, y: 76.120636, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1590108492 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 86e143e0c67737846aa1be4711c9cecc, type: 3}
@@ -59245,3 +59483,4 @@ SceneRoots:
   - {fileID: 531077548}
   - {fileID: 548045696}
   - {fileID: 520087260}
+  - {fileID: 1589121104}
