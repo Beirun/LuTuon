@@ -22,7 +22,6 @@ public class PitcherController : DragController
     {
         base.Start();
 
-        // Collect pouring-water materials
         if (pouringWater)
         {
             Renderer[] rens = pouringWater.GetComponentsInChildren<Renderer>(true);
@@ -41,7 +40,6 @@ public class PitcherController : DragController
             }
         }
 
-        // Collect main-water materials for color blending
         if (water)
         {
             Renderer[] rens = water.GetComponentsInChildren<Renderer>(true);
@@ -87,7 +85,6 @@ public class PitcherController : DragController
         pouringWater.SetActive(true);
         pouringWater.transform.position = targetPos + new Vector3(1.9f, -1.4f, 0f);
 
-        // Apply pouring color
         for (int i = 0; i < pouringMats.Count; i++)
         {
             Material m = pouringMats[i];
@@ -128,11 +125,9 @@ public class PitcherController : DragController
             float k = t / duration;
             k = k * k * (3f - 2f * k);
 
-            // Water elevation
             if (!wasActive || targetWaterLevelY == 1.55f)
                 water.transform.position = Vector3.Lerp(fromPos, toPos, k);
 
-            // Smooth transition based on Vinegar logic
             float colorT = k;
 
             if (wasActive && targetWaterLevelY < 1f) colorT = k * 0.13f;
@@ -153,7 +148,6 @@ public class PitcherController : DragController
             yield return null;
         }
 
-        // Reset pouring-water colors
         for (int i = 0; i < pouringMats.Count; i++)
         {
             Material m = pouringMats[i];
