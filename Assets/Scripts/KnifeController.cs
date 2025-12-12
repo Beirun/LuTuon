@@ -27,7 +27,6 @@ public class KnifeController : DragController
         ClearHighlight();
     }
 
-    // --- Animations ---
     IEnumerator PlayCutAnimation(Vector3 boardPos)
     {
         isPerforming = true;
@@ -35,18 +34,15 @@ public class KnifeController : DragController
 
         float[] xOffsets = { -0.15f, -0.05f, 0.05f, 0.15f };
 
-        // start above first cut position
         Vector3 aboveBoard = new Vector3(boardPos.x + xOffsets[0], liftHeight, boardPos.z - 1f);
         yield return MoveTo(aboveBoard, rot, 0.2f);
 
         for (int i = 0; i < xOffsets.Length; i++)
         {
-            // down slice at current offset
             Vector3 downPos = new Vector3(boardPos.x + xOffsets[i], liftHeight - cutDepth, boardPos.z - 1f);
             yield return MoveTo(downPos, rot, cutDuration * 0.5f);
             cutsMade++;
 
-            // if not last cut, go UP + SLIDE to next offset in one motion
             if (i < xOffsets.Length - 1)
             {
                 Vector3 nextAbove = new Vector3(boardPos.x + xOffsets[i + 1], liftHeight, boardPos.z - 1f);
@@ -54,7 +50,6 @@ public class KnifeController : DragController
             }
             else
             {
-                // last cut → just go up in same position
                 Vector3 finalAbove = new Vector3(boardPos.x + xOffsets[i], liftHeight, boardPos.z - 1f);
                 yield return MoveTo(finalAbove, rot, cutDuration * 0.5f);
             }
