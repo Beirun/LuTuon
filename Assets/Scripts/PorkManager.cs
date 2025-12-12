@@ -19,7 +19,7 @@ public class PorkManager : MonoBehaviour
         {
             StartCoroutine(ChangeToLutoMaterial());
         }
-        if (!isChangedToLuspad && porkController.isFinished)
+        if (!isChangedToLuspad && porkController.isFinished && !isChangedToLuto)
         {
             StartCoroutine(ChangeToLuspadMaterial());
         }
