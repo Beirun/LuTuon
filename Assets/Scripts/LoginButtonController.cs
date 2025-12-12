@@ -5,8 +5,8 @@ using TMPro;
 public class LoginButtonController : MonoBehaviour
 {
     [SerializeField] Button myButton;
-    [SerializeField] TMP_Text buttonText; // assign the Button's Text in the Inspector
-    [SerializeField] TMP_Text emailText; // assign the Button's Text in the Inspector
+    [SerializeField] TMP_Text buttonText;
+    [SerializeField] TMP_Text emailText;
     [SerializeField] DialogManager dialogManager;
 
     private void Start()
@@ -20,11 +20,8 @@ public class LoginButtonController : MonoBehaviour
             return;
         }
 
-        // Update button label and listener on start
         UpdateButtonState();
 
-        // Optionally listen for account changes if your AccountManager has an event system
-        // Otherwise call UpdateButtonState() manually after login/logout
     }
 
     private void UpdateButtonState()
@@ -57,7 +54,6 @@ public class LoginButtonController : MonoBehaviour
         }
     }
 
-    // Call this public method from AccountManager after login/logout to refresh button state
     public void Refresh()
     {
         UpdateButtonState();
