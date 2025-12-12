@@ -28,7 +28,6 @@ public class SugarController : DragController
         Quaternion startRot = transform.rotation;
         float t = 0f;
 
-        // Move to target first
         while (t < 1f)
         {
             t += Time.deltaTime / moveDuration;
@@ -37,7 +36,6 @@ public class SugarController : DragController
             yield return null;
         }
 
-        // After reaching target, perform arcs
         yield return AnimateShake(targetPos, targetRot, 0.5f);
     }
 
@@ -53,8 +51,8 @@ public class SugarController : DragController
             while (t < 0.75f)
             {
                 t += Time.deltaTime / duration;
-                float x = basePos.x + Mathf.Lerp(0f, 1f, t); // forward arc
-                float y = basePos.y + Mathf.Sin(t * Mathf.PI) * 0.5f; // arc height
+                float x = basePos.x + Mathf.Lerp(0f, 1f, t); 
+                float y = basePos.y + Mathf.Sin(t * Mathf.PI) * 0.5f; 
                 transform.position = new Vector3(x, y, basePos.z);
 
                 transform.rotation = Quaternion.Slerp(startRot, endRot, t);
@@ -67,7 +65,7 @@ public class SugarController : DragController
             while (t < 0.25f)
             {
                 t += Time.deltaTime / duration;
-                float x = basePos.x + Mathf.Lerp(1f, 0.8f, t); // backward arc
+                float x = basePos.x + Mathf.Lerp(1f, 0.8f, t);
                 float y = basePos.y + Mathf.Lerp(0f, 0.125f, t);
                 transform.position = new Vector3(x, y, basePos.z);
 
@@ -78,7 +76,7 @@ public class SugarController : DragController
             while (t < 0.25f)
             {
                 t += Time.deltaTime / duration;
-                float x = basePos.x + Mathf.Lerp(0.8f, 1f, t); // forward arc
+                float x = basePos.x + Mathf.Lerp(0.8f, 1f, t); 
                 float y = basePos.y + Mathf.Lerp(0.125f, 0f, t);
                 transform.position = new Vector3(x, y, basePos.z);
                 ps2.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
@@ -92,7 +90,7 @@ public class SugarController : DragController
             while (t < 0.75f)
             {
                 t += Time.deltaTime / duration;
-                float x = basePos.x + Mathf.Lerp(1f, 0f, t); // backward arc
+                float x = basePos.x + Mathf.Lerp(1f, 0f, t); 
                 float y = basePos.y + Mathf.Sin(t * Mathf.PI) * 0.5f;
                 transform.position = new Vector3(x, y, basePos.z);
 
