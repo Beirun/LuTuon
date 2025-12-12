@@ -50,7 +50,6 @@ public class MessageManager : MonoBehaviour
     {
         canvasGroup.blocksRaycasts = true;
 
-        // --- PHASE 1: PREPARE ---
         float timer = 0f;
         Vector2 startPos = initialAnchorPosition + new Vector2(0, startOffsetY);
         Vector2 centerPos = initialAnchorPosition;
@@ -59,7 +58,6 @@ public class MessageManager : MonoBehaviour
         uiTransform.anchoredPosition = startPos;
         canvasGroup.alpha = 0f;
 
-        // --- PHASE 2: FADE IN & MOVE UP ---
         while (timer < fadeInTime)
         {
             timer += Time.deltaTime;
@@ -74,10 +72,8 @@ public class MessageManager : MonoBehaviour
         uiTransform.anchoredPosition = centerPos;
         canvasGroup.alpha = 1f;
 
-        // --- PHASE 3: WAIT ---
         yield return new WaitForSeconds(stayTime);
 
-        // --- PHASE 4: FADE OUT & MOVE UP ---
         timer = 0f;
         while (timer < fadeOutTime)
         {
