@@ -21,7 +21,6 @@ public class LoginManager : MonoBehaviour
     {
         loginButton.onClick.AddListener(OnLoginClicked);
 
-        // Check if we are auto-logging in via saved tokens
         StartCoroutine(CheckAutoLoginStatus());
     }
 
