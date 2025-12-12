@@ -8,10 +8,10 @@ public class SpoonController : DragController
    
 
     [Header("Animation Durations")]
-    public float stirDuration = 2f;       // total time to stir
-    public int stirLoops = 2;             // number of circles while stirring
-    public float stirRadius = 0.2f;       // how wide the stir circle is
-    public float stirDepth = 0.2f;        // how deep spoon dips while stirring
+    public float stirDuration = 2f;     
+    public int stirLoops = 2;            
+    public float stirRadius = 0.2f;  
+    public float stirDepth = 0.2f;  
 
 
     public LidController lid;
@@ -73,7 +73,6 @@ public class SpoonController : DragController
         }
 
        
-        // -------- SPIRAL PHASE --------
         float spiralDur = stirDuration * 0.5f;
         float s = 0f;
 
@@ -81,7 +80,6 @@ public class SpoonController : DragController
         {
             float t = s / spiralDur;
 
-            // radius shrinks → creates spiral
             float r = Mathf.Lerp(stirRadius, 0f, t);
             float angle = t * stirLoops * Mathf.PI * 2f;
 
