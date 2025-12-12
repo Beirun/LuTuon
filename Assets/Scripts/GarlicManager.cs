@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class GarlicManager : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     [Header("Garlic Parts")]
     public GameObject Garlic;
     public GameObject Garlic1;

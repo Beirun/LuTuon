@@ -18,7 +18,6 @@ public class VinegarController : DragController
     {
         base.Start();
 
-        // Collect pouring water materials
         if (pouringWater)
         {
             Renderer[] renderers = pouringWater.GetComponentsInChildren<Renderer>(true);
@@ -39,7 +38,6 @@ public class VinegarController : DragController
             Debug.LogWarning("pouringWater not assigned!");
         }
 
-        // Collect main water materials (for color change that persists)
         if (water)
         {
             Renderer[] waterRenderers = water.GetComponentsInChildren<Renderer>(true);
@@ -85,7 +83,6 @@ public class VinegarController : DragController
         pouringWater.SetActive(true);
         pouringWater.transform.position = targetPos + new Vector3(1.4f, -1.6f, 0f);
 
-        // Change all pouring materials to oil color
         foreach (Material m in pouringMats)
         {
             if (m.HasProperty("_BaseColor"))
@@ -107,7 +104,6 @@ public class VinegarController : DragController
         if (fromPos.y < 1f) targetPosY += 0.1f;
         Vector3 toPos = new Vector3(fromPos.x, targetPosY, fromPos.z);
 
-        // Capture current material colors
         int count = mainWaterMats.Count;
         Color[] startColors = new Color[count];
         for (int i = 0; i < count; i++)

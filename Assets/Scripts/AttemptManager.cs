@@ -9,8 +9,8 @@ public class AttemptRequest
 {
     public string foodId;
     public int attemptPoint;
-    public string attemptDate;     // ISO string, initialized at Start
-    public string attemptDuration; // ISO string, set when sending
+    public string attemptDate;    
+    public string attemptDuration;
     public string attemptType;
 }
 
@@ -21,7 +21,7 @@ public class AttemptManager : MonoBehaviour
 
     void Start()
     {
-        attemptDate = DateTime.UtcNow.ToString("o"); // initialize attemptDate at Start
+        attemptDate = DateTime.UtcNow.ToString("o"); 
     }
 
     public void SendAttempt(string foodId, int point, string type)
@@ -43,8 +43,8 @@ public class AttemptManager : MonoBehaviour
         {
             foodId = foodId,
             attemptPoint = point,
-            attemptDate = attemptDate,                      // set at Start
-            attemptDuration = DateTime.UtcNow.ToString("o"), // set at send
+            attemptDate = attemptDate,         
+            attemptDuration = DateTime.UtcNow.ToString("o"),
             attemptType = type
         };
 

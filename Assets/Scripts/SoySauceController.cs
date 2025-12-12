@@ -7,7 +7,7 @@ public class SoySauceController : DragController
     [Header("Water Objects")]
     public GameObject water;
     public GameObject pouringWater;
-    public Color pouringColor = new Color(1f, 0.75f, 0f, 0.3f); // oil-like yellow tint
+    public Color pouringColor = new Color(1f, 0.75f, 0f, 0.3f); 
     List<Material> pouringMats = new List<Material>();
     List<Color> originalColors = new List<Color>();
     List<Material> mainWaterMats = new List<Material>();
@@ -18,7 +18,6 @@ public class SoySauceController : DragController
     {
         base.Start();
 
-        // Collect pouring water materials
         if (pouringWater)
         {
             Renderer[] renderers = pouringWater.GetComponentsInChildren<Renderer>(true);
@@ -39,7 +38,6 @@ public class SoySauceController : DragController
             Debug.LogWarning("pouringWater not assigned!");
         }
 
-        // Collect main water materials (for color change that persists)
         if (water)
         {
             Renderer[] waterRenderers = water.GetComponentsInChildren<Renderer>(true);
@@ -86,7 +84,6 @@ public class SoySauceController : DragController
         pouringWater.SetActive(true);
         pouringWater.transform.position = targetPos + new Vector3(1.4f,-1.6f,0f);
 
-        // Change all pouring materials to oil color
         foreach (Material m in pouringMats)
         {
             if (m.HasProperty("_BaseColor"))
@@ -111,7 +108,6 @@ public class SoySauceController : DragController
         if(fromPos.y > targetPosY) targetPosY = fromPos.y;
         Vector3 toPos = new Vector3(fromPos.x, targetPosY, fromPos.z);
 
-        // Capture current material colors
         int count = mainWaterMats.Count;
         Color[] startColors = new Color[count];
         for (int i = 0; i < count; i++)
@@ -177,7 +173,6 @@ public class SoySauceController : DragController
             yield return null;
         }
 
-        // ... (Rest of your cleanup code remains the same) ...
         pouringWater.SetActive(false);
         pouringWater.transform.position = pwStartPos;
 

@@ -6,8 +6,6 @@ public class PorkController : DragController
 {
     List<Rigidbody> rbs = new List<Rigidbody>();
     
-
-
     public override void Start()
     {
         base.Start();

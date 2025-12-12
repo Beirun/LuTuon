@@ -9,7 +9,6 @@ public class CookedEggplantManager : MonoBehaviour
     public bool isFinished = false;
     
 
-    // Update is called once per frame
     void Update()
     {
         if (eggplant.activeInHierarchy)

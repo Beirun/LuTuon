@@ -18,7 +18,6 @@ public class ChickenSoyManager : MonoBehaviour
         Renderer[] r = chicken.GetComponentsInChildren<Renderer>(true);
         foreach (var e in r)
         {
-            // Use sharedMaterial to avoid material instancing explosion
             Material m = e.material;
             mats.Add(m);
         }

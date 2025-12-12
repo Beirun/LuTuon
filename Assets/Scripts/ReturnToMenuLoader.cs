@@ -49,7 +49,6 @@ public class ReturnToMenuLoader : MonoBehaviour
 
     IEnumerator WaitForCanvases(System.Action callback)
     {
-        // wait until MenuCanvasLoader assigned its Canvas components
         while (MenuCanvasLoader.Instance == null)
         {
             yield return null;

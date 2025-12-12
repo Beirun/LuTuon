@@ -81,7 +81,7 @@ public class DragController : HighlightController
                     rb.isKinematic = true;
                 }
 
-                SetLayerRecursive(gameObject, 0);  // CHANGE LAYER TO DEFAULT
+                SetLayerRecursive(gameObject, 0);  
 
                 StartCoroutine(LiftObject());
             }

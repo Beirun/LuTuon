@@ -115,7 +115,6 @@ public class AvatarManager : MonoBehaviour
 
         accMgr.CurrentAccount.avatarId = el.uuid;
 
-        // Send PUT request to update avatar on server
         StartCoroutine(UpdateAvatarOnServer(el.uuid, accMgr.CurrentAccount.accessToken));
     }
 

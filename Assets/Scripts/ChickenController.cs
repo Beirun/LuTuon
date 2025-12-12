@@ -11,11 +11,11 @@ public class ChickenController : DragController
     public GameObject water;
 
     [Header("Pot Settings")]
-    public Transform potCenter; // assign your pot or water center
+    public Transform potCenter;
     public float potRadius = 0.67f;
 
     [Header("Floating Settings")]
-    public float waterSurfaceOffset = -0.2f; // initial depth offset (sink a bit below surface)
+    public float waterSurfaceOffset = -0.2f;
     public float floatRadius = 0.25f;
     public float floatStrength = 2f;
     public float driftSpeed = 0.5f;
@@ -145,7 +145,6 @@ public class ChickenController : DragController
 
         foreach (var rb in rbs)
         {
-            // assign a random "home" point inside the pot
             Vector2 randomCircle = Random.insideUnitCircle * (potRadius * 0.8f);
             Vector3 home = new Vector3(
                 potCenter.position.x + randomCircle.x,
@@ -179,7 +178,6 @@ public class ChickenController : DragController
                 home.z + offsetZ
             );
 
-            // stay inside pot radius
             Vector3 centerXZ = new Vector3(potCenter.position.x, 0, potCenter.position.z);
             Vector3 posXZ = new Vector3(target.x, 0, target.z);
             Vector3 dir = posXZ - centerXZ;
