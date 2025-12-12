@@ -26,7 +26,7 @@ public class DicedOnionsController : DragController
         while (elapsedTime < duration)
         {
             float t = elapsedTime / duration;
-            t = t * t * (3f - 2f * t); // smoothstep
+            t = t * t * (3f - 2f * t);
 
             transform.position = Vector3.Lerp(fromPos, targetPos, t);
             transform.rotation = Quaternion.Slerp(fromRot, targetRot, t);

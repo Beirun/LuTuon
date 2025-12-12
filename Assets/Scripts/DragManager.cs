@@ -7,7 +7,6 @@ public class DragManager : MonoBehaviour
 
     void Start()
     {
-        // Find all active DragControllers (and subclasses)
         dragControllers = FindObjectsByType<DragController>(FindObjectsSortMode.None);
     }
 
@@ -15,7 +14,6 @@ public class DragManager : MonoBehaviour
     {
         foreach (var controller in dragControllers)
         {
-            // 3. If we find even ONE that is dragging...
             if (controller.isDragging)
             {
                 isStillDragging = true;

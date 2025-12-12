@@ -134,7 +134,6 @@ public class KnorrController : DragController
             StartCoroutine(FloatAndDrift(rb));
         }
 
-        // Start fadeout after floating begins
         StartCoroutine(FadeOutAfterDelay(2f, 3f));
         isFinished = true;
     }
@@ -150,8 +149,7 @@ public class KnorrController : DragController
         {
             foreach (var mat in rend.materials)
             {
-                // Ensure the material supports transparency
-                mat.SetFloat("_Mode", 2); // 2 = Transparent for standard shader
+                mat.SetFloat("_Mode", 2);
                 mat.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
                 mat.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
                 mat.SetInt("_ZWrite", 0);

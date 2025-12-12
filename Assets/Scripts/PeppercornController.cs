@@ -11,8 +11,8 @@ public class PeppercornController : DragController
     public GameObject water;
 
     [Header("Pot Settings")]
-    public Transform potCenter; // assign your pot's center (often the water object)
-    public float potRadius = 0.67f; // maximum radius within the pot
+    public Transform potCenter;
+    public float potRadius = 0.67f;
 
     [Header("Floating Settings")]
     public float waterSurfaceOffset = 0.1f;
@@ -123,7 +123,6 @@ public class PeppercornController : DragController
 
         foreach (var rb in rbs)
         {
-            // pick a random home position inside the pot radius
             Vector2 randomCircle = Random.insideUnitCircle * (potRadius * 0.8f);
             Vector3 home = new Vector3(
                 potCenter.position.x + randomCircle.x,
@@ -157,7 +156,6 @@ public class PeppercornController : DragController
                 home.z + offsetZ
             );
 
-            // keep inside pot radius
             Vector3 centerXZ = new Vector3(potCenter.position.x, 0, potCenter.position.z);
             Vector3 posXZ = new Vector3(target.x, 0, target.z);
             Vector3 dirFromCenter = posXZ - centerXZ;

@@ -8,7 +8,6 @@ using UnityEngine.UI;
 public class GoogleAuthentication : MonoBehaviour
 {
     [Header("Google Configuration")]
-    // Make sure this matches your Web Client ID in Google Cloud Console
     private readonly string webClientId = "911883016735-9or0d1speu4llgcijd2ti0o2pfgb9pe6.apps.googleusercontent.com";
     private GoogleSignInConfiguration configuration;
 
@@ -23,11 +22,10 @@ public class GoogleAuthentication : MonoBehaviour
 
     void Awake()
     {
-        // Setup Google Configuration
         configuration = new GoogleSignInConfiguration
         {
             WebClientId = webClientId,
-            RequestIdToken = true, // Required to get the ID Token for backend verification
+            RequestIdToken = true,
             UseGameSignIn = false,
             RequestEmail = true
         };
@@ -41,7 +39,6 @@ public class GoogleAuthentication : MonoBehaviour
         }
     }
 
-    // IMPORTANT: Always remove listeners to prevent memory leaks when changing scenes
     private void OnDestroy()
     {
         if (loginButton != null)
@@ -52,8 +49,6 @@ public class GoogleAuthentication : MonoBehaviour
 
     public void OnSignIn()
     {
-        // FIX 1: Prevent "Double Click" Crash
-        // We disable the button immediately so the user cannot click it twice while the Google window is loading.
         loginButton.interactable = false;
 
         GoogleSignIn.Configuration = configuration;
@@ -62,9 +57,6 @@ public class GoogleAuthentication : MonoBehaviour
 
         Debug.Log("Starting Google Sign In...");
 
-        // FIX 2: Threading Issue
-        // We use TaskScheduler.FromCurrentSynchronizationContext() to ensure the callback runs on the Main Thread.
-        // Without this, accessing UI (like messageManager) inside the callback will crash Unity.
         GoogleSignIn.DefaultInstance.SignIn().ContinueWith(
             OnAuthenticationFinished,
             TaskScheduler.FromCurrentSynchronizationContext()
@@ -75,7 +67,6 @@ public class GoogleAuthentication : MonoBehaviour
     {
         if (task.IsFaulted)
         {
-            // If it failed, re-enable the button so they can try again
             loginButton.interactable = true;
 
             using (IEnumerator<System.Exception> enumerator = task.Exception.InnerExceptions.GetEnumerator())
@@ -94,39 +85,32 @@ public class GoogleAuthentication : MonoBehaviour
         }
         else if (task.IsCanceled)
         {
-            // If they closed the window, re-enable the button so they can try again
             loginButton.interactable = true;
             Debug.LogWarning("Google Login Cancelled");
         }
         else
         {
-            // Google Auth Successful
             Debug.Log("Google Token Received. Verifying with Backend...");
 
-            // Pass the email (or preferably the idToken) to your backend
             authManager.Google(task.Result.Email, (success, error) =>
             {
                 if (success)
                 {
                     Debug.Log("Backend Login successful!");
 
-                    // Close the UI
                     dialogManager.CloseDialog("LoginDialog");
                     messageManager.ShowMessage("Login successful");
                     loginButtonController.Refresh();
 
-                    // Note: We do NOT re-enable the button here, because the login is done.
                 }
                 else
                 {
                     Debug.LogError("Backend Login failed: " + error);
 
-                    // Backend rejected the user, re-enable button to try again
                     loginButton.interactable = true;
 
                     messageManager.ShowMessage("Email has not been registered yet");
 
-                    // Sign out of Google locally so they can select a different account next time
                     OnSignOut();
                 }
             });

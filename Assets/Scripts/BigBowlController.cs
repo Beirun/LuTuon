@@ -142,7 +142,7 @@ public class BigBowlController : DragController
 
         pouringWater.SetActive(false);
         pouringWater.transform.position = startPourPos;
-        DisableAllChildren();   // requested behavior
+        DisableAllChildren(); 
 
         for (int i = 0; i < pouringMats.Count; i++)
         {
