@@ -9,6 +9,7 @@ public class AttemptData
     public string foodId;
     public string foodName;
     public int highestPoint;
+    public int numberOfAttempts;
     public bool tutorialUnlock;
 }
 
@@ -17,6 +18,8 @@ public class StatsData
 {
     public int totalAttempts;
     public int totalPoints;
+    public int totalAchievements;
+
 }
 
 [Serializable]
