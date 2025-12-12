@@ -36,6 +36,7 @@ public class AchievementManager : MonoBehaviour
 
     void UpdateAchievement()
     {
+        if(AccountManager.Instance == null || AccountManager.Instance.CurrentAccount == null) return;   
         var ds = AccountManager.Instance.CurrentAccount.achievements;
         if (ds == null || achievements.Count == 0 || indexMap.Count == 0) return;
 
