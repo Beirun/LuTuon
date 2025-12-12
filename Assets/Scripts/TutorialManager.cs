@@ -22,7 +22,7 @@ public class TutorialManager : MonoBehaviour
     public TMP_Text uiText;
     public DialogManager dialogManager;
     public DialogManager endManager;
-    public AttemptManager attemptManager;  // Assign in inspector
+    public AttemptManager attemptManager; 
 
     [Header("Food Id")]
     public string foodId = "30045842-6118-4539-8577-07181b09dfc9";
