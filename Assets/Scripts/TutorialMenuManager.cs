@@ -32,6 +32,8 @@ public class TutorialMenuManager : MonoBehaviour
 
     void UpdateTutorialMenu()
     {
+        if (AccountManager.Instance == null || AccountManager.Instance.CurrentAccount == null) return;
+
         var attempts = AccountManager.Instance.CurrentAccount.attempts;
         if (attempts == null || GameplayLocks.Count == 0 || indexMap.Count == 0) return;
 
