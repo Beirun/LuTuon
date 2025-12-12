@@ -28,7 +28,6 @@ public class OnionManager : MonoBehaviour
 
     }
 
-    // Update is called once per frame
     void Update()
     {
         Vector3 onionPos = wholeOnion.transform.position;
