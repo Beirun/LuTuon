@@ -1,23 +1,23 @@
 using UnityEngine;
-using System.Collections; // Required for Coroutines
+using System.Collections; 
 
 public class ImageEntranceAnimator : MonoBehaviour
 {
     [Header("UI Elements to Animate")]
-    [SerializeField] private RectTransform imageRectTransform; // Assign the RectTransform of the image
-    [SerializeField] private RectTransform buttonRectTransform; // Assign the RectTransform of the button
-    [SerializeField] private CanvasGroup textCanvasGroup; // Assign the RectTransform of the button
-    [SerializeField] private CanvasGroup buttonCanvasGroup; // Assign the CanvasGroup of the button (for fading)
+    [SerializeField] private RectTransform imageRectTransform; 
+    [SerializeField] private RectTransform buttonRectTransform;
+    [SerializeField] private CanvasGroup textCanvasGroup; 
+    [SerializeField] private CanvasGroup buttonCanvasGroup; 
 
     [Header("Animation Settings - Image")]
-    [SerializeField] private float imageMoveDuration = 1.0f; // Duration of the image's upward movement
-    [SerializeField] private float imageMoveDistance = 100f; // Distance the image moves upward in pixels
+    [SerializeField] private float imageMoveDuration = 1.0f;
+    [SerializeField] private float imageMoveDistance = 100f; 
 
     [Header("Animation Settings - Button")]
-    [SerializeField] private float buttonMoveDuration = 1.0f; // Duration of the button's upward movement
-    [SerializeField] private float buttonMoveDistance = 100f; // Distance the button moves upward in pixels
-    [SerializeField] private float buttonDelay = 0.5f; // Optional: Delay before the button animation starts
-    [SerializeField] private bool buttonFadeIn = true; // New: Whether the button should fade in
+    [SerializeField] private float buttonMoveDuration = 1.0f; 
+    [SerializeField] private float buttonMoveDistance = 100f; 
+    [SerializeField] private float buttonDelay = 0.5f;
+    [SerializeField] private bool buttonFadeIn = true;
 
     public void StartEntranceAnimation()
     {
@@ -52,17 +52,17 @@ public class ImageEntranceAnimator : MonoBehaviour
     {
         if (delay > 0)
         {
-            yield return new WaitForSeconds(delay); // Wait for the specified delay
+            yield return new WaitForSeconds(delay); 
         }
 
         Vector3 startPos = rectTransform.anchoredPosition;
-        Vector3 endPos = startPos + new Vector3(0, moveDistance, 0); // Move upward
+        Vector3 endPos = startPos + new Vector3(0, moveDistance, 0); 
 
         float timer = 0f;
         while (timer < duration)
         {
             timer += Time.deltaTime;
-            float t = timer / duration; // Normalized time (0 to 1)
+            float t = timer / duration; 
 
             rectTransform.anchoredPosition = Vector3.Lerp(startPos, endPos, t);
 
@@ -71,12 +71,11 @@ public class ImageEntranceAnimator : MonoBehaviour
                 canvasGroup.alpha = Mathf.Lerp(0f, 1f, t);
             }
 
-            yield return null; // Wait for the next frame
+            yield return null;
         }
 
         rectTransform.anchoredPosition = endPos;
 
-        // Ensure final alpha is 1 if fading
         if (canvasGroup != null && buttonFadeIn)
         {
             canvasGroup.alpha = 1f;
@@ -92,14 +91,14 @@ public class ImageEntranceAnimator : MonoBehaviour
         while (timer < duration)
         {
             timer += Time.deltaTime;
-            float t = timer / duration; // Normalized time (0 to 1)
+            float t = timer / duration; 
 
             if (canvasGroup != null && buttonFadeIn)
             {
                 canvasGroup.alpha = Mathf.Lerp(0f, 1f, t);
             }
 
-            yield return null; // Wait for the next frame
+            yield return null;
         }
         if (canvasGroup != null && buttonFadeIn)
         {

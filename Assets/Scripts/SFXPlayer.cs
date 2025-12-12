@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEngine.UI; // For Button component if using UI Button
+using UnityEngine.UI;
 
 public class SFXPlayer : MonoBehaviour
 {

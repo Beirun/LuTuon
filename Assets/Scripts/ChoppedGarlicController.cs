@@ -4,7 +4,7 @@ using System.Collections;
 public class ChoppedGarlicController : DragController
 {
     public LidController lid;
-    public bool makeChildAfterPlacement = false;   // toggle
+    public bool makeChildAfterPlacement = false;  
 
     public override void EndDrag()
     {

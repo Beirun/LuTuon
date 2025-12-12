@@ -1,12 +1,11 @@
 using System;
-using System.Collections.Generic; // Required for List<>
+using System.Collections.Generic;
 using UnityEngine;
 
 #if UNITY_ANDROID || UNITY_IOS
 public class HighlightController : MonoBehaviour
 {
     [Header("Highlight Settings")]
-    // Changed from single string to List<string>
     public List<string> highlightTags = new() { "Choppingboard" };
     public string outlineLayerName = "Outline";
     public float maxDistance = 10f;
@@ -29,7 +28,6 @@ public class HighlightController : MonoBehaviour
 
         Ray ray = cam.ScreenPointToRay(screenPos);
 
-        // sphere radius = 0.25f tolerance around the ray
         RaycastHit[] hits = Physics.SphereCastAll(ray, 0.25f, maxDistance);
         if (hits.Length > 0)
         {
@@ -38,10 +36,8 @@ public class HighlightController : MonoBehaviour
             {
                 GameObject obj = h.collider.gameObject;
 
-                // skip dragged object and its children
                 if (obj == draggedObj || obj.transform.IsChildOf(draggedObj.transform)) continue;
 
-                // NEW LOGIC: Check if the list contains the current object's tag
                 if (!highlightTags.Contains(obj.tag)) continue;
 
                 if (obj != highlighted)

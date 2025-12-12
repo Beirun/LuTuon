@@ -10,7 +10,6 @@ using UnityEngine.Networking;
 [Serializable] public class RefreshRequest { public string refreshToken; }
 [Serializable] public class AccessTokenOnly { public string accessToken; }
 
-// Using the same response structure for Login and Fetch Details
 [Serializable]
 public class LoginResponse
 {
@@ -39,7 +38,6 @@ public class AuthManager : MonoBehaviour
     private Coroutine autoRefreshCoroutine;
     private void Awake()
     {
-        // Singleton Pattern logic
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
@@ -50,12 +48,10 @@ public class AuthManager : MonoBehaviour
     }
     private void Start()
     {
-        // 1. Check if tokens exist in AccountManager (loaded from disk)
         if (AccountManager.Instance.HasTokens())
         {
             var acc = AccountManager.Instance.CurrentAccount;
 
-            // 2. Check if Access Token is expired
             if (DateTime.UtcNow > acc.accessTokenExpiry)
             {
                 Debug.Log("Saved token expired. Refreshing...");
@@ -63,14 +59,12 @@ public class AuthManager : MonoBehaviour
                 {
                     if (success)
                     {
-                        // 3a. Refresh Success -> Fetch Profile
                         StartCoroutine(FetchUserData((dataSuccess, dataError) => {
                             if (!dataSuccess) Debug.LogError("Failed to fetch profile after refresh: " + dataError);
                         }));
                     }
                     else
                     {
-                        // 3b. Refresh Failed -> Logout
                         Debug.LogWarning("Session expired. Logging out.");
                         AccountManager.Instance.ClearAccountData();
                     }
@@ -78,7 +72,6 @@ public class AuthManager : MonoBehaviour
             }
             else
             {
-                // 4. Token Valid -> Fetch Profile Directly
                 Debug.Log("Saved token valid. Fetching user data...");
                 StartCoroutine(FetchUserData((success, error) => {
                     if (!success) Debug.LogError("Failed to fetch profile: " + error);
@@ -147,12 +140,10 @@ public class AuthManager : MonoBehaviour
         }
     }
 
-    // --- NEW: Fetch Data using Token ---
     public IEnumerator FetchUserData(Action<bool, string> callback)
     {
         string token = AccountManager.Instance.CurrentAccount.accessToken;
 
-        // IMPORTANT: Ensure this endpoint exists on your backend!
         using (UnityWebRequest request = UnityWebRequest.Get($"{BaseUrl}/profile"))
         {
             request.SetRequestHeader("Authorization", "Bearer " + token);
@@ -162,25 +153,21 @@ public class AuthManager : MonoBehaviour
 
             if (request.result == UnityWebRequest.Result.Success)
             {
-                // We use the same parsing logic as Login because the structure is the same
                 ProcessSuccessfulLogin(request.downloadHandler.text);
                 callback(true, null);
             }
             else
             {
-                // If fetch fails (e.g. 401 Unauthorized), the token is bad
                 if (request.responseCode == 401) AccountManager.Instance.ClearAccountData();
                 callback(false, request.error);
             }
         }
     }
 
-    // Helper to reduce code duplication between Login, Google, and Fetch
     private void ProcessSuccessfulLogin(string jsonResponse)
     {
         var res = JsonUtility.FromJson<LoginResponse>(jsonResponse);
 
-        // If the fetch didn't return a new token, use the existing one
         string accessTok = string.IsNullOrEmpty(res.accessToken) ? AccountManager.Instance.CurrentAccount.accessToken : res.accessToken;
         string refreshTok = string.IsNullOrEmpty(res.refreshToken) ? AccountManager.Instance.CurrentAccount.refreshToken : res.refreshToken;
         DateTime expiry = DateTime.UtcNow.AddHours(1);
@@ -204,7 +191,6 @@ public class AuthManager : MonoBehaviour
         autoRefreshCoroutine = StartCoroutine(AutoRefreshCoroutine());
     }
 
-    // --- REFRESH LOGIC ---
     public IEnumerator RefreshToken(Action<bool, string> callback)
     {
         var acc = AccountManager.Instance.CurrentAccount;
@@ -229,10 +215,9 @@ public class AuthManager : MonoBehaviour
             {
                 var tokenWrapper = JsonUtility.FromJson<AccessTokenOnly>(request.downloadHandler.text);
 
-                // Update Tokens in Memory and Disk
                 AccountManager.Instance.UpdateTokens(
                     tokenWrapper.accessToken,
-                    acc.refreshToken, // Keep old refresh token
+                    acc.refreshToken, 
                     DateTime.UtcNow.AddHours(1)
                 );
 
@@ -276,7 +261,6 @@ public class AuthManager : MonoBehaviour
     private IEnumerator LogoutCoroutine(Action<bool, string> callback)
     {
         var acc = AccountManager.Instance.CurrentAccount;
-        // Even if no user is logged in, we clear local data
         if (acc == null)
         {
             AccountManager.Instance.ClearAccountData();
@@ -295,7 +279,6 @@ public class AuthManager : MonoBehaviour
 
             yield return request.SendWebRequest();
 
-            // Clear local data regardless of server response
             AccountManager.Instance.ClearAccountData();
             try
             {

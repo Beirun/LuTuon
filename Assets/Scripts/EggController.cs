@@ -16,17 +16,15 @@ public class EggController : DragController
 
     [Header("Settings")]
     public float openSpeed = 0.5f;
-    public float separationDistance = 0.15f; // How far they move apart
-    public float separationAngle = 45f;      // How much they rotate outward
+    public float separationDistance = 0.15f; 
+    public float separationAngle = 45f;   
 
-    // Store original local transforms to reset later
     private Vector3 lStartPos, rStartPos;
     private Quaternion lStartRot, rStartRot;
 
     public override void Awake()
     {
         base.Awake();
-        // Capture the initial state of the shells so we can reset them
         if (leftShell) { lStartPos = leftShell.localPosition; lStartRot = leftShell.localRotation; }
         if (rightShell) { rStartPos = rightShell.localPosition; rStartRot = rightShell.localRotation; }
     }
@@ -37,7 +35,6 @@ public class EggController : DragController
 
         if (highlighted != null)
         {
-            // Trigger the new egg cracking animation
             StartCoroutine(PlayCrackEgg(highlighted.transform.position));
         }
         else
@@ -72,15 +69,13 @@ public class EggController : DragController
         isFinished = true;
     }
 
-    // Helper coroutine to open (isOpen=true) or close (isOpen=false) shells
     IEnumerator AnimateShells(bool isOpen)
     {
         float elapsed = 0f;
         float duration = openSpeed;
 
-        // Define targets based on whether we are opening or closing
-        Vector3 lTargetPos = isOpen ? lStartPos + (Vector3.left * separationDistance) : lStartPos; // Using 'down' because egg is rotated 90deg
-        Vector3 rTargetPos = isOpen ? rStartPos + (Vector3.right * separationDistance) : rStartPos;   // Using 'up' relative to local space
+        Vector3 lTargetPos = isOpen ? lStartPos + (Vector3.left * separationDistance) : lStartPos; 
+        Vector3 rTargetPos = isOpen ? rStartPos + (Vector3.right * separationDistance) : rStartPos; 
 
         Quaternion lTargetRot = isOpen ? lStartRot * Quaternion.Euler(-separationAngle, 0, 0) : lStartRot;
         Quaternion rTargetRot = isOpen ? rStartRot * Quaternion.Euler(separationAngle, 0, 0) : rStartRot;
@@ -93,7 +88,7 @@ public class EggController : DragController
         while (elapsed < duration)
         {
             float t = elapsed / duration;
-            t = t * t * (3f - 2f * t); // Smooth step
+            t = t * t * (3f - 2f * t); 
 
             if (leftShell)
             {
@@ -110,7 +105,6 @@ public class EggController : DragController
             yield return null;
         }
 
-        // Ensure exact final position
         if (leftShell) leftShell.SetLocalPositionAndRotation(lTargetPos, lTargetRot);
         if (rightShell) rightShell.SetLocalPositionAndRotation(rTargetPos, rTargetRot);
         if (isOpen)
@@ -120,7 +114,6 @@ public class EggController : DragController
         
     }
 
-    // Reusing your MoveTo logic
     IEnumerator MoveTo(Vector3 targetPos, float duration)
     {
         Vector3 fromPos = transform.position;

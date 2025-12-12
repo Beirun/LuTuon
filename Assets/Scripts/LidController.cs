@@ -1,5 +1,3 @@
-// DragAndPlace.cs
-// Combines Draggable, PlacementController, and HighlightController into one script.
 
 using UnityEngine;
 using System.Collections;
@@ -51,14 +49,13 @@ public class LidController : DragController
         while (elapsedTime < duration)
         {
             float t = elapsedTime / duration;
-            // smoothstep ease in/out
             t = t * t * (3f - 2f * t);
 
             Vector3 pos = Vector3.Lerp(fromPos, targetPos, t);
 
             if (useArc)
             {
-                float arcHeight = 0.5f; // smaller arc for smoother land
+                float arcHeight = 0.5f; 
                 pos.y += Mathf.Sin(t * Mathf.PI) * arcHeight;
             }
 

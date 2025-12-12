@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class GingerManager : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     [Header("Ginger Parts")]
     public GameObject Ginger;
     public GameObject Ginger1;
@@ -29,7 +28,6 @@ public class GingerManager : MonoBehaviour
 
     }
 
-    // Update is called once per frame
     void Update()
     {
         Vector3 gingerPos = Ginger.transform.position;

@@ -7,7 +7,7 @@ public class CookingOilController : DragController
     [Header("Water Objects")]
     public GameObject water;
     public GameObject pouringWater;
-    public Color pouringColor = new Color(1f, 0.75f, 0f, 0.3f); // oil-like yellow tint
+    public Color pouringColor = new Color(1f, 0.75f, 0f, 0.3f); 
 
     List<Material> pouringMats = new List<Material>();
     List<Color> originalColors = new List<Color>();
@@ -19,7 +19,6 @@ public class CookingOilController : DragController
     {
         base.Start();
 
-        // Collect pouring water materials
         if (pouringWater)
         {
             Renderer[] renderers = pouringWater.GetComponentsInChildren<Renderer>(true);
@@ -40,7 +39,6 @@ public class CookingOilController : DragController
             Debug.LogWarning("pouringWater not assigned!");
         }
 
-        // Collect main water materials (for color change that persists)
         if (water)
         {
             Renderer[] waterRenderers = water.GetComponentsInChildren<Renderer>(true);
@@ -86,11 +84,9 @@ public class CookingOilController : DragController
         pouringWater.SetActive(true);
         pouringWater.transform.position = targetPos + new Vector3(1.9f, -1.4f, 0f);
 
-        // You can change the target height here if you want to test the > 1f logic
         yield return StartCoroutine(AnimateWaterLevel(0.8f, 0.75f));
     }
 
-    // --- MODIFIED COROUTINE BELOW ---
     IEnumerator AnimateWaterLevel(float targetPosY, float duration)
     {
         bool isWaterActive = water.activeInHierarchy;
@@ -103,7 +99,6 @@ public class CookingOilController : DragController
 
         float elapsedTime = 0f;
 
-        // Store initial colors for main water
         List<Color> startColors = new List<Color>();
         foreach (Material m in mainWaterMats)
         {
@@ -115,7 +110,6 @@ public class CookingOilController : DragController
             startColors.Add(startC);
         }
 
-        // Change all pouring materials to oil color instantly
         foreach (Material m in pouringMats)
         {
             if (m.HasProperty("_BaseColor"))
@@ -129,19 +123,13 @@ public class CookingOilController : DragController
             float rawT = elapsedTime / duration;
             float smoothT = rawT * rawT * (3f - 2f * rawT);
 
-            // 1. Position Logic
-            // Note: logic kept to stop at 0.8f as per your original code, 
-            // but checking y < 1f as per your new request context.
             if (water.transform.position.y < 1f)
             {
                 water.transform.position = Vector3.Lerp(fromPosition, toPosition, smoothT);
             }
 
-            // 2. Color Logic
-            // Calculate the interpolation factor
             float colorT = smoothT;
 
-            // KEY LOGIC: If water is too high, cap the color blending at 33%
             if (isWaterActive)
             {
                 colorT = smoothT * 0.13f;
@@ -151,7 +139,6 @@ public class CookingOilController : DragController
                 
             }
 
-                // Apply Color
                 for (int i = 0; i < mainWaterMats.Count; i++)
                 {
                     Material m = mainWaterMats[i];
@@ -167,10 +154,6 @@ public class CookingOilController : DragController
             yield return null;
         }
 
-        // --- FINAL STATE CHECK ---
-        // We must respect the height rule even when the animation finishes.
-        // If we just set it to 'pouringColor', it would snap from 33% to 100% instantly.
-
         float finalColorFactor = 1.0f;
         if (water.transform.position.y > 1f)
         {
@@ -180,7 +163,6 @@ public class CookingOilController : DragController
         for (int i = 0; i < mainWaterMats.Count; i++)
         {
             Material m = mainWaterMats[i];
-            // We use Lerp with finalColorFactor instead of setting directly to pouringColor
             Color finalColor = Color.Lerp(startColors[i], pouringColor, finalColorFactor);
 
             if (m.HasProperty("_BaseColor"))
@@ -192,7 +174,6 @@ public class CookingOilController : DragController
         pouringWater.SetActive(false);
         pouringWater.transform.position = waterStartPos;
 
-        // Reset pouring water stream color
         for (int i = 0; i < pouringMats.Count; i++)
         {
             Material m = pouringMats[i];

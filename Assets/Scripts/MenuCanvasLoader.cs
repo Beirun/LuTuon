@@ -19,7 +19,7 @@ public class MenuCanvasLoader : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
         SceneManager.sceneLoaded += OnSceneLoaded;
-        ResolveCanvases(); // also resolve for the first scene
+        ResolveCanvases(); 
     }
 
     void OnDestroy()
@@ -29,7 +29,7 @@ public class MenuCanvasLoader : MonoBehaviour
 
     void OnSceneLoaded(Scene s, LoadSceneMode m)
     {
-        ResolveCanvases(); // refresh references every time a new scene loads
+        ResolveCanvases(); 
     }
 
     void ResolveCanvases()
@@ -45,7 +45,7 @@ public class MenuCanvasLoader : MonoBehaviour
 
     void SetActiveCanvas(GameObject target)
     {
-        ResolveCanvases(); // safety: ensure references are valid
+        ResolveCanvases(); 
         if (!mainMenuCanvas || !tutorialMenuCanvas || !standardMenuCanvas || !target)
         {
             Debug.LogError("MenuCanvasLoader: Canvases not found in the current scene.");
