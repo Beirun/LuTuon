@@ -48305,7 +48305,7 @@ MonoBehaviour:
   lid: {fileID: 1377150664}
   waterOpacityChecks:
   - color: {r: 0.6784314, g: 0.6784314, b: 0.6784314, a: 0.2}
-    multiplier: 0.05
+    multiplier: 0.1
   - color: {r: 1, g: 0.8, b: 0, a: 0.2}
     multiplier: 0.9
 --- !u!1001 &1828122630
