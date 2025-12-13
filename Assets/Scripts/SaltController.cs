@@ -30,6 +30,7 @@ public class SaltController : DragController
 
     IEnumerator MoveThenAnimate(Vector3 targetPos, Quaternion targetRot, float moveDuration)
     {
+        isPerforming = true;
         Vector3 startPos = transform.position;
         Quaternion startRot = transform.rotation;
         float t = 0f;
@@ -47,7 +48,6 @@ public class SaltController : DragController
 
     IEnumerator AnimateShake(Vector3 basePos, Quaternion baseRot, float duration)
     {
-        isPerforming = true;
 
         IEnumerator Shake()
         {
