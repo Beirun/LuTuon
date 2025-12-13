@@ -24,7 +24,7 @@ public class SpoonManager : MonoBehaviour
 
     void Update()
     {
-        if(water.activeInHierarchy)
+        if(!water.activeInHierarchy)
         {
             spoon.isDisabled = true;
             return;
