@@ -15174,7 +15174,13 @@ MonoBehaviour:
   pouringColor: {r: 0.22745098, g: 0.09803922, b: 0.09411765, a: 0.9137255}
   targetWaterLevelY: 0.2
   lid: {fileID: 0}
-  waterOpacityChecks: []
+  waterOpacityChecks:
+  - color: {r: 1, g: 0.8, b: 0, a: 0.2}
+    multiplier: 0.9
+  - color: {r: 0.77254903, g: 0.77254903, b: 0.77254903, a: 0.2}
+    multiplier: 0.93
+  - color: {r: 0.6784314, g: 0.6784314, b: 0.6784314, a: 0.2}
+    multiplier: 0.95
 --- !u!1 &595188229
 GameObject:
   m_ObjectHideFlags: 0
@@ -28439,7 +28445,13 @@ MonoBehaviour:
   pouringWater: {fileID: 1431625624}
   pouringColor: {r: 1, g: 0.8, b: 0, a: 0.2}
   lid: {fileID: 0}
-  waterOpacityChecks: []
+  waterOpacityChecks:
+  - color: {r: 0.22745098, g: 0.09803922, b: 0.09411765, a: 0.9137255}
+    multiplier: 0.03
+  - color: {r: 0.77254903, g: 0.77254903, b: 0.77254903, a: 0.2}
+    multiplier: 0.35
+  - color: {r: 0.6784314, g: 0.6784314, b: 0.6784314, a: 0.2}
+    multiplier: 0.15
 --- !u!54 &993568897
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -31195,7 +31207,11 @@ MonoBehaviour:
   pouringDuration: 0.5
   waterDuration: 1
   lid: {fileID: 0}
-  waterOpacityChecks: []
+  waterOpacityChecks:
+  - color: {r: 0.22745098, g: 0.09803922, b: 0.09411765, a: 0.9137255}
+    multiplier: 0.03
+  - color: {r: 0.22745098, g: 0.09803922, b: 0.09411765, a: 0.9137255}
+    multiplier: 0.03
 --- !u!64 &1297521984
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -31619,7 +31635,13 @@ MonoBehaviour:
   pouringColor: {r: 0.7735849, g: 0.7735849, b: 0.7735849, a: 0.2}
   targetWaterLevelY: 0.8
   lid: {fileID: 0}
-  waterOpacityChecks: []
+  waterOpacityChecks:
+  - color: {r: 1, g: 0.8, b: 0, a: 0.2}
+    multiplier: 0.65
+  - color: {r: 0.22745098, g: 0.09803922, b: 0.09411765, a: 0.9137255}
+    multiplier: 0.03
+  - color: {r: 1, g: 0.8, b: 0, a: 0.2}
+    multiplier: 0.65
 --- !u!1 &1355887367
 GameObject:
   m_ObjectHideFlags: 0
