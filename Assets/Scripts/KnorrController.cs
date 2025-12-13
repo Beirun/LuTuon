@@ -54,7 +54,7 @@ public class KnorrController : DragController
     public override void Update()
     {
         base.Update();
-        if (isInPot && !floating && water != null && water.activeInHierarchy && water.transform.position.y > 1f)
+        if (isInPot && !floating && water != null && water.activeInHierarchy && water.transform.position.y > 1.1f)
         {
             EnablePhysicsOnChildren(transform);
             StartFloating();
@@ -68,10 +68,15 @@ public class KnorrController : DragController
         {
             Vector3 p = highlighted.transform.position;
             p.y = water.transform.position.y + waterSurfaceOffset;
-            if (water.transform.position.y < 1f) p = highlighted.transform.position + new Vector3(0f, 0.2f, 0f);
+            if (water.transform.position.y < 1f)
+                p = highlighted.transform.position + new Vector3(0f, 0.2f, 0f);
+
             StartCoroutine(AnimatePlacement(p, transform.rotation, 0.5f));
         }
-        else StartCoroutine(ReturnToStart());
+        else
+        {
+            StartCoroutine(ReturnToStart());
+        }
         ClearHighlight();
     }
 
@@ -93,12 +98,12 @@ public class KnorrController : DragController
         }
 
         if (isDragging)
-        {
             EnablePhysicsOnChildren(transform);
-        }
+
         isPerforming = false;
         this.isDragging = false;
-        yield return StartCoroutine(FadeOutAfterDelay(2f, 3f));
+
+        yield return StartCoroutine(DisableAfterDelay(2f));
         isFinished = true;
     }
 
@@ -110,10 +115,11 @@ public class KnorrController : DragController
             var rb = c.GetComponent<Rigidbody>();
             if (rb != null)
             {
-                rb.isKinematic = water.transform.position.y > 1f;
-                rb.useGravity = water.transform.position.y < 1f;
+                rb.isKinematic = water.transform.position.y > 1.1f;
+                rb.useGravity = water.transform.position.y < 1.1f;
             }
-            if (c.childCount > 0) EnablePhysicsOnChildren(c);
+            if (c.childCount > 0)
+                EnablePhysicsOnChildren(c);
         }
     }
 
@@ -134,52 +140,15 @@ public class KnorrController : DragController
             StartCoroutine(FloatAndDrift(rb));
         }
 
-        StartCoroutine(FadeOutAfterDelay(2f, 3f));
+        StartCoroutine(DisableAfterDelay(2f));
         isFinished = true;
     }
 
-    IEnumerator FadeOutAfterDelay(float delay, float duration)
+    IEnumerator DisableAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
-
-        Renderer[] renderers = GetComponentsInChildren<Renderer>();
-        List<Material> mats = new List<Material>();
-
-        foreach (var rend in renderers)
-        {
-            foreach (var mat in rend.materials)
-            {
-                mat.SetFloat("_Mode", 2);
-                mat.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
-                mat.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
-                mat.SetInt("_ZWrite", 0);
-                mat.DisableKeyword("_ALPHATEST_ON");
-                mat.EnableKeyword("_ALPHABLEND_ON");
-                mat.DisableKeyword("_ALPHAPREMULTIPLY_ON");
-                mat.renderQueue = 3000;
-
-                mats.Add(mat);
-            }
-        }
-
-        float t = 0f;
-        while (t < duration)
-        {
-            t += Time.deltaTime;
-            float alpha = Mathf.Lerp(1f, 0f, t / duration);
-            foreach (var mat in mats)
-            {
-                Color c = mat.color;
-                c.a = alpha;
-                mat.color = c;
-            }
-            yield return null;
-        }
-
-        gameObject.SetActive(false); 
+        gameObject.SetActive(false);
     }
-
-
 
     IEnumerator FloatAndDrift(Rigidbody rb)
     {
@@ -205,6 +174,7 @@ public class KnorrController : DragController
             Vector3 centerXZ = new Vector3(potCenter.position.x, 0, potCenter.position.z);
             Vector3 posXZ = new Vector3(target.x, 0, target.z);
             Vector3 dir = posXZ - centerXZ;
+
             if (dir.sqrMagnitude > potRadius * potRadius)
                 target = centerXZ + dir.normalized * potRadius + Vector3.up * target.y;
 
@@ -212,5 +182,4 @@ public class KnorrController : DragController
             yield return null;
         }
     }
-
 }
