@@ -140,4 +140,5 @@ public class DialogManager : MonoBehaviour
         yield return new WaitForSeconds(animationDuration);
         if (panelData.gameObject != null) panelData.gameObject.SetActive(false);
     }
+
 }
