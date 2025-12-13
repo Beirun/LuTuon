@@ -24,13 +24,10 @@ public class SpoonManager : MonoBehaviour
 
     void Update()
     {
-        if(!water.activeInHierarchy)
-        {
-            spoon.isDisabled = true;
-            return;
-        }
+        
         bool anyInPot = false;
 
+        if(!water.activeInHierarchy) anyInPot = false;
         for (int i = 0; i < controllers.Count; i++)
         {
             if (controllers[i] != null && controllers[i].isInPot)
