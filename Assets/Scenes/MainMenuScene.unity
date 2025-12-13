@@ -15288,8 +15288,8 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 1b7f003b80c546641adcf95f1d9a10c9, type: 3}
   - {fileID: 21300000, guid: c27c828bc050b3d479a84964cc936199, type: 3}
   - {fileID: 21300000, guid: 27c96687f5c437640a40cb3a79b27ba2, type: 3}
-  - {fileID: 21300000, guid: 9679c76dd71451448819b0d50f880dfe, type: 3}
-  - {fileID: 21300000, guid: 844c49da8a810254293f744785964e2d, type: 3}
+  - {fileID: 21300000, guid: 289a0a1684cbcd3489dc91b60d9d528a, type: 3}
+  - {fileID: 21300000, guid: c3a61483235628d4d8112026222b350b, type: 3}
   nextButton: {fileID: 1797046227}
   previousButton: {fileID: 1771662034}
   onboardingPanel: {fileID: 358523823}
