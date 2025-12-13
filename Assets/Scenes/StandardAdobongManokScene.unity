@@ -30626,10 +30626,10 @@ MonoBehaviour:
   waterOpacityChecks:
   - color: {r: 0.22745098, g: 0.09803922, b: 0.09411765, a: 0.9137255}
     multiplier: 0.03
-  - color: {r: 0, g: 0, b: 0, a: 0}
-    multiplier: 0
-  - color: {r: 0, g: 0, b: 0, a: 0}
-    multiplier: 0
+  - color: {r: 1, g: 0.8, b: 0, a: 0.2}
+    multiplier: 0.65
+  - color: {r: 0.77254903, g: 0.77254903, b: 0.77254903, a: 0.2}
+    multiplier: 0.15
 --- !u!64 &1297521984
 MeshCollider:
   m_ObjectHideFlags: 0
