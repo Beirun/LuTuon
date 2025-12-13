@@ -12,7 +12,7 @@ public class ChoppedGarlicController : DragController
         if (highlighted != null && (lid == null || !lid.isClose))
         {
             Vector3 targetPos = highlighted.transform.position + new Vector3(0f, 0.125f, 0f);
-            if (makeChildAfterPlacement && highlighted != null)
+            if (makeChildAfterPlacement && highlighted != null && !highlighted.CompareTag("Pan"))
             {
                 transform.SetParent(highlighted.transform, true);
             }

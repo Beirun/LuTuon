@@ -1,19 +1,27 @@
-using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class VinegarController : DragController
 {
+    [Serializable]
+    public class WaterOpacityCheck
+    {
+        public Color color;
+        public float multiplier;
+    }
     [Header("Water Objects")]
     public GameObject water;
     public GameObject pouringWater;
-    public Color pouringColor = new Color(1f, 0.75f, 0f, 0.3f); // oil-like yellow tint
+    public Color pouringColor = new Color(1f, 0.75f, 0f, 0.3f);
     List<Material> pouringMats = new List<Material>();
     List<Color> originalColors = new List<Color>();
     List<Material> mainWaterMats = new List<Material>();
     public float targetWaterLevelY = 0.8f;
     public LidController lid;
-
+    [Header("Water Color Check")]
+    public List<WaterOpacityCheck> waterOpacityChecks = new List<WaterOpacityCheck>();
     public override void Start()
     {
         base.Start();
@@ -97,63 +105,91 @@ public class VinegarController : DragController
     {
         bool isWaterActive = water.activeInHierarchy;
         water.SetActive(true);
-        Vector3 pwStartPos = pouringWater.transform.position;
+        Vector3 waterStartPos = pouringWater.transform.position;
         pouringWater.transform.position += new Vector3(-0.325f, 0.5f, 0f);
 
-        Vector3 fromPos = water.transform.position;
-        if (fromPos.y < 1f) targetPosY += 0.1f;
-        Vector3 toPos = new Vector3(fromPos.x, targetPosY, fromPos.z);
+        Vector3 fromPosition = water.transform.position;
+        if (fromPosition.y > targetPosY) targetPosY = fromPosition.y;
+        if (water.transform.position.y < 1f) targetPosY += 0.05f;
+        if (!isWaterActive) targetPosY = targetWaterLevelY;
+        Vector3 toPosition = new Vector3(fromPosition.x, targetPosY, fromPosition.z);
 
-        int count = mainWaterMats.Count;
-        Color[] startColors = new Color[count];
-        for (int i = 0; i < count; i++)
+        float elapsedTime = 0f;
+
+        List<Color> startColors = new List<Color>();
+        foreach (Material m in mainWaterMats)
         {
-            Material m = mainWaterMats[i];
-            if (m.HasProperty("_BaseColor"))
-                startColors[i] = m.GetColor("_BaseColor");
-            else if (m.HasProperty("_Color"))
-                startColors[i] = m.GetColor("_Color");
-            else
-                startColors[i] = Color.white;
+            Color startC = m.HasProperty("_BaseColor")
+                ? m.GetColor("_BaseColor")
+                : m.HasProperty("_Color")
+                    ? m.GetColor("_Color")
+                    : Color.white;
+            startColors.Add(startC);
         }
 
-        float elapsed = 0f;
-
-        while (elapsed < duration)
+        foreach (Material m in pouringMats)
         {
-            float t = elapsed / duration;
-            float smoothT = t * t * (3f - 2f * t);
+            if (m.HasProperty("_BaseColor"))
+                m.SetColor("_BaseColor", pouringColor);
+            else if (m.HasProperty("_Color"))
+                m.SetColor("_Color", pouringColor);
+        }
 
-            if (!isWaterActive)
+        while (elapsedTime < duration)
+        {
+            float rawT = elapsedTime / duration;
+            float smoothT = rawT * rawT * (3f - 2f * rawT);
+
+            if (water.transform.position.y < 1f)
             {
-                water.transform.position = Vector3.Lerp(fromPos, toPos, smoothT);
+                water.transform.position = Vector3.Lerp(fromPosition, toPosition, smoothT);
             }
 
-            float baseT = smoothT;
+            float bestScore = 0f;
+            float bestMultiplier = 1f;
+
+            for (int i = 0; i < waterOpacityChecks.Count; i++)
+            {
+                Color refC = waterOpacityChecks[i].color;
+
+                Color curC = startColors[0];
+
+                float dist =
+                    Mathf.Abs(curC.r - refC.r) +
+                    Mathf.Abs(curC.g - refC.g) +
+                    Mathf.Abs(curC.b - refC.b) +
+                    Mathf.Abs(curC.a - refC.a);
+
+                float score = 1f - Mathf.Clamp01(dist / 4f);
+
+                if (score > bestScore)
+                {
+                    bestScore = score;
+                    bestMultiplier = waterOpacityChecks[i].multiplier;
+                }
+            }
+
+            float colorT = smoothT * bestMultiplier;
+            if (!isWaterActive) colorT = smoothT;
+
             for (int i = 0; i < mainWaterMats.Count; i++)
             {
                 Material m = mainWaterMats[i];
-                Color start = startColors[i];
-
-
-
-                if (water.activeInHierarchy) baseT = smoothT * 0.03f;
-                else baseT = smoothT;
-
-                Color c = Color.Lerp(start, pouringColor, baseT);
+                Color newColor = Color.Lerp(startColors[i], pouringColor, colorT);
 
                 if (m.HasProperty("_BaseColor"))
-                    m.SetColor("_BaseColor", c);
+                    m.SetColor("_BaseColor", newColor);
                 else if (m.HasProperty("_Color"))
-                    m.SetColor("_Color", c);
+                    m.SetColor("_Color", newColor);
             }
 
-            elapsed += Time.deltaTime;
+            elapsedTime += Time.deltaTime;
             yield return null;
         }
 
+
         pouringWater.SetActive(false);
-        pouringWater.transform.position = pwStartPos;
+        pouringWater.transform.position = waterStartPos;
 
         for (int i = 0; i < pouringMats.Count; i++)
         {

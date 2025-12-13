@@ -11033,6 +11033,7 @@ MonoBehaviour:
   pouringColor: {r: 0.22745098, g: 0.09803922, b: 0.09411765, a: 0.9137255}
   targetWaterLevelY: 0.8
   lid: {fileID: 0}
+  waterOpacityChecks: []
 --- !u!54 &407842775
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -38300,6 +38301,7 @@ MonoBehaviour:
   pouringColor: {r: 0.7735849, g: 0.7735849, b: 0.7735849, a: 0.101960786}
   targetWaterLevelY: 0.8
   lid: {fileID: 0}
+  waterOpacityChecks: []
 --- !u!1001 &1863499219
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -39530,11 +39532,11 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2040740542}
-  - {fileID: 1389940889}
   - {fileID: 536305047}
-  - {fileID: 1504033986}
   - {fileID: 214313001}
   - {fileID: 1128507756}
+  - {fileID: 1504033986}
+  - {fileID: 1389940889}
   - {fileID: 1542999764}
   - {fileID: 1312203920}
   - {fileID: 1835755778}

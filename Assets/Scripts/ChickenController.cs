@@ -25,8 +25,6 @@ public class ChickenController : DragController
 
     bool floating;
 
-    [Header("Timer Controller")]
-    public TimerController timerController;
     public bool isTutorial = false; 
     public LidController lid;
 
@@ -59,7 +57,7 @@ public class ChickenController : DragController
     public override void Update()
     {
         base.Update();
-        if (isInPot && !floating && water != null && water.activeInHierarchy && water.transform.position.y > 1f)
+        if (isInPot && !floating && water != null && water.activeInHierarchy && water.transform.position.y > 1.1f)
         {
             EnablePhysicsOnChildren(transform);
             StartFloating();
@@ -101,13 +99,10 @@ public class ChickenController : DragController
         {
             EnablePhysicsOnChildren(transform);
             isFinished = true;
-            if(!isTutorial){
-                timerController.enabled = true;
-                timerController.StartTimer(5);
-            }
         }
         this.isDragging = false;
         isPerforming = false;
+        isInPot = true;
     }
 
     void EnablePhysicsOnChildren(Transform p)
@@ -118,7 +113,7 @@ public class ChickenController : DragController
             var rb = c.GetComponent<Rigidbody>();
             if (rb != null)
             {
-                bool enable = water.transform.position.y > 1f;
+                bool enable = water.transform.position.y > 1.1f;
                 rb.isKinematic = enable;
                 rb.useGravity = !enable;
 

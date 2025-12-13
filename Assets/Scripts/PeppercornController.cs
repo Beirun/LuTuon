@@ -51,16 +51,6 @@ public class PeppercornController : DragController
         }
     }
 
-    public override void Update()
-    {
-        base.Update();
-        if (isInPot && !floating && water != null && water.activeInHierarchy && water.transform.position.y > 1f)
-        {
-            EnablePhysicsOnChildren(transform);
-            StartFloating();
-        }
-    }
-
     public override void EndDrag()
     {
         base.EndDrag();
@@ -116,54 +106,4 @@ public class PeppercornController : DragController
         }
     }
 
-    void StartFloating()
-    {
-        if (floating) return;
-        floating = true;
-
-        foreach (var rb in rbs)
-        {
-            Vector2 randomCircle = Random.insideUnitCircle * (potRadius * 0.8f);
-            Vector3 home = new Vector3(
-                potCenter.position.x + randomCircle.x,
-                water.transform.position.y,
-                potCenter.position.z + randomCircle.y
-            );
-            homePositions[rb] = home;
-
-            StartCoroutine(FloatAndDrift(rb));
-        }
-    }
-
-    IEnumerator FloatAndDrift(Rigidbody rb)
-    {
-        Vector3 home = homePositions[rb];
-        float seedX = Random.Range(0f, 100f);
-        float seedZ = Random.Range(0f, 100f);
-        float seedY = Random.Range(0f, 100f);
-
-        while (floating)
-        {
-            float t = Time.time * driftSpeed;
-
-            float offsetX = (Mathf.PerlinNoise(seedX, t) - 0.5f) * 2f * floatRadius;
-            float offsetZ = (Mathf.PerlinNoise(seedZ, t + 100f) - 0.5f) * 2f * floatRadius;
-            float offsetY = Mathf.Sin((t + seedY) * bobSpeed) * bobAmplitude;
-
-            Vector3 target = new Vector3(
-                home.x + offsetX,
-                water.transform.position.y + waterSurfaceOffset + offsetY,
-                home.z + offsetZ
-            );
-
-            Vector3 centerXZ = new Vector3(potCenter.position.x, 0, potCenter.position.z);
-            Vector3 posXZ = new Vector3(target.x, 0, target.z);
-            Vector3 dirFromCenter = posXZ - centerXZ;
-            if (dirFromCenter.sqrMagnitude > potRadius * potRadius)
-                target = centerXZ + dirFromCenter.normalized * potRadius + Vector3.up * target.y;
-
-            rb.MovePosition(Vector3.Lerp(rb.position, target, Time.deltaTime * floatStrength));
-            yield return null;
-        }
-    }
 }

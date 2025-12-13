@@ -30,6 +30,7 @@ public class SpoonController : DragController
 
     IEnumerator PlayStirAnimation(Vector3 targetCenter)
     {
+        isPerforming = true;
         Vector3 center = new Vector3(targetCenter.x, targetCenter.y + 0.5f, targetCenter.z);
         Quaternion stirRot = Quaternion.Euler(360f, 180f, 90f);
 
@@ -98,6 +99,8 @@ public class SpoonController : DragController
         yield return RestoreRotation(startRot, 0.3f);
         yield return ReturnToStart();
         isFinished = true;
+        isPerforming = false;
+
     }
 
 
