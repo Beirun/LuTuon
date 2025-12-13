@@ -40,10 +40,11 @@ public class EggBowlController : DragController
 
         yield return new WaitForSeconds(1f);
         eggPlant.SetActive(true);
+        gameObject.tag = "Bowl";
         DisableAllChildren();  
         yield return ReturnToStart();
         isFinished = true;
-
+        isDisabled = true;
 
     }
 

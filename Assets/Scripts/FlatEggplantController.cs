@@ -15,7 +15,7 @@ public class FlatEggplantController : DragController
         base.EndDrag();
         if (highlighted != null)
         {
-            Vector3 targetPos = highlighted.transform.position + new Vector3(0, 0.12f, 0.12f);
+            Vector3 targetPos = highlighted.transform.position + new Vector3(0, 0.125f, 0.12f);
 
             StartCoroutine(AnimatePlacement(targetPos, transform.rotation, 0.5f));
         }
