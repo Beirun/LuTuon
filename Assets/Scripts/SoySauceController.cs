@@ -23,7 +23,8 @@ public class SoySauceController : DragController
     List<Material> mainWaterMats = new List<Material>();
     public float targetWaterLevelY = 0.8f;
     public LidController lid;
-
+    [HideInInspector]
+    public bool hasPoured = false;
     [Header("Water Color Check")]
     public List<WaterOpacityCheck> waterOpacityChecks = new List<WaterOpacityCheck>();
 
@@ -216,6 +217,7 @@ public class SoySauceController : DragController
 
         yield return ReturnToStart();
         isFinished = true;
+        hasPoured = true;
     }
 
 }

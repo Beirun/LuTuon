@@ -12,22 +12,33 @@ public class PorkManager : MonoBehaviour
     public Material porkLuto;
     private bool isChangedToLuto = false;
     private bool isChangedToLuspad = false;
+    private bool isLuspadRoutineStarted = false;
+    private bool isLutoRoutineStarted = false;
+    Coroutine luspadRoutine;
 
     void Update()
     {
-        if (!isChangedToLuto && soyController.isFinished)
+        if (!isChangedToLuto && soyController.hasPoured && !isLutoRoutineStarted)
         {
+            if(luspadRoutine != null)
+            {
+                StopCoroutine(luspadRoutine);
+                luspadRoutine = null;
+            }
             StartCoroutine(ChangeToLutoMaterial());
+            isLutoRoutineStarted = true;
         }
-        if (!isChangedToLuspad && porkController.isFinished && !isChangedToLuto)
+        if (!isChangedToLuspad && porkController.isPlaced && !isChangedToLuto && !isLuspadRoutineStarted)
         {
-            StartCoroutine(ChangeToLuspadMaterial());
+            luspadRoutine = StartCoroutine(ChangeToLuspadMaterial());
+            isLuspadRoutineStarted = true;
         }
     }
 
     IEnumerator ChangeToLutoMaterial()
     {
-        yield return new WaitForSeconds(8f);
+        Debug.LogWarning("Changing to Luto Material");
+        yield return new WaitForSeconds(3f);
 
         var mrs = pork.GetComponentsInChildren<MeshRenderer>(true);
         for (int i = 0; i < mrs.Length; i++)
@@ -43,6 +54,7 @@ public class PorkManager : MonoBehaviour
     }
     IEnumerator ChangeToLuspadMaterial()
     {
+        Debug.LogWarning("Changing to Luspad Material");
         yield return new WaitForSeconds(8f);
         var mrs = pork.GetComponentsInChildren<MeshRenderer>(true);
         for (int i = 0; i < mrs.Length; i++)

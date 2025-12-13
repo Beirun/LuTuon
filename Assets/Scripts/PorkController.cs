@@ -5,7 +5,10 @@ using UnityEngine;
 public class PorkController : DragController
 {
     List<Rigidbody> rbs = new List<Rigidbody>();
-    
+
+    [HideInInspector]
+    public bool isPlaced = false;   
+
     public override void Start()
     {
         base.Start();
@@ -66,6 +69,7 @@ public class PorkController : DragController
         isFinished = true;
         isDragging = false;
         isPerforming = false;
+        isPlaced = true;
     }
 
 
