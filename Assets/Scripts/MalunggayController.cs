@@ -54,7 +54,7 @@ public class MalunggayController : DragController
     public override void Update()
     {
         base.Update();
-        if (isInPot && !floating && water != null && water.activeInHierarchy && water.transform.position.y > 1f)
+        if (isInPot && !floating && water != null && water.activeInHierarchy && water.transform.position.y > 1.1f)
         {
             EnablePhysicsOnChildren(transform);
             StartFloating();
@@ -109,8 +109,8 @@ public class MalunggayController : DragController
             var rb = c.GetComponent<Rigidbody>();
             if (rb != null)
             {
-                rb.isKinematic = water.transform.position.y > 1f;
-                rb.useGravity = water.transform.position.y < 1f;
+                rb.isKinematic = water.transform.position.y > 1.1f;
+                rb.useGravity = water.transform.position.y < 1.1f;
             }
             if (c.childCount > 0) EnablePhysicsOnChildren(c);
         }
