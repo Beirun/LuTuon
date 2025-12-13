@@ -11033,7 +11033,12 @@ MonoBehaviour:
   pouringColor: {r: 0.22745098, g: 0.09803922, b: 0.09411765, a: 0.9137255}
   targetWaterLevelY: 0.8
   lid: {fileID: 0}
-  waterOpacityChecks: []
+  hasPoured: 0
+  waterOpacityChecks:
+  - color: {r: 0.77254903, g: 0.77254903, b: 0.77254903, a: 0.2}
+    multiplier: 0.93
+  - color: {r: 1, g: 0.7490196, b: 0, a: 0.29803923}
+    multiplier: 0.83
 --- !u!54 &407842775
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -24286,6 +24291,11 @@ MonoBehaviour:
   pouringWater: {fileID: 1144921405}
   pouringColor: {r: 1, g: 0.75, b: 0, a: 0.3}
   lid: {fileID: 0}
+  waterOpacityChecks:
+  - color: {r: 0.22745098, g: 0.09803922, b: 0.09411765, a: 0.9137255}
+    multiplier: 0.13
+  - color: {r: 0.77254903, g: 0.77254903, b: 0.77254903, a: 0.2}
+    multiplier: 0.87
 --- !u!64 &1271604417
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -27856,6 +27866,7 @@ MonoBehaviour:
   zOffsetAmount: 0.25
   isInPot: 0
   isFinished: 0
+  isPlaced: 0
 --- !u!1 &1444211727
 GameObject:
   m_ObjectHideFlags: 0
@@ -38301,7 +38312,11 @@ MonoBehaviour:
   pouringColor: {r: 0.7735849, g: 0.7735849, b: 0.7735849, a: 0.101960786}
   targetWaterLevelY: 0.8
   lid: {fileID: 0}
-  waterOpacityChecks: []
+  waterOpacityChecks:
+  - color: {r: 0.22745098, g: 0.09803922, b: 0.09411765, a: 0.9137255}
+    multiplier: 0.03
+  - color: {r: 1, g: 0.7490196, b: 0, a: 0.29803923}
+    multiplier: 0.13
 --- !u!1001 &1863499219
 PrefabInstance:
   m_ObjectHideFlags: 0
