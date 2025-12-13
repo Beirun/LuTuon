@@ -6,15 +6,28 @@ public class ChickenSoyManager : MonoBehaviour
 {
     public GameObject chicken;
     public GameObject water;
+    public GameObject panWater;
 
     List<Material> mats = new List<Material>();
     Color[] startColors;
+    
     Color target = new Color(0.6132076f, 0.4878468f, 0.4830455f);
     bool started;
+    bool isFinished = false;
+    ChickenController chickenController;
+    Coroutine chickenroutine;
+    float t = 0f;
 
     void Start()
     {
         if (!chicken) return;
+        if (chickenController == null) chickenController = FindFirstObjectByType<ChickenController>();
+        InitializeMaterials();
+    }
+
+    public void InitializeMaterials()
+    {
+        mats.Clear();
         Renderer[] r = chicken.GetComponentsInChildren<Renderer>(true);
         foreach (var e in r)
         {
@@ -37,10 +50,23 @@ public class ChickenSoyManager : MonoBehaviour
 
     void Update()
     {
-        if (!started && water && water.activeInHierarchy)
+        if (!started && ((water && water.activeInHierarchy) || (panWater && panWater.activeInHierarchy)))
         {
             started = true;
-            StartCoroutine(DoTransition());
+
+            chickenroutine = StartCoroutine(DoTransition());
+        }
+        if(started && !isFinished && chickenroutine == null)
+        {
+            InitializeMaterials();
+            chickenroutine = StartCoroutine(DoTransition());
+        }
+        if (chickenController == null) return;
+
+        if ((chickenController.isDragging || chickenController.isPerforming) && chickenroutine != null)
+        {
+            StopCoroutine(chickenroutine);
+            chickenroutine = null;
         }
     }
 
@@ -48,7 +74,6 @@ public class ChickenSoyManager : MonoBehaviour
     {
 
         float d = 10f;
-        float t = 0f;
 
         while (t < d)
         {
@@ -76,5 +101,6 @@ public class ChickenSoyManager : MonoBehaviour
             else if (m.HasProperty("_Color"))
                 m.SetColor("_Color", target);
         }
+        isFinished = true;
     }
 }
