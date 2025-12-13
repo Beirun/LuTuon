@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class SpoonManager : MonoBehaviour
 {
+    public GameObject water;
     List<DragController> controllers = new List<DragController>();
     SpoonController spoon;
 
@@ -23,6 +24,11 @@ public class SpoonManager : MonoBehaviour
 
     void Update()
     {
+        if(water.activeInHierarchy)
+        {
+            spoon.isDisabled = true;
+            return;
+        }
         bool anyInPot = false;
 
         for (int i = 0; i < controllers.Count; i++)
