@@ -23696,6 +23696,7 @@ MonoBehaviour:
   isFinished: 0
   running: 0
   paused: 0
+  minuteInput: 0
 --- !u!222 &747560597
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -39827,6 +39828,7 @@ MonoBehaviour:
   - script: {fileID: 8632055957890638621}
     isDone: 0
     isOnlyOnce: 0
+    isOptional: 0
     step: 1
     usedCounter: 0
     isFinishedBoolName: isFinished
@@ -39834,6 +39836,7 @@ MonoBehaviour:
   - script: {fileID: 3469287837344748557}
     isDone: 0
     isOnlyOnce: 0
+    isOptional: 0
     step: 2
     usedCounter: 0
     isFinishedBoolName: isFinished
@@ -39841,6 +39844,7 @@ MonoBehaviour:
   - script: {fileID: 8927668547881423814}
     isDone: 0
     isOnlyOnce: 0
+    isOptional: 0
     step: 3
     usedCounter: 0
     isFinishedBoolName: isFinished
@@ -39848,6 +39852,7 @@ MonoBehaviour:
   - script: {fileID: 3469287837344748557}
     isDone: 0
     isOnlyOnce: 0
+    isOptional: 0
     step: 4
     usedCounter: 0
     isFinishedBoolName: isFinished
@@ -39855,6 +39860,7 @@ MonoBehaviour:
   - script: {fileID: 153979232}
     isDone: 0
     isOnlyOnce: 0
+    isOptional: 0
     step: 5
     usedCounter: 0
     isFinishedBoolName: isFinished
@@ -39862,90 +39868,103 @@ MonoBehaviour:
   - script: {fileID: 3469287837344748557}
     isDone: 0
     isOnlyOnce: 0
+    isOptional: 0
     step: 6
     usedCounter: 0
     isFinishedBoolName: isFinished
-    prerequisiteSteps: 06000000
+    prerequisiteSteps: 
   - script: {fileID: 547204328}
     isDone: 0
-    isOnlyOnce: 0
+    isOnlyOnce: 1
+    isOptional: 0
     step: 7
     usedCounter: 0
     isFinishedBoolName: isFinished
-    prerequisiteSteps: 07000000
+    prerequisiteSteps: 
   - script: {fileID: 98123952}
     isDone: 0
     isOnlyOnce: 0
+    isOptional: 0
     step: 8
     usedCounter: 0
     isFinishedBoolName: isFinished
-    prerequisiteSteps: 05000000
+    prerequisiteSteps: 07000000
   - script: {fileID: 492978578}
     isDone: 0
     isOnlyOnce: 0
+    isOptional: 0
     step: 8
     usedCounter: 0
     isFinishedBoolName: isFinished
-    prerequisiteSteps: 
+    prerequisiteSteps: 07000000
   - script: {fileID: 1290393816}
     isDone: 0
     isOnlyOnce: 0
+    isOptional: 0
     step: 8
     usedCounter: 0
     isFinishedBoolName: isFinished
-    prerequisiteSteps: 
+    prerequisiteSteps: 07000000
   - script: {fileID: 664857283}
     isDone: 0
-    isOnlyOnce: 0
+    isOnlyOnce: 1
+    isOptional: 0
     step: 9
     usedCounter: 0
     isFinishedBoolName: isFinished
-    prerequisiteSteps: 0b000000
+    prerequisiteSteps: 07000000
   - script: {fileID: 1218842439}
     isDone: 0
     isOnlyOnce: 0
+    isOptional: 0
     step: 10
     usedCounter: 0
     isFinishedBoolName: isFinished
-    prerequisiteSteps: 0c000000
+    prerequisiteSteps: 09000000
   - script: {fileID: 747560596}
     isDone: 0
     isOnlyOnce: 0
+    isOptional: 0
     step: 11
     usedCounter: 0
     isFinishedBoolName: isFinished
-    prerequisiteSteps: 0c000000
+    prerequisiteSteps: 
   - script: {fileID: 1702188146}
     isDone: 0
-    isOnlyOnce: 0
+    isOnlyOnce: 1
+    isOptional: 0
     step: 12
     usedCounter: 0
     isFinishedBoolName: isFinished
-    prerequisiteSteps: 0c000000
+    prerequisiteSteps: 0a000000
   - script: {fileID: 1377150664}
     isDone: 0
     isOnlyOnce: 0
+    isOptional: 1
     step: 13
     usedCounter: 0
     isFinishedBoolName: isFinished
-    prerequisiteSteps: 0c000000
+    prerequisiteSteps: 
   - script: {fileID: 747560596}
     isDone: 0
     isOnlyOnce: 0
+    isOptional: 0
     step: 14
     usedCounter: 0
     isFinishedBoolName: isFinished
-    prerequisiteSteps: 0c000000
+    prerequisiteSteps: 
   - script: {fileID: 1377150664}
     isDone: 0
     isOnlyOnce: 0
+    isOptional: 1
     step: 15
     usedCounter: 0
     isFinishedBoolName: isFinished
-    prerequisiteSteps: 0c000000
+    prerequisiteSteps: 
   - script: {fileID: 1895442186}
     isDone: 0
     isOnlyOnce: 0
+    isOptional: 0
     step: 15
     usedCounter: 0
     isFinishedBoolName: isFinished
@@ -39953,6 +39972,7 @@ MonoBehaviour:
   - script: {fileID: 2023022861}
     isDone: 0
     isOnlyOnce: 0
+    isOptional: 0
     step: 15
     usedCounter: 0
     isFinishedBoolName: isFinished
@@ -39960,34 +39980,39 @@ MonoBehaviour:
   - script: {fileID: 1583688351}
     isDone: 0
     isOnlyOnce: 0
+    isOptional: 1
     step: 16
     usedCounter: 0
     isFinishedBoolName: isFinished
-    prerequisiteSteps: 0c000000
+    prerequisiteSteps: 
   - script: {fileID: 1377150664}
     isDone: 0
     isOnlyOnce: 0
+    isOptional: 1
     step: 17
     usedCounter: 0
     isFinishedBoolName: isFinished
-    prerequisiteSteps: 0c000000
+    prerequisiteSteps: 
   - script: {fileID: 747560596}
     isDone: 0
     isOnlyOnce: 0
+    isOptional: 0
     step: 18
     usedCounter: 0
     isFinishedBoolName: isFinished
-    prerequisiteSteps: 0c000000
+    prerequisiteSteps: 
   - script: {fileID: 1377150664}
     isDone: 0
     isOnlyOnce: 0
+    isOptional: 1
     step: 19
     usedCounter: 0
     isFinishedBoolName: isFinished
-    prerequisiteSteps: 0c000000
+    prerequisiteSteps: 
   - script: {fileID: 461803699}
     isDone: 0
     isOnlyOnce: 0
+    isOptional: 0
     step: 19
     usedCounter: 0
     isFinishedBoolName: isFinished
@@ -39995,13 +40020,15 @@ MonoBehaviour:
   - script: {fileID: 1931773879}
     isDone: 0
     isOnlyOnce: 0
+    isOptional: 0
     step: 19
     usedCounter: 0
     isFinishedBoolName: isFinished
     prerequisiteSteps: 0c000000
   - script: {fileID: 1818521790}
     isDone: 0
-    isOnlyOnce: 0
+    isOnlyOnce: 1
+    isOptional: 0
     step: 20
     usedCounter: 0
     isFinishedBoolName: isFinished
@@ -40009,14 +40036,16 @@ MonoBehaviour:
   - script: {fileID: 747560596}
     isDone: 0
     isOnlyOnce: 0
+    isOptional: 0
     step: 21
     usedCounter: 0
     isFinishedBoolName: isFinished
-    prerequisiteSteps: 0c000000
+    prerequisiteSteps: 
   point: 100
-  attemptManager: {fileID: 0}
-  endManager: {fileID: 0}
+  attemptManager: {fileID: 163981141}
+  endManager: {fileID: 542772932}
   foodId: 30045842-6118-4539-8577-07181b09dfc9
+  correctMinuteTimer: 
 --- !u!4 &1589121104
 Transform:
   m_ObjectHideFlags: 0
