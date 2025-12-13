@@ -16,6 +16,7 @@ public class TimerController : MonoBehaviour
     bool pulsing;
     [HideInInspector]
     public bool paused = false;
+    public int minuteInput = 0;
 
     void Update()
     {
@@ -43,6 +44,7 @@ public class TimerController : MonoBehaviour
             Resume();
             return;
         }
+        minuteInput = Mathf.FloorToInt(minutes);
         target = minutes * 60f;
         speed = fastFactor * 60f;
         t = 0f;

@@ -13,6 +13,10 @@ public class PointManager : MonoBehaviour
         public MonoBehaviour script;
         public bool isDone = false;
         public bool isOnlyOnce = true;
+
+        [Tooltip("If true, the game can finish even if this step is not done.")]
+        public bool isOptional = false;
+
         public int step = 0;
         public int usedCounter = 0;
         public string isFinishedBoolName = "isFinished";
@@ -28,6 +32,12 @@ public class PointManager : MonoBehaviour
 
     [Header("Food Id")]
     public string foodId = "30045842-6118-4539-8577-07181b09dfc9";
+
+    [Header("Correct Minute Timer (for reference)")]
+    public List<int> correctMinuteTimer = new List<int>();
+
+    // Tracks which index of the correctMinuteTimer list we should compare against next
+    private int timerCheckIndex = 0;
 
     private bool gameEnded = false;
     private HashSet<MonoBehaviour> processedScriptsThisFrame = new HashSet<MonoBehaviour>();
@@ -62,8 +72,6 @@ public class PointManager : MonoBehaviour
                 if (isFinished)
                 {
                     processedScriptsThisFrame.Add(cs.script);
-
-                    // Process the group of steps associated with this script
                     ProcessScriptGroup(cs.script, field, ref aStepWasFinishedThisFrame);
                 }
             }
@@ -86,27 +94,56 @@ public class PointManager : MonoBehaviour
 
         if (validStep != null)
         {
-            // SUCCESS! 
-            // We found a step that is ready to be done. We execute this one and ignore any potential errors in other steps.
+            // --- TIMER VALIDATION LOGIC ---
+            // Check if this script is a TimerController by name
+            if (activeScript.GetType().Name == "TimerController")
+            {
+                // Reflection to get 'minuteInput'
+                FieldInfo minuteField = activeScript.GetType().GetField("minuteInput");
+
+                if (minuteField != null)
+                {
+                    int actualMinutes = (int)minuteField.GetValue(activeScript);
+
+                    // Ensure we haven't run out of correct times to check
+                    if (timerCheckIndex < correctMinuteTimer.Count)
+                    {
+                        int expectedMinutes = correctMinuteTimer[timerCheckIndex];
+
+                        if (actualMinutes != expectedMinutes)
+                        {
+                            Debug.LogWarning($"Penalty: Timer set to {actualMinutes}, expected {expectedMinutes}.");
+                            point -= 2;
+                        }
+                        else
+                        {
+                            Debug.Log($"Timer Correct: {actualMinutes} minutes.");
+                        }
+
+                        // Increment index so the next timer event checks the next number in the list
+                        timerCheckIndex++;
+                    }
+                }
+            }
+            // ------------------------------
+
+            // SUCCESS
             validStep.isDone = true;
             validStep.usedCounter++;
             stepFinishedFlag = true;
 
             Debug.LogWarning($"Success: Step {validStep.step} finished.");
 
-            // Reset script and exit
             field.SetValue(activeScript, false);
             return;
         }
 
         // 2. SEARCH FOR PREREQUISITE FAILURE
-        // If we are here, it means NO step was ready.
-        // Is there a step that is waiting to be done, but is blocked by a prerequisite?
+        // Is there a step waiting to be done, but blocked by prerequisites?
         var blockedStep = group.FirstOrDefault(x => !x.isDone && !ArePrerequisitesMet(x));
 
         if (blockedStep != null)
         {
-            // Find the specific missing prerequisite for the log
             int missingPrereq = GetMissingPrerequisite(blockedStep);
             Debug.LogWarning($"Penalty: Step {blockedStep.step} failed. Prerequisite step {missingPrereq} not finished.");
 
@@ -116,7 +153,7 @@ public class PointManager : MonoBehaviour
         }
 
         // 3. SEARCH FOR "ONLY ONCE" FAILURE
-        // If we are here, it means all steps for this script are likely already done.
+        // If all steps are done, checking if the player is repeating an action they shouldn't
         var completedStep = group.LastOrDefault(x => x.isDone);
 
         if (completedStep != null && completedStep.isOnlyOnce)
@@ -127,21 +164,25 @@ public class PointManager : MonoBehaviour
             return;
         }
 
-        // Safety reset if nothing matched (rare)
+        // Safety reset
         field.SetValue(activeScript, false);
     }
 
-    // Helper to check if all prerequisites for a specific entry are done
+    // Helper to check if ALL entries for a specific step ID are done
     bool ArePrerequisitesMet(ControlledScript cs)
     {
         foreach (int reqStep in cs.prerequisiteSteps)
         {
-            if (reqStep == 0) continue; // Ignore 0
+            if (reqStep == 0) continue;
 
-            var prereqScript = controlledScripts.Find(x => x.step == reqStep);
+            // Check ALL scripts that share this step ID.
+            // If ANY of them are not done, the prerequisite is not met.
+            bool isStepFullyComplete = controlledScripts
+                                       .Where(x => x.step == reqStep)
+                                       .All(x => x.isDone);
 
-            // If the prerequisite step exists and is NOT done, return false
-            if (prereqScript != null && !prereqScript.isDone)
+            // If the step exists in the list but isn't fully complete, return false
+            if (controlledScripts.Any(x => x.step == reqStep) && !isStepFullyComplete)
             {
                 return false;
             }
@@ -155,8 +196,13 @@ public class PointManager : MonoBehaviour
         foreach (int reqStep in cs.prerequisiteSteps)
         {
             if (reqStep == 0) continue;
-            var prereqScript = controlledScripts.Find(x => x.step == reqStep);
-            if (prereqScript != null && !prereqScript.isDone) return reqStep;
+
+            // Check if there is ANY script with this step ID that is not done
+            bool isStepIncomplete = controlledScripts
+                                    .Where(x => x.step == reqStep)
+                                    .Any(x => !x.isDone);
+
+            if (isStepIncomplete) return reqStep;
         }
         return -1;
     }
@@ -166,7 +212,8 @@ public class PointManager : MonoBehaviour
         bool allFinished = true;
         foreach (var cs in controlledScripts)
         {
-            if (!cs.isDone)
+            // If a step is NOT done AND NOT optional, then the game isn't finished.
+            if (!cs.isDone && !cs.isOptional)
             {
                 allFinished = false;
                 break;
@@ -176,7 +223,7 @@ public class PointManager : MonoBehaviour
         if (allFinished)
         {
             gameEnded = true;
-            Debug.Log("All steps completed. Waiting to finish...");
+            Debug.Log("All mandatory steps completed. Waiting to finish...");
             StartCoroutine(WaitAndFinish());
         }
     }
@@ -189,7 +236,6 @@ public class PointManager : MonoBehaviour
 
     void SendAttemptOnComplete()
     {
-        point = Math.Max(point, 0);
         if (attemptManager != null) attemptManager.SendAttempt(foodId, point, "Standard");
         if (endManager != null) endManager.OpenDialog("EndGame");
     }
