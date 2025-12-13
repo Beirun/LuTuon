@@ -127,21 +127,24 @@ public class ForkController : DragController
         float d = 0f;
         float total = scrambleDuration;
         float twoPi = Mathf.PI * 2f;
-
+        Vector3 eggBeatStartPos = eggBeat.transform.localPosition;
+        Vector3 eggBeatEndPos = eggBeat.transform.localPosition + new Vector3(0f, 0.0f, 0.05f);
+        eggBeat.SetActive(true);
         while (d < total)
         {
             float t = d / total;
+            
             float ang = t * loops * twoPi;
 
             float y = Mathf.Cos(ang) * ellipseA;
             float z = Mathf.Sin(ang) * ellipseB;
 
             transform.position = center + new Vector3(-0.7f, -depth + y, z);
-
-            if(d > total /2 && !eggBeat.activeInHierarchy)
+            float tt = t * t * (3f - 2f * t);
+            eggBeat.transform.localPosition = Vector3.Lerp(eggBeatStartPos, eggBeatEndPos, tt);
+            if(d > total /2 )
             {
-                eggBeat.SetActive(true);
-                egg.SetActive(false);
+                if (egg.activeInHierarchy) egg.SetActive(false);
                 eggBowl.tag = "ScrambledEggBowl";
             }
             d += Time.deltaTime;
