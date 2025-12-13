@@ -1,9 +1,17 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public class CookingOilController : DragController
 {
+
+    [Serializable]
+    public class WaterOpacityCheck
+    {
+        public Color color;
+        public float multiplier;
+    }
     [Header("Water Objects")]
     public GameObject water;
     public GameObject pouringWater;
@@ -15,6 +23,9 @@ public class CookingOilController : DragController
 
     public LidController lid;
 
+
+    [Header("Water Color Check")]
+    public List<WaterOpacityCheck> waterOpacityChecks = new List<WaterOpacityCheck>();
     public override void Start()
     {
         base.Start();
@@ -95,6 +106,9 @@ public class CookingOilController : DragController
         pouringWater.transform.position += new Vector3(-0.325f, 0.5f, 0f);
 
         Vector3 fromPosition = water.transform.position;
+        if (fromPosition.y > targetPosY) targetPosY = fromPosition.y; 
+        if (water.transform.position.y < 1f) targetPosY += 0.05f;
+        if (!isWaterActive) targetPosY = 0.8f;
         Vector3 toPosition = new Vector3(fromPosition.x, targetPosY, fromPosition.z);
 
         float elapsedTime = 0f;
@@ -128,48 +142,48 @@ public class CookingOilController : DragController
                 water.transform.position = Vector3.Lerp(fromPosition, toPosition, smoothT);
             }
 
-            float colorT = smoothT;
+            float bestScore = 0f;
+            float bestMultiplier = 1f;
 
-            if (isWaterActive)
+            for (int i = 0; i < waterOpacityChecks.Count; i++)
             {
-                colorT = smoothT * 0.13f;
-            }
-            else if (water.transform.position.y < 0.5f) { 
-                colorT = smoothT * 0.33f;
-                
-            }
+                Color refC = waterOpacityChecks[i].color;
 
-                for (int i = 0; i < mainWaterMats.Count; i++)
+                Color curC = startColors[0];
+
+                float dist =
+                    Mathf.Abs(curC.r - refC.r) +
+                    Mathf.Abs(curC.g - refC.g) +
+                    Mathf.Abs(curC.b - refC.b) +
+                    Mathf.Abs(curC.a - refC.a);
+
+                float score = 1f - Mathf.Clamp01(dist / 4f);
+
+                if (score > bestScore)
                 {
-                    Material m = mainWaterMats[i];
-                    Color newColor = Color.Lerp(startColors[i], pouringColor, colorT);
-
-                    if (m.HasProperty("_BaseColor"))
-                        m.SetColor("_BaseColor", newColor);
-                    else if (m.HasProperty("_Color"))
-                        m.SetColor("_Color", newColor);
+                    bestScore = score;
+                    bestMultiplier = waterOpacityChecks[i].multiplier;
                 }
+            }
+
+            float colorT = smoothT * bestMultiplier;
+            if(!isWaterActive)  colorT = smoothT;
+
+            for (int i = 0; i < mainWaterMats.Count; i++)
+            {
+                Material m = mainWaterMats[i];
+                Color newColor = Color.Lerp(startColors[i], pouringColor, colorT);
+
+                if (m.HasProperty("_BaseColor"))
+                    m.SetColor("_BaseColor", newColor);
+                else if (m.HasProperty("_Color"))
+                    m.SetColor("_Color", newColor);
+            }
 
             elapsedTime += Time.deltaTime;
             yield return null;
         }
 
-        float finalColorFactor = 1.0f;
-        if (water.transform.position.y > 1f)
-        {
-            finalColorFactor = 0.13f;
-        }
-
-        for (int i = 0; i < mainWaterMats.Count; i++)
-        {
-            Material m = mainWaterMats[i];
-            Color finalColor = Color.Lerp(startColors[i], pouringColor, finalColorFactor);
-
-            if (m.HasProperty("_BaseColor"))
-                m.SetColor("_BaseColor", finalColor);
-            else if (m.HasProperty("_Color"))
-                m.SetColor("_Color", finalColor);
-        }
 
         pouringWater.SetActive(false);
         pouringWater.transform.position = waterStartPos;
