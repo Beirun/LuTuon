@@ -189,6 +189,7 @@ public class PointManager : MonoBehaviour
 
     void SendAttemptOnComplete()
     {
+        point = Math.Max(point, 0);
         if (attemptManager != null) attemptManager.SendAttempt(foodId, point, "Standard");
         if (endManager != null) endManager.OpenDialog("EndGame");
     }
