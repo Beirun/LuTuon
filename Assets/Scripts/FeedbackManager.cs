@@ -43,6 +43,8 @@ public class FeedbackManager : MonoBehaviour
 
     private IEnumerator SendFeedbackCoroutine(string message, string token)
     {
+        submitButton.onClick.RemoveListener(OnSubmitClicked);
+
         var reqData = new FeedbackRequest { feedbackMessage = message };
         string json = JsonUtility.ToJson(reqData);
 
@@ -71,6 +73,8 @@ public class FeedbackManager : MonoBehaviour
                     dialogManager.OpenDialog("Settings");
                 }
             }
+            submitButton.onClick.AddListener(OnSubmitClicked);
+
         }
     }
 }
