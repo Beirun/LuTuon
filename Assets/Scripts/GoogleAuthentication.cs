@@ -49,6 +49,8 @@ public class GoogleAuthentication : MonoBehaviour
 
     public void OnSignIn()
     {
+        loginButton.onClick.RemoveListener(OnSignIn);
+
         loginButton.interactable = false;
 
         GoogleSignIn.Configuration = configuration;
@@ -115,6 +117,8 @@ public class GoogleAuthentication : MonoBehaviour
                 }
             });
         }
+        loginButton.onClick.AddListener(OnSignIn);
+
     }
 
     public void OnSignOut()

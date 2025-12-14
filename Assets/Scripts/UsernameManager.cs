@@ -6,11 +6,11 @@ using UnityEngine.UI;
 using UnityEngine.Networking;
 
 [Serializable]
-public class FeedbackRequest { public string feedbackMessage; }
+public class UsernameRequest { public string newUsername; }
 
-public class FeedbackManager : MonoBehaviour
+public class UsernameManager : MonoBehaviour
 {
-    [SerializeField] TMP_InputField feedbackInput;
+    [SerializeField] TMP_InputField usernameInput;
     [SerializeField] Button submitButton;
     [SerializeField] MessageManager messageManager;
     [SerializeField] DialogManager dialogManager;
@@ -24,11 +24,11 @@ public class FeedbackManager : MonoBehaviour
 
     void OnSubmitClicked()
     {
-        string msg = feedbackInput != null ? feedbackInput.text.Trim() : "";
-        if (string.IsNullOrEmpty(msg))
+        string newUsername = usernameInput != null ? usernameInput.text.Trim() : "";
+        if (string.IsNullOrEmpty(newUsername))
         {
             Debug.LogWarning("Feedback is empty");
-            messageManager.ShowMessage("Please enter feedback before submitting");
+            messageManager.ShowMessage("Please enter a new username");
             return;
         }
         var acc = AccountManager.Instance.CurrentAccount;
@@ -38,17 +38,16 @@ public class FeedbackManager : MonoBehaviour
             messageManager.ShowMessage("You must be logged in to submit feedback");
             return;
         }
-        StartCoroutine(SendFeedbackCoroutine(msg, acc.accessToken));
+        StartCoroutine(ChangeUsernameCoroutine(newUsername, acc.accessToken));
     }
 
-    private IEnumerator SendFeedbackCoroutine(string message, string token)
+    private IEnumerator ChangeUsernameCoroutine(string newUsername, string token)
     {
         submitButton.onClick.RemoveListener(OnSubmitClicked);
-
-        var reqData = new FeedbackRequest { feedbackMessage = message };
+        var reqData = new UsernameRequest { newUsername = newUsername };
         string json = JsonUtility.ToJson(reqData);
 
-        using (UnityWebRequest request = new UnityWebRequest($"{BaseUrl}/feedbacks", "POST"))
+        using (UnityWebRequest request = new UnityWebRequest($"{BaseUrl}/feedbacks", "PUT"))
         {
             request.uploadHandler = new UploadHandlerRaw(System.Text.Encoding.UTF8.GetBytes(json));
             request.downloadHandler = new DownloadHandlerBuffer();
@@ -65,8 +64,7 @@ public class FeedbackManager : MonoBehaviour
             }
             else
             {
-                Debug.Log("Feedback sent successfully");
-                messageManager.ShowMessage("Feedback sent successfully");
+                messageManager.ShowMessage("Username changed successfully");
                 if (dialogManager != null)
                 {
                     dialogManager.CloseDialogWithoutOverlay("Feedback");

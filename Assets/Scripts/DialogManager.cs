@@ -23,6 +23,7 @@ public class DialogManager : MonoBehaviour
     {
         public GameObject gameObject;
         public Animator animator;
+        public Vector3 originalScale;
     }
 
     void Awake()
@@ -46,7 +47,8 @@ public class DialogManager : MonoBehaviour
                 PanelData data = new PanelData
                 {
                     gameObject = managedPanel.panelGameObject,
-                    animator = managedPanel.panelGameObject.GetComponent<Animator>()
+                    animator = managedPanel.panelGameObject.GetComponent<Animator>(),
+                    originalScale = managedPanel.panelGameObject.transform.localScale
                 };
                 allPanels.Add(panelName, data);
                 managedPanel.panelGameObject.SetActive(false);
@@ -74,11 +76,29 @@ public class DialogManager : MonoBehaviour
                 {
                     panelData.gameObject.transform.localScale = Vector3.zero;
                     panelData.animator.SetTrigger("ZoomIn");
+
+                    // Start a coroutine to interpolate from zero to original scale
+                    StartCoroutine(ScaleToOriginal(panelData));
                 }
                 activeDialogNames.Add(panelName);
             }
         }
         else Debug.LogWarning($"Dialog panel with name '{panelName}' not found in managed list.");
+    }
+
+    private IEnumerator ScaleToOriginal(PanelData panelData)
+    {
+        float elapsed = 0f;
+        Vector3 start = Vector3.zero;
+        Vector3 end = panelData.originalScale;
+
+        while (elapsed < animationDuration)
+        {
+            elapsed += Time.deltaTime;
+            panelData.gameObject.transform.localScale = Vector3.Lerp(start, end, elapsed / animationDuration);
+            yield return null;
+        }
+        panelData.gameObject.transform.localScale = end;
     }
 
     public void CloseDialog(string panelName)
