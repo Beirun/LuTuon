@@ -4,6 +4,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Networking;
+using System.Collections.Generic;
 
 [Serializable]
 public class UsernameRequest { public string newUsername; }
@@ -14,6 +15,7 @@ public class UsernameManager : MonoBehaviour
     [SerializeField] Button submitButton;
     [SerializeField] MessageManager messageManager;
     [SerializeField] DialogManager dialogManager;
+    [SerializeField] List<TMP_Text> usernameFields;
     private const string BaseUrl = "https://api.lutuon.app";
 
     void Awake()
@@ -27,7 +29,7 @@ public class UsernameManager : MonoBehaviour
         string newUsername = usernameInput != null ? usernameInput.text.Trim() : "";
         if (string.IsNullOrEmpty(newUsername))
         {
-            Debug.LogWarning("Feedback is empty");
+            Debug.LogWarning("Username is empty");
             messageManager.ShowMessage("Please enter a new username");
             return;
         }
@@ -47,8 +49,9 @@ public class UsernameManager : MonoBehaviour
         var reqData = new UsernameRequest { newUsername = newUsername };
         string json = JsonUtility.ToJson(reqData);
 
-        using (UnityWebRequest request = new UnityWebRequest($"{BaseUrl}/feedbacks", "PUT"))
+        using (UnityWebRequest request = UnityWebRequest.Put($"{BaseUrl}/game/username", json))
         {
+            request.method = "PUT";
             request.uploadHandler = new UploadHandlerRaw(System.Text.Encoding.UTF8.GetBytes(json));
             request.downloadHandler = new DownloadHandlerBuffer();
             request.SetRequestHeader("Content-Type", "application/json");
@@ -56,20 +59,43 @@ public class UsernameManager : MonoBehaviour
 
             yield return request.SendWebRequest();
 
+            string responseText = request.downloadHandler.text;
+
             if (request.result == UnityWebRequest.Result.ConnectionError ||
                 request.result == UnityWebRequest.Result.ProtocolError)
             {
-                Debug.LogError("Feedback failed: " + request.error);
-                messageManager.ShowMessage("Failed to send feedback. Please try again later");
+                string serverMessage = request.downloadHandler.text;
+
+                try
+                {
+                    var errorData = JsonUtility.FromJson<ServerErrorResponse>(serverMessage);
+                    serverMessage = errorData.error;
+                }
+                catch
+                {
+                    // fallback to raw text if parsing fails
+                }
+
+                Debug.LogError("Username change failed: " + serverMessage);
+                messageManager.ShowMessage(serverMessage);
             }
             else
             {
-                messageManager.ShowMessage("Username changed successfully");
+                var acc = AccountManager.Instance.CurrentAccount;
+                if (acc != null)
+                {
+                    AccountManager.Instance.CurrentAccount.userName = newUsername;
+                }
+                messageManager.ShowMessage("Username updated successfully");
                 if (dialogManager != null)
                 {
-                    dialogManager.CloseDialogWithoutOverlay("Feedback");
-                    dialogManager.OpenDialog("Settings");
+                    dialogManager.CloseAllDialogs();
                 }
+                foreach(var fields in usernameFields)
+                {
+                    fields.text = newUsername;
+                }
+                usernameInput.text = "";
             }
             submitButton.onClick.AddListener(OnSubmitClicked);
 
