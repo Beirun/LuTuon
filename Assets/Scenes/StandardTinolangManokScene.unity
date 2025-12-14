@@ -40778,22 +40778,22 @@ MonoBehaviour:
     usedCounter: 0
     isFinishedBoolName: isFinished
     prerequisiteSteps: 09000000
-  - script: {fileID: 747560596}
-    isDone: 0
-    isOnlyOnce: 0
-    isOptional: 0
-    step: 11
-    usedCounter: 0
-    isFinishedBoolName: isFinished
-    prerequisiteSteps: 
   - script: {fileID: 1702188146}
     isDone: 0
     isOnlyOnce: 1
     isOptional: 0
-    step: 12
+    step: 11
     usedCounter: 0
     isFinishedBoolName: isFinished
     prerequisiteSteps: 0a000000
+  - script: {fileID: 1377150664}
+    isDone: 0
+    isOnlyOnce: 0
+    isOptional: 1
+    step: 12
+    usedCounter: 0
+    isFinishedBoolName: isFinished
+    prerequisiteSteps: 
   - script: {fileID: 1377150664}
     isDone: 0
     isOnlyOnce: 0
@@ -40802,27 +40802,11 @@ MonoBehaviour:
     usedCounter: 0
     isFinishedBoolName: isFinished
     prerequisiteSteps: 
-  - script: {fileID: 747560596}
-    isDone: 0
-    isOnlyOnce: 0
-    isOptional: 0
-    step: 14
-    usedCounter: 0
-    isFinishedBoolName: isFinished
-    prerequisiteSteps: 
-  - script: {fileID: 1377150664}
-    isDone: 0
-    isOnlyOnce: 0
-    isOptional: 1
-    step: 15
-    usedCounter: 0
-    isFinishedBoolName: isFinished
-    prerequisiteSteps: 
   - script: {fileID: 1895442186}
     isDone: 0
     isOnlyOnce: 0
     isOptional: 0
-    step: 15
+    step: 14
     usedCounter: 0
     isFinishedBoolName: isFinished
     prerequisiteSteps: 0c000000
@@ -40830,11 +40814,19 @@ MonoBehaviour:
     isDone: 0
     isOnlyOnce: 0
     isOptional: 0
-    step: 15
+    step: 14
     usedCounter: 0
     isFinishedBoolName: isFinished
     prerequisiteSteps: 0c000000
   - script: {fileID: 1583688351}
+    isDone: 0
+    isOnlyOnce: 0
+    isOptional: 1
+    step: 15
+    usedCounter: 0
+    isFinishedBoolName: isFinished
+    prerequisiteSteps: 
+  - script: {fileID: 1377150664}
     isDone: 0
     isOnlyOnce: 0
     isOptional: 1
@@ -40850,27 +40842,11 @@ MonoBehaviour:
     usedCounter: 0
     isFinishedBoolName: isFinished
     prerequisiteSteps: 
-  - script: {fileID: 747560596}
-    isDone: 0
-    isOnlyOnce: 0
-    isOptional: 0
-    step: 18
-    usedCounter: 0
-    isFinishedBoolName: isFinished
-    prerequisiteSteps: 
-  - script: {fileID: 1377150664}
-    isDone: 0
-    isOnlyOnce: 0
-    isOptional: 1
-    step: 19
-    usedCounter: 0
-    isFinishedBoolName: isFinished
-    prerequisiteSteps: 
   - script: {fileID: 461803699}
     isDone: 0
     isOnlyOnce: 0
     isOptional: 0
-    step: 19
+    step: 17
     usedCounter: 0
     isFinishedBoolName: isFinished
     prerequisiteSteps: 0c000000
@@ -40878,7 +40854,7 @@ MonoBehaviour:
     isDone: 0
     isOnlyOnce: 0
     isOptional: 0
-    step: 19
+    step: 17
     usedCounter: 0
     isFinishedBoolName: isFinished
     prerequisiteSteps: 0c000000
@@ -40886,18 +40862,10 @@ MonoBehaviour:
     isDone: 0
     isOnlyOnce: 1
     isOptional: 0
-    step: 20
+    step: 18
     usedCounter: 0
     isFinishedBoolName: isFinished
     prerequisiteSteps: 0c000000
-  - script: {fileID: 747560596}
-    isDone: 0
-    isOnlyOnce: 0
-    isOptional: 0
-    step: 21
-    usedCounter: 0
-    isFinishedBoolName: isFinished
-    prerequisiteSteps: 
   point: 100
   attemptManager: {fileID: 163981141}
   endManager: {fileID: 542772932}
