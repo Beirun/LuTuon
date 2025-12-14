@@ -4,7 +4,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
-
+[Serializable]
+public class ServerErrorResponse
+{
+    public string error;
+}
 [Serializable] public class LoginRequest { public string email; public string password; }
 [Serializable] public class GoogleRequest { public string email; }
 [Serializable] public class RefreshRequest { public string refreshToken; }
@@ -105,7 +109,19 @@ public class AuthManager : MonoBehaviour
             }
             else
             {
-                callback(false, request.error);
+                string serverMessage = request.downloadHandler.text;
+
+                try
+                {
+                    var errorData = JsonUtility.FromJson<ServerErrorResponse>(serverMessage);
+                    serverMessage = errorData.error;
+                }
+                catch
+                {
+                    // fallback to raw text if parsing fails
+                }
+
+                callback(false, serverMessage);
             }
         }
     }
@@ -135,7 +151,19 @@ public class AuthManager : MonoBehaviour
             }
             else
             {
-                callback(false, request.error);
+                string serverMessage = request.downloadHandler.text;
+
+                try
+                {
+                    var errorData = JsonUtility.FromJson<ServerErrorResponse>(serverMessage);
+                    serverMessage = errorData.error;
+                }
+                catch
+                {
+                    // fallback to raw text if parsing fails
+                }
+
+                callback(false, serverMessage);
             }
         }
     }
