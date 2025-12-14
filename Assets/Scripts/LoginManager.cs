@@ -20,6 +20,7 @@ public class LoginManager : MonoBehaviour
     private void Start()
     {
         loginButton.onClick.AddListener(OnLoginClicked);
+        if(authManager == null) authManager = FindFirstObjectByType<AuthManager>();
 
         StartCoroutine(CheckAutoLoginStatus());
     }
@@ -84,7 +85,7 @@ public class LoginManager : MonoBehaviour
             }
             else
             {
-                messageManager.ShowMessage("Incorrect Email or Password");
+                messageManager.ShowMessage(error);
                 Debug.LogError("Login failed: " + error);
             }
         });
