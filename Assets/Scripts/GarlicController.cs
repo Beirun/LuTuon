@@ -14,7 +14,7 @@ public class GarlicController : DragController
     public override void EndDrag()
     {
         base.EndDrag();
-        if (highlighted != null)
+        if (highlighted != null && !choppingboardManager.isOccupied)
         {
             Vector3 targetPos = highlighted.transform.position + new Vector3(0.15f, 0.125f, 0f);
 

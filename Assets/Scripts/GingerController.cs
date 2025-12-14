@@ -14,7 +14,7 @@ public class GingerController : DragController
     public override void EndDrag()
     {
         base.EndDrag();
-        if (highlighted != null)
+        if (highlighted != null && !choppingboardManager.isOccupied)
         {
             Vector3 targetPos = highlighted.transform.position + new Vector3(0f, 0.05f, 0f);
 

@@ -34882,7 +34882,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isStillDragging: 0
-  dragControllers: []
+  overlays:
+  - {fileID: 4600657}
+  - {fileID: 601800517}
 --- !u!4 &1648510584
 Transform:
   m_ObjectHideFlags: 0
