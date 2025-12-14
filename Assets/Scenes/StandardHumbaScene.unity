@@ -39122,9 +39122,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1638283773}
         m_TargetAssemblyTypeName: ReturnToMenuLoader, Assembly-CSharp
-        m_MethodName: ReturnToTutorialMenu
+        m_MethodName: ReturnToStandardMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
