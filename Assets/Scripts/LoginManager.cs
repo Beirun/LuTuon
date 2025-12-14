@@ -62,6 +62,8 @@ public class LoginManager : MonoBehaviour
 
     private void OnLoginClicked()
     {
+        loginButton.onClick.RemoveListener(OnLoginClicked);
+
         string email = emailInput.text;
         string password = passwordInput.text;
 
@@ -86,5 +88,7 @@ public class LoginManager : MonoBehaviour
                 Debug.LogError("Login failed: " + error);
             }
         });
+        loginButton.onClick.AddListener(OnLoginClicked);
+
     }
 }
