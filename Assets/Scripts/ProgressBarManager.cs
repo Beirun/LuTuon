@@ -6,6 +6,9 @@ public class ProgressBarManager : MonoBehaviour
 {
     public Slider bar;
 
+    public bool isFinished = false; // true when progress completes
+    public bool isRunning  = false;  // true while progress is active
+
     Coroutine runRoutine;
     bool paused;
     float t;
@@ -36,6 +39,8 @@ public class ProgressBarManager : MonoBehaviour
         offset = yOffset;
         paused = false;
         t = 0f;
+        isFinished = false;
+        isRunning = true;
 
         bar.value = 0f;
         bar.gameObject.SetActive(true);
@@ -66,14 +71,17 @@ public class ProgressBarManager : MonoBehaviour
             bar.value = 0f;
             bar.gameObject.SetActive(false);
         }
+
+        isFinished = false;
     }
 
     IEnumerator Run()
     {
-        if(dragManager != null)
+        if (dragManager != null)
         {
             dragManager.DisableAllDragging();
         }
+
         Camera cam = Camera.main;
 
         while (t < duration)
@@ -97,10 +105,14 @@ public class ProgressBarManager : MonoBehaviour
 
         bar.value = 1f;
         bar.gameObject.SetActive(false);
+
         if (dragManager != null)
         {
             dragManager.RestoreDraggingState();
         }
+
+        isFinished = true;
+        isRunning = false;
         runRoutine = null;
     }
 }

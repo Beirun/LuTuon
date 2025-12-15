@@ -5,7 +5,7 @@ public class ChoppedGarlicController : DragController
 {
     public LidController lid;
     public bool makeChildAfterPlacement = false;  
-
+    public bool isPlaced = false;
     public override void EndDrag()
     {
         base.EndDrag();
@@ -42,9 +42,12 @@ public class ChoppedGarlicController : DragController
             yield return null;
         }
 
-        if (isDragging) EnablePhysicsOnChildren(transform);
-
-        if(isDragging) isFinished = true;
+        if (isDragging)
+        {
+            EnablePhysicsOnChildren(transform);
+            isPlaced = true;
+            isFinished = true;
+        }
         isPerforming = false;
         this.isDragging = false;
     }

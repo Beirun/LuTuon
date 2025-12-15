@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq; // Required for LINQ
 using System.Reflection;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -35,7 +36,9 @@ public class PointManager : MonoBehaviour
 
     public List<ControlledScript> controlledScripts = new List<ControlledScript>();
     public int point = 100;
-    public DragManager manager;
+    private DragManager manager;
+    public TMP_Text pointText;
+    public TMP_Text gameFeedback;
 
     [Header("Dependencies")]
     public AttemptManager attemptManager;
@@ -43,20 +46,17 @@ public class PointManager : MonoBehaviour
 
     [Header("Food Id")]
     public string foodId = "30045842-6118-4539-8577-07181b09dfc9";
-
-    [Header("Correct Minute Timer (for reference)")]
-    public List<int> correctMinuteTimer = new List<int>();
-
+    
     [Header("Progress Bar")]
     public ProgressBarManager progressBarManager;
     public List<ProgressStep> stepsForProgressBar = new List<ProgressStep>(); //if a finished step is in this list, progress bar will start
 
-    // Tracks which index of the correctMinuteTimer list we should compare against next
-    private int timerCheckIndex = 0;
-
+    TimerManager timerManager;
     private bool gameEnded = false;
     private HashSet<MonoBehaviour> processedScriptsThisFrame = new HashSet<MonoBehaviour>();
 
+    private int lastFinishedStep = -1;
+    private bool isStillRunning = false;
     void Start()
     {
         if (manager == null)
@@ -66,6 +66,10 @@ public class PointManager : MonoBehaviour
         if(progressBarManager == null)
         {
             progressBarManager = FindFirstObjectByType<ProgressBarManager>();
+        }
+        if (timerManager == null)
+        {
+            timerManager = FindFirstObjectByType<TimerManager>();
         }
 
     }
@@ -104,7 +108,7 @@ public class PointManager : MonoBehaviour
             }
         }
 
-        if (aStepWasFinishedThisFrame)
+        if (aStepWasFinishedThisFrame || isStillRunning)
         {
             CheckIfAllComplete();
         }
@@ -114,56 +118,76 @@ public class PointManager : MonoBehaviour
     {
         var group = controlledScripts.Where(x => x.script == activeScript).OrderBy(x => x.step).ToList();
         var validStep = group.FirstOrDefault(x => !x.isDone && ArePrerequisitesMet(x));
-
         if (validStep != null)
         {
-
-            // SUCCESS
+            var validSteps = controlledScripts.Where(x => !x.isDone && ArePrerequisitesMet(x) && x.step == validStep.step).ToList();
+            var sameStepScripts = controlledScripts.Where(x => x.step == validStep.step && x.script != activeScript && !x.isOptional && !x.isDone).ToList();
+            // SUCCESS: valid step with prerequisites met
+            if((lastFinishedStep <= validStep.step && lastFinishedStep != -1) || sameStepScripts.Count == 0)
+            {
+                Debug.LogWarning($"active script: {activeScript.name}, count: {validSteps.Count}");
+                if (validSteps.Count == 1) StartProgressIfNeeded(validStep);
+            }
             validStep.isDone = true;
             validStep.usedCounter++;
             stepFinishedFlag = true;
 
-            // ---- PROGRESS BAR STARTER ----
-            if (progressBarManager != null)
-            {
-                var ps = stepsForProgressBar
-                    .FirstOrDefault(x => x.step == validStep.step);
-
-                if (ps != null && !ps.progressDone && ps.objectToAttach != null)
-                {
-                    ps.progressDone = true;
-
-                    progressBarManager.StartProgress(
-                        ps.objectToAttach,
-                        ps.progressValue
-                    );
-                }
-            }
-            // ------------------------------
-
-
+            lastFinishedStep = validStep.step;
             field.SetValue(activeScript, false);
             return;
         }
 
-        var blockedStep = group.FirstOrDefault(x => !x.isDone && !ArePrerequisitesMet(x));
-        if (blockedStep != null)
+        // FALLBACK: mark first unfinished step as done even if blocked or prerequisites not met
+        var fallbackStep = group.FirstOrDefault(x => !x.isDone);
+        if (fallbackStep != null)
         {
-            point -= 2;
+            var fallBackSteps = controlledScripts.Where(x => !x.isDone && x.step == fallbackStep.step).ToList();
+            var sameStepScripts = controlledScripts.Where(x => x.step == fallbackStep.step && x.script != activeScript && !x.isOptional && !x.isDone).ToList();
+
+            if ((lastFinishedStep <= fallbackStep.step && lastFinishedStep != -1) || sameStepScripts.Count == 0)
+            {
+
+                Debug.LogWarning($"active script: {activeScript.name}, count: {fallBackSteps.Count}");
+                if(fallBackSteps.Count == 1) StartProgressIfNeeded(fallbackStep);
+            }
+            fallbackStep.isDone = true;
+            fallbackStep.usedCounter++;
+            stepFinishedFlag = true;
+
+            // Trigger progress bar
+            lastFinishedStep = fallbackStep.step;
             field.SetValue(activeScript, false);
+            point -= 2;
             return;
         }
 
+        // All steps done, optionally deduct points if only-once
         var completedStep = group.LastOrDefault(x => x.isDone);
         if (completedStep != null && completedStep.isOnlyOnce)
         {
+            completedStep.usedCounter++;
             point -= 2;
             field.SetValue(activeScript, false);
             return;
         }
-
         field.SetValue(activeScript, false);
     }
+
+    // Helper method to trigger progress bar if step is in the list
+    void StartProgressIfNeeded(ControlledScript step)
+    {
+        if (progressBarManager != null)
+        {
+            var ps = stepsForProgressBar.FirstOrDefault(x => x.step == step.step);
+
+            if (ps != null && !ps.progressDone && ps.objectToAttach != null)
+            {
+                ps.progressDone = true;
+                progressBarManager.StartProgress(ps.objectToAttach, ps.progressValue / 2);
+            }
+        }
+    }
+
 
     // Helper to check if ALL entries for a specific step ID are done
     bool ArePrerequisitesMet(ControlledScript cs)
@@ -216,9 +240,14 @@ public class PointManager : MonoBehaviour
                 break;
             }
         }
-
-        if (allFinished)
+        if (allFinished && progressBarManager.isRunning && !isStillRunning)
         {
+            isStillRunning = true;
+            return;
+        }
+        if (allFinished && !progressBarManager.isRunning)
+        {
+
             gameEnded = true;
             Debug.Log("All mandatory steps completed. Waiting to finish...");
             StartCoroutine(WaitAndFinish());
@@ -233,6 +262,9 @@ public class PointManager : MonoBehaviour
 
     void SendAttemptOnComplete()
     {
+        if(timerManager != null) timerManager.StopTimer();
+        pointText.text = point.ToString();
+        gameFeedback.text = "Great job! You've completed the game.";
         if (attemptManager != null) attemptManager.SendAttempt(foodId, point, "Standard");
         if (endManager != null) endManager.OpenDialog("EndGame");
     }
