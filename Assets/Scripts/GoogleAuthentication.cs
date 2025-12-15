@@ -118,7 +118,7 @@ public class GoogleAuthentication : MonoBehaviour
             });
         }
         loginButton.onClick.AddListener(OnSignIn);
-
+        loginButton.interactable = true;
     }
 
     public void OnSignOut()

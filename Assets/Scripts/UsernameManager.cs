@@ -46,6 +46,7 @@ public class UsernameManager : MonoBehaviour
     private IEnumerator ChangeUsernameCoroutine(string newUsername, string token)
     {
         submitButton.onClick.RemoveListener(OnSubmitClicked);
+        submitButton.interactable = false;
         var reqData = new UsernameRequest { newUsername = newUsername };
         string json = JsonUtility.ToJson(reqData);
 
@@ -98,7 +99,7 @@ public class UsernameManager : MonoBehaviour
                 usernameInput.text = "";
             }
             submitButton.onClick.AddListener(OnSubmitClicked);
-
+            submitButton.interactable = true;
         }
     }
 }

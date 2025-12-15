@@ -44,7 +44,7 @@ public class FeedbackManager : MonoBehaviour
     private IEnumerator SendFeedbackCoroutine(string message, string token)
     {
         submitButton.onClick.RemoveListener(OnSubmitClicked);
-
+        submitButton.interactable = false;
         var reqData = new FeedbackRequest { feedbackMessage = message };
         string json = JsonUtility.ToJson(reqData);
 
@@ -74,6 +74,7 @@ public class FeedbackManager : MonoBehaviour
                 }
             }
             submitButton.onClick.AddListener(OnSubmitClicked);
+            submitButton.interactable = true;
 
         }
     }
