@@ -19,9 +19,22 @@ public class DragManager : MonoBehaviour
 
         Canvas c = FindFirstObjectByType<Canvas>();
         overlays = new GameObject[2];
-        overlays[0] = GameObject.Find("Canvas").transform.Find("BlackOverlay").gameObject;
-        overlays[1] = GameObject.Find("Canvas").transform.Find("EndOverlay").gameObject;
+        overlays[0] = FindDeepChild(c.transform, "BlackOverlay")?.gameObject;
+        overlays[1] = FindDeepChild(c.transform, "EndOverlay")?.gameObject;
     }
+
+    // Recursive search for child by name
+    Transform FindDeepChild(Transform parent, string name)
+    {
+        foreach (Transform child in parent)
+        {
+            if (child.name == name) return child;
+            var result = FindDeepChild(child, name);
+            if (result != null) return result;
+        }
+        return null;
+    }
+
 
     void Update()
     {
