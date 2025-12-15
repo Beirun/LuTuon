@@ -86,6 +86,8 @@ public class NumberOfPeopleManager : MonoBehaviour
         // Prevent going below 1 person
         if (state.currentPeopleCount < 1)
             state.currentPeopleCount = 1;
+        if(state.currentPeopleCount > 50)
+            state.currentPeopleCount = 50;
 
         // Update the visual Number Counter
         uiData.numberOfPeople.text = state.currentPeopleCount.ToString();
