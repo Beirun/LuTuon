@@ -19,8 +19,8 @@ public class DragManager : MonoBehaviour
 
         Canvas c = FindFirstObjectByType<Canvas>();
         overlays = new GameObject[2];
-        overlays[0] = c.transform.Find("BlackOverlay")?.gameObject;
-        overlays[1] = c.transform.Find("EndOverlay")?.gameObject;
+        overlays[0] = GameObject.Find("Canvas").transform.Find("BlackOverlay").gameObject;
+        overlays[1] = GameObject.Find("Canvas").transform.Find("EndOverlay").gameObject;
     }
 
     void Update()
