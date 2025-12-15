@@ -26,6 +26,11 @@ public class AttemptManager : MonoBehaviour
 
     public void SendAttempt(string foodId, int point, string type)
     {
+        if(AccountManager.Instance == null)
+        {
+            Debug.LogError("AccountManager instance not found");
+            return;
+        }
         var acc = AccountManager.Instance.CurrentAccount;
         if (acc == null || string.IsNullOrEmpty(acc.accessToken))
         {
