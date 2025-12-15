@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.Text.RegularExpressions;
+using System.Text.RegularExpressions; // Required for finding numbers in text
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,64 +14,121 @@ public class NumberOfPeopleManager : MonoBehaviour
         public Button addButton;
         public Button minusButton;
         public List<TMP_Text> descriptionText;
-
-        [HideInInspector] public int basePeople;
-        [HideInInspector] public List<float> baseAmounts = new List<float>();
-        [HideInInspector] public List<string> suffixes = new List<string>();
     }
 
     public List<IngredientData> ingredientDataList = new List<IngredientData>();
 
-    static readonly Regex lineRegex = new Regex(
-        @"^\s*([0-9]*\.?[0-9]+)\s*(.*)$",
-        RegexOptions.Compiled
-    );
+    // We need a helper class to store the runtime state so we don't lose the original text
+    private class RuntimeIngredientState
+    {
+        public int currentPeopleCount;
+        public int basePeopleCount; // The count defined in the inspector at Start
+        public List<string> originalDescriptionTemplates = new List<string>();
+    }
+
+    private List<RuntimeIngredientState> runtimeStates = new List<RuntimeIngredientState>();
 
     void Start()
     {
-        foreach (var d in ingredientDataList)
+        InitializeIngredients();
+    }
+
+    void InitializeIngredients()
+    {
+        for (int i = 0; i < ingredientDataList.Count; i++)
         {
-            if (!int.TryParse(d.numberOfPeople.text, out d.basePeople))
-                d.basePeople = 1;
+            int index = i; // Local copy for closure in lambda expressions
+            IngredientData data = ingredientDataList[i];
 
-            d.baseAmounts.Clear();
-            d.suffixes.Clear();
+            // 1. Create a state object to track this specific item
+            RuntimeIngredientState state = new RuntimeIngredientState();
 
-            foreach (var t in d.descriptionText)
+            // 2. Parse the starting number of people (Default to 1 if empty or invalid)
+            if (int.TryParse(data.numberOfPeople.text, out int parsedCount))
             {
-                var m = lineRegex.Match(t.text);
-                if (!m.Success)
-                {
-                    d.baseAmounts.Add(0f);
-                    d.suffixes.Add(t.text);
-                    continue;
-                }
-
-                float amt = float.Parse(m.Groups[1].Value, CultureInfo.InvariantCulture);
-                string suffix = m.Groups[2].Value;
-
-                d.baseAmounts.Add(amt);
-                d.suffixes.Add(suffix);
+                state.currentPeopleCount = parsedCount;
+                state.basePeopleCount = parsedCount;
+            }
+            else
+            {
+                state.currentPeopleCount = 1;
+                state.basePeopleCount = 1;
+                data.numberOfPeople.text = "1";
             }
 
-            d.addButton.onClick.AddListener(() => ChangePeople(d, 1));
-            d.minusButton.onClick.AddListener(() => ChangePeople(d, -1));
+            // 3. Store the original text of descriptions to use as a baseline for math
+            foreach (var txt in data.descriptionText)
+            {
+                state.originalDescriptionTemplates.Add(txt.text);
+            }
+
+            runtimeStates.Add(state);
+
+            // 4. Add Listeners to Buttons
+            // We use lambda () => functions to pass the specific index
+            if (data.addButton != null)
+                data.addButton.onClick.AddListener(() => ModifyPeopleCount(index, 1));
+
+            if (data.minusButton != null)
+                data.minusButton.onClick.AddListener(() => ModifyPeopleCount(index, -1));
         }
     }
 
-    void ChangePeople(IngredientData d, int delta)
+    // Called by buttons
+    void ModifyPeopleCount(int index, int amount)
     {
-        int current = int.Parse(d.numberOfPeople.text);
-        current = Mathf.Max(1, current + delta);
-        d.numberOfPeople.text = current.ToString();
+        RuntimeIngredientState state = runtimeStates[index];
+        IngredientData uiData = ingredientDataList[index];
 
-        float factor = (float)current / d.basePeople;
+        // Update count
+        state.currentPeopleCount += amount;
 
-        for (int i = 0; i < d.descriptionText.Count; i++)
+        // Prevent going below 1 person
+        if (state.currentPeopleCount < 1)
+            state.currentPeopleCount = 1;
+
+        // Update the visual Number Counter
+        uiData.numberOfPeople.text = state.currentPeopleCount.ToString();
+
+        // Recalculate the ingredients
+        RecalculateIngredients(index);
+    }
+
+    void RecalculateIngredients(int index)
+    {
+        RuntimeIngredientState state = runtimeStates[index];
+        IngredientData uiData = ingredientDataList[index];
+
+        // Calculate the ratio (New Count / Original Count)
+        float ratio = (float)state.currentPeopleCount / (float)state.basePeopleCount;
+
+        // Loop through each text block in this ingredient group
+        for (int t = 0; t < uiData.descriptionText.Count; t++)
         {
-            float newAmt = d.baseAmounts[i] * factor;
-            string formatted = newAmt.ToString("0.##", CultureInfo.InvariantCulture);
-            d.descriptionText[i].text = formatted + " " + d.suffixes[i];
+            string originalText = state.originalDescriptionTemplates[t];
+
+            // USE REGEX: Find any number (integer or decimal)
+            // Pattern: [0-9]+ followed optionally by .[0-9]+
+            string newText = Regex.Replace(originalText, @"\d+(\.\d+)?", (Match match) =>
+            {
+                // Parse the found number
+                if (float.TryParse(match.Value, out float originalValue))
+                {
+                    // Calculate new value
+                    float newValue = originalValue * ratio;
+
+                    // formatting: if it was a whole number originally, keep it whole. 
+                    // Otherwise limit decimals to 2 to avoid "907.18999999"
+                    if (originalValue % 1 == 0 && newValue % 1 == 0)
+                        return newValue.ToString("0"); // Integer format
+                    else
+                        return newValue.ToString("0.##"); // Max 2 decimal places
+                }
+                return match.Value; // Fallback if parse fails
+            });
+
+            // Apply new text to UI
+            uiData.descriptionText[t].text = newText;
         }
     }
 }
