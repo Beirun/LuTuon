@@ -279,8 +279,7 @@ public class TutorialManager : MonoBehaviour
             if (e.script is TimerController)
             {
                 int time = Int32.Parse(steps[stepIndex - 1].Split(" ")[2]);
-                float factor = 2f + (0.5f * (time / 10));
-                (e.script as TimerController).StartTimer(time, factor);
+                (e.script as TimerController).StartTimer(time);
             }
         }
     }
