@@ -10,7 +10,7 @@ public class DragManager : MonoBehaviour
 
     Dictionary<DragController, bool> originalDisabled = new Dictionary<DragController, bool>();
     bool wasOverlayActive;
-
+    public bool areDisabled = false;
     void Awake()
     {
         dragControllers = FindObjectsByType<DragController>(FindObjectsSortMode.None);
@@ -66,11 +66,13 @@ public class DragManager : MonoBehaviour
             if (!dc) continue;
 
             dc.isDisabled = overlayActive ? true : originalDisabled[dc];
+            areDisabled = overlayActive;
         }
     }
 
     public void DisableAllDragging()
     {
+        areDisabled = true;
         for (int i = 0; i < dragControllers.Length; i++)
         {
             var dc = dragControllers[i];
@@ -82,6 +84,7 @@ public class DragManager : MonoBehaviour
 
     public void RestoreDraggingState()
     {
+        areDisabled = false;
         for (int i = 0; i < dragControllers.Length; i++)
         {
             var dc = dragControllers[i];

@@ -12,6 +12,7 @@ public class PointManager : MonoBehaviour
     [System.Serializable]
     public class ControlledScript
     {
+        public string name;
         public MonoBehaviour script;
         public bool isDone = false;
         public bool isOnlyOnce = true;
@@ -262,11 +263,35 @@ public class PointManager : MonoBehaviour
 
     void SendAttemptOnComplete()
     {
-        if(timerManager != null) timerManager.StopTimer();
+        if (timerManager != null) timerManager.StopTimer();
+
+        int maxUsedCounter = 0;
+        string maxScriptName = "";
+
+        for (int i = 0; i < controlledScripts.Count; i++)
+        {
+            var cs = controlledScripts[i];
+            if (!cs.isOnlyOnce || cs.script == null) continue;
+
+            if (cs.usedCounter > maxUsedCounter)
+            {
+                maxUsedCounter = cs.usedCounter;
+                maxScriptName = cs.script.name;
+            }
+        }
+
         pointText.text = point.ToString();
         gameFeedback.text = "Great job! You've completed the game.";
-        if (attemptManager != null) attemptManager.SendAttempt(foodId, point, "Standard");
-        if (endManager != null) endManager.OpenDialog("EndGame");
+
+        Debug.Log("Highest usedCounter (isOnlyOnce): " + maxUsedCounter +
+                  " | Script: " + maxScriptName);
+
+        if (attemptManager != null)
+            attemptManager.SendAttempt(foodId, point, "Standard");
+
+        if (endManager != null)
+            endManager.OpenDialog("EndGame");
     }
-   
+
+
 }

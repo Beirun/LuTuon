@@ -1,0 +1,32 @@
+[
+  {
+    "message": "Too sweet! Did you mix in dessert instead of sugar?",
+    "emotion": "DISGUST",
+    "ingredient": "sugar"
+  },
+  {
+    "message": "Vinegar is perfect, balance is key.",
+    "emotion": "HAPPY",
+    "ingredient": "none"
+  },
+  {
+    "message": "Pineapple juice? This isn’t fruit punch, reduce it.",
+    "emotion": "DISGUST",
+    "ingredient": "pineapple juice"
+  },
+  {
+    "message": "Sweetness is just right! Rich but not overpowering.",
+    "emotion": "HAPPY",
+    "ingredient": "none"
+  },
+  {
+    "message": "Cooking time nailed! The pork is soft and flavorful.",
+    "emotion": "HAPPY",
+    "ingredient": "none"
+  },
+  {
+    "message": "Perfect balance of sweet and savory—this is proper humba.",
+    "emotion": "HAPPY",
+    "ingredient": "none"
+  }
+]

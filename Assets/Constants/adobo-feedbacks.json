@@ -1,0 +1,42 @@
+[
+  {
+    "message": "Too salty! Did you dump the whole soy sauce bottle?",
+    "emotion": "DISGUST",
+    "ingredient": "soy sauce"
+  },
+  {
+    "message": "Vinegar is strong! It’s a sour bomb.",
+    "emotion": "DISGUST",
+    "ingredient": "vinegar"
+  },
+  {
+    "message": "Perfect balance! The soy sauce is just right.",
+    "emotion": "HAPPY",
+    "ingredient": "soy sauce"
+  },
+  {
+    "message": "Flavor on point! Not bland, not salty—this is real adobo.",
+    "emotion": "HAPPY",
+    "ingredient": "soy sauce"
+  },
+  {
+    "message": "Sweetness is spot-on, the sugar rounds everything perfectly.",
+    "emotion": "HAPPY",
+    "ingredient": "sugar"
+  },
+  {
+    "message": "Vinegar hits clean and smooth, no sour bite.",
+    "emotion": "HAPPY",
+    "ingredient": "vinegar"
+  },
+  {
+    "message": "Cooking time nailed! The chicken is tender and juicy.",
+    "emotion": "HAPPY",
+    "ingredient": "chicken"
+  },
+  {
+    "message": "Excellent job! This adobo tastes like home.",
+    "emotion": "HAPPY",
+    "ingredient": "overall dish"
+  }
+]
