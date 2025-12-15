@@ -55,7 +55,7 @@ public class PorkManager : MonoBehaviour
     IEnumerator ChangeToLuspadMaterial()
     {
         Debug.LogWarning("Changing to Luspad Material");
-        yield return new WaitForSeconds(8f);
+        yield return new WaitForSeconds(2.5f);
         var mrs = pork.GetComponentsInChildren<MeshRenderer>(true);
         for (int i = 0; i < mrs.Length; i++)
         {
