@@ -5,6 +5,21 @@
     "ingredient": "soy sauce"
   },
   {
+    "message": "This would be better paired with indian mango with all that soy sauce.",
+    "emotion": "DISGUST",
+    "ingredient": "soy sauce"
+  },
+  {
+    "message": "Maybe just replace the papaya with mango? Since there's already too much soy sauce.",
+    "emotion": "CRY",
+    "ingredient": "soy sauce"
+  },
+  {
+    "message": "Whoever eats this will be coughing. Maybe cut the soy sauce next time?",
+    "emotion": "CRY",
+    "ingredient": "soy sauce"
+  },
+  {
     "message": "Vinegar is strong! It’s a sour bomb.",
     "emotion": "DISGUST",
     "ingredient": "vinegar"
@@ -20,23 +35,93 @@
     "ingredient": "soy sauce"
   },
   {
+    "message": "It's too sweet for a normal adobo.",
+    "emotion": "DISGUST",
+    "ingredient": "sugar"
+  },
+  {
+    "message": "A very slippery dish you have here. Maybe lessen the oil next time?",
+    "emotion": "DISGUST",
+    "ingredient": "cooking oil"
+  },
+  {
+    "message": "I might feel sick with all the oil.",
+    "emotion": "DISGUST",
+    "ingredient": "cooking oil"
+  },
+  {
+    "message": "Why is this dish swimming in oil?",
+    "emotion": "CRY",
+    "ingredient": "cooking oil"
+  },
+  {
+    "message": "I wish everyone has money to use so much oil as you have.",
+    "emotion": "CRY",
+    "ingredient": "cooking oil"
+  },
+  {
     "message": "Sweetness is spot-on, the sugar rounds everything perfectly.",
     "emotion": "HAPPY",
-    "ingredient": "sugar"
+    "ingredient": "none"
   },
   {
     "message": "Vinegar hits clean and smooth, no sour bite.",
     "emotion": "HAPPY",
-    "ingredient": "vinegar"
+    "ingredient": "none"
   },
   {
     "message": "Cooking time nailed! The chicken is tender and juicy.",
     "emotion": "HAPPY",
-    "ingredient": "chicken"
+    "ingredient": "none"
   },
   {
     "message": "Excellent job! This adobo tastes like home.",
     "emotion": "HAPPY",
-    "ingredient": "overall dish"
+    "ingredient": "none"
+  },
+  {
+    "message": "Nice work! But maybe follow the flow next time?",
+    "emotion": "HAPPY",
+    "ingredient": "neutral"
+  },
+  {
+    "message": "All flavors are balanced; the cooking timeline just took a little detour.",
+    "emotion": "HAPPY",
+    "ingredient": "neutral"
+  },
+  {
+    "message": "The flavors are spot-on! Next time, try following the order like a master chef.",
+    "emotion": "HAPPY",
+    "ingredient": "neutral"
+  },
+  {
+    "message": "That vinegar punch is way too aggressive. My mouth is shrinking.",
+    "emotion": "DISGUST",
+    "ingredient": "vinegar"
+  },
+  {
+    "message": "So sour it hurts… did the vinegar slip?",
+    "emotion": "CRY",
+    "ingredient": "vinegar"
+  },
+  {
+    "message": "This tastes more like candy than adobo.",
+    "emotion": "DISGUST",
+    "ingredient": "sugar"
+  },
+  {
+    "message": "My teeth are crying with all this sweetness.",
+    "emotion": "CRY",
+    "ingredient": "sugar"
+  },
+  {
+    "message": "This is painfully salty. Did the salt spill in?",
+    "emotion": "DISGUST",
+    "ingredient": "salt"
+  },
+  {
+    "message": "I need water ASAP. The salt level is brutal.",
+    "emotion": "CRY",
+    "ingredient": "salt"
   }
 ]
