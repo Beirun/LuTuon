@@ -5,6 +5,7 @@ public class PlayerManager : MonoBehaviour
 {
     [SerializeField] TMP_Text buttonText;
     [SerializeField] TMP_Text profileText;
+    [SerializeField] TMP_Text avatarText;
     [SerializeField] TMP_Text achievementsText;
     [SerializeField] TMP_Text attemptsText;
     [SerializeField] TMP_Text pointsText;
@@ -22,6 +23,7 @@ public class PlayerManager : MonoBehaviour
 
         if (buttonText) buttonText.text = loggedIn ? acc.userName : "Player";
         if (profileText) profileText.text = loggedIn ? acc.userName : "Player";
+        if (avatarText) avatarText.text = loggedIn ? acc.userName : "Player";
 
         if (achievementsText)
         {

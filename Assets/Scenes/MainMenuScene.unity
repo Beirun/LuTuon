@@ -39804,6 +39804,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buttonText: {fileID: 1294660582}
   profileText: {fileID: 1226595796}
+  avatarText: {fileID: 1268791521}
   achievementsText: {fileID: 171012410}
   attemptsText: {fileID: 1660494755}
   pointsText: {fileID: 35698385}
@@ -56180,9 +56181,6 @@ MonoBehaviour:
     achievementName: Getting the Hang of It
   interval: 3
   parent: {fileID: 1088144487}
-  speed: 300
-  visibleY: 0
-  hiddenOffset: -200
   achievementText: {fileID: 1928667274}
   achievementIcon: {fileID: 1889498015}
 --- !u!4 &2064887302

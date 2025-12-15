@@ -1,8 +1,10 @@
 using System;
 using System.Collections;
+using System.Linq;
+using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
-using System.Text;
+using static AchievementManager;
 
 [Serializable]
 public class AttemptRequest
@@ -13,7 +15,12 @@ public class AttemptRequest
     public string attemptDuration;
     public string attemptType;
 }
-
+[Serializable]
+public class AttemptResponse
+{
+    public StatsData stats;
+    public AttemptData[] attempts;
+}
 public class AttemptManager : MonoBehaviour
 {
     const string BaseUrl = "https://api.lutuon.app";
@@ -78,6 +85,29 @@ public class AttemptManager : MonoBehaviour
             }
 
             Debug.Log("Attempt created: " + r.downloadHandler.text);
+        }
+        yield return FetchAttempts();
+    }
+
+    public IEnumerator FetchAttempts()
+    {
+        string token = AccountManager.Instance.CurrentAccount.accessToken;
+
+        using (UnityWebRequest request = UnityWebRequest.Get($"{BaseUrl}/game/profile/attempts"))
+        {
+            request.SetRequestHeader("Authorization", "Bearer " + token);
+            request.SetRequestHeader("Content-Type", "application/json");
+
+            yield return request.SendWebRequest();
+
+            if (request.result == UnityWebRequest.Result.Success)
+            {
+                string jsonResponse = request.downloadHandler.text;
+                var res = JsonUtility.FromJson<AttemptResponse>(jsonResponse);
+
+                AccountManager.Instance.SetAttemptData(res.attempts.ToList());
+                AccountManager.Instance.SetStatsData(res.stats);
+            }
         }
     }
 }

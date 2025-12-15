@@ -247,7 +247,7 @@ public class PointManager : MonoBehaviour
         }
         if (allFinished && !progressBarManager.isRunning)
         {
-
+            
             gameEnded = true;
             Debug.Log("All mandatory steps completed. Waiting to finish...");
             StartCoroutine(WaitAndFinish());
