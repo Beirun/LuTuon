@@ -15929,7 +15929,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controlledScripts:
-  - script: {fileID: 749236429}
+  - name: garlic
+    script: {fileID: 749236429}
     isDone: 0
     isOnlyOnce: 0
     isOptional: 0
@@ -15937,7 +15938,8 @@ MonoBehaviour:
     usedCounter: 0
     isFinishedBoolName: isFinished
     prerequisiteSteps: 
-  - script: {fileID: 1142708262}
+  - name: knife
+    script: {fileID: 1142708262}
     isDone: 0
     isOnlyOnce: 0
     isOptional: 0
@@ -15945,7 +15947,8 @@ MonoBehaviour:
     usedCounter: 0
     isFinishedBoolName: isFinished
     prerequisiteSteps: 
-  - script: {fileID: 515296393}
+  - name: chopped garlic
+    script: {fileID: 515296393}
     isDone: 0
     isOnlyOnce: 0
     isOptional: 0
@@ -15953,7 +15956,8 @@ MonoBehaviour:
     usedCounter: 0
     isFinishedBoolName: isFinished
     prerequisiteSteps: 
-  - script: {fileID: 585519318}
+  - name: soy sauce
+    script: {fileID: 585519318}
     isDone: 0
     isOnlyOnce: 1
     isOptional: 0
@@ -15961,7 +15965,8 @@ MonoBehaviour:
     usedCounter: 0
     isFinishedBoolName: isFinished
     prerequisiteSteps: 
-  - script: {fileID: 993568896}
+  - name: cooking oil
+    script: {fileID: 993568896}
     isDone: 0
     isOnlyOnce: 1
     isOptional: 0
@@ -15969,7 +15974,8 @@ MonoBehaviour:
     usedCounter: 0
     isFinishedBoolName: isFinished
     prerequisiteSteps: 
-  - script: {fileID: 1620777524}
+  - name: chicken
+    script: {fileID: 1620777524}
     isDone: 0
     isOnlyOnce: 0
     isOptional: 0
@@ -15977,7 +15983,8 @@ MonoBehaviour:
     usedCounter: 0
     isFinishedBoolName: isFinished
     prerequisiteSteps: 04000000
-  - script: {fileID: 148615768}
+  - name: bowl
+    script: {fileID: 148615768}
     isDone: 0
     isOnlyOnce: 0
     isOptional: 1
@@ -15985,7 +15992,8 @@ MonoBehaviour:
     usedCounter: 0
     isFinishedBoolName: isFinished
     prerequisiteSteps: 03000000
-  - script: {fileID: 1297521983}
+  - name: pitcher
+    script: {fileID: 1297521983}
     isDone: 0
     isOnlyOnce: 1
     isOptional: 0
@@ -15993,7 +16001,8 @@ MonoBehaviour:
     usedCounter: 0
     isFinishedBoolName: isFinished
     prerequisiteSteps: 060000000500000003000000
-  - script: {fileID: 1059730041}
+  - name: leaves
+    script: {fileID: 1059730041}
     isDone: 0
     isOnlyOnce: 0
     isOptional: 0
@@ -16001,7 +16010,8 @@ MonoBehaviour:
     usedCounter: 0
     isFinishedBoolName: isFinished
     prerequisiteSteps: 07000000
-  - script: {fileID: 941747709}
+  - name: pepper corn
+    script: {fileID: 941747709}
     isDone: 0
     isOnlyOnce: 0
     isOptional: 0
@@ -16009,7 +16019,8 @@ MonoBehaviour:
     usedCounter: 0
     isFinishedBoolName: isFinished
     prerequisiteSteps: 07000000
-  - script: {fileID: 1353735036}
+  - name: vinegar
+    script: {fileID: 1353735036}
     isDone: 0
     isOnlyOnce: 1
     isOptional: 0
@@ -16017,7 +16028,8 @@ MonoBehaviour:
     usedCounter: 0
     isFinishedBoolName: isFinished
     prerequisiteSteps: 08000000
-  - script: {fileID: 1955525159}
+  - name: spoon
+    script: {fileID: 1955525159}
     isDone: 0
     isOnlyOnce: 0
     isOptional: 1
@@ -16025,7 +16037,8 @@ MonoBehaviour:
     usedCounter: 0
     isFinishedBoolName: isFinished
     prerequisiteSteps: 09000000
-  - script: {fileID: 1887963768}
+  - name: sugar
+    script: {fileID: 1887963768}
     isDone: 0
     isOnlyOnce: 1
     isOptional: 0
@@ -16033,7 +16046,8 @@ MonoBehaviour:
     usedCounter: 0
     isFinishedBoolName: isFinished
     prerequisiteSteps: 0a000000
-  - script: {fileID: 215428547}
+  - name: salt
+    script: {fileID: 215428547}
     isDone: 0
     isOnlyOnce: 1
     isOptional: 0
@@ -16041,7 +16055,8 @@ MonoBehaviour:
     usedCounter: 0
     isFinishedBoolName: isFinished
     prerequisiteSteps: 0a000000
-  - script: {fileID: 1955525159}
+  - name: spoon
+    script: {fileID: 1955525159}
     isDone: 0
     isOnlyOnce: 0
     isOptional: 0
@@ -34406,6 +34421,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clickSound: {fileID: 8300000, guid: d02c8ae2091d90746a4ecee40ee80c15, type: 3}
+  blackPepperSound: {fileID: 0}
+  chopSound: {fileID: 0}
+  closePotLidSound: {fileID: 0}
+  openPotLidSound: {fileID: 0}
+  dropToPotSound: {fileID: 0}
+  spoonMixSound: {fileID: 0}
+  vegetableOilSound: {fileID: 0}
+  waterSound: {fileID: 0}
+  whiskEggSound: {fileID: 0}
 --- !u!4 &1567479977
 Transform:
   m_ObjectHideFlags: 0
@@ -35831,6 +35855,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isStillDragging: 0
+  areDisabled: 0
 --- !u!4 &1648510584
 Transform:
   m_ObjectHideFlags: 0
