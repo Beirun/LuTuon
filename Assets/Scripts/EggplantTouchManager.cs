@@ -12,10 +12,12 @@ public class EggplantTouchManager : MonoBehaviour
     public bool isPerforming = false;
     public string targetTag = "Eggplant";
 
+    DragManager dragManager;
     Transform target;
     private void Start()
     {
         enabled = false;
+        dragManager = FindFirstObjectByType<DragManager>();
     }
 
     void Awake()
@@ -26,7 +28,7 @@ public class EggplantTouchManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.touchCount > 0 && !isPerforming)
+        if (Input.touchCount > 0 && !isPerforming && !dragManager.areDisabled)
         {
             Touch t = Input.GetTouch(0);
 

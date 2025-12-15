@@ -1,0 +1,32 @@
+[
+  {
+    "message": "Salt too much! The egg overpowers the eggplant.",
+    "emotion": "DISGUST",
+    "ingredient": "salt"
+  },
+  {
+    "message": "Cooking time too short, the eggplant is still raw.",
+    "emotion": "DISGUST",
+    "ingredient": "eggplant"
+  },
+  {
+    "message": "Overcooked! Crispy edges, but the inside is mushy.",
+    "emotion": "CRY",
+    "ingredient": "eggplant"
+  },
+  {
+    "message": "Salt level is perfect! The egg and eggplant are in harmony.",
+    "emotion": "HAPPY",
+    "ingredient": "none"
+  },
+  {
+    "message": "Cooking time nailed! The eggplant is soft and flavorful.",
+    "emotion": "HAPPY",
+    "ingredient": "none"
+  },
+  {
+    "message": "Beautiful cook! Golden outside, tender inside.",
+    "emotion": "HAPPY",
+    "ingredient": "none"
+  }
+]
