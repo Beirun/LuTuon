@@ -29,6 +29,18 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/TortangTalongScene.unity
     guid: 7f32707a02d1a984a939e51f63822a93
+  - enabled: 1
+    path: Assets/Scenes/StandardAdobongManokScene.unity
+    guid: b32027b3c76e6234281a29feeee6a51e
+  - enabled: 1
+    path: Assets/Scenes/StandardTortangTalongScene.unity
+    guid: 419e883f7d8c1bf4a8cee3f49c6a1a0a
+  - enabled: 1
+    path: Assets/Scenes/StandardTinolangManokScene.unity
+    guid: 268359ea20723a048af0165d64d2bbcf
+  - enabled: 1
+    path: Assets/Scenes/StandardHumbaScene.unity
+    guid: 1652f74d5230b104f84332161dbd9009
   m_configObjects:
     com.unity.adaptiveperformance.google.android.provider_settings: {fileID: 11400000, guid: 476306279fe433e4ea130834008c5a4d, type: 2}
     com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: e1e443bd4a598304195781ce96284a0e, type: 2}
