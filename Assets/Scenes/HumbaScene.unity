@@ -16992,7 +16992,7 @@ MonoBehaviour:
   attemptManager: {fileID: 466010551}
   foodId: 4c278bb4-f675-42ea-8298-8fef31c83b47
   steps:
-  - Drag the onions to the chopping board.
+  - Drag the onion to the chopping board.
   - Drag the knife to the chopping board.
   - Drag the garlic to the chopping board.
   - Drag the knife to the chopping board.
@@ -17005,7 +17005,7 @@ MonoBehaviour:
   - Wait for 15 minutes or until the pork is tender.
   - Drag the vinegar to the pan.
   - Wait for 3 minutes.
-  - Drag the sallted black beans and brown sugar to the pan.
+  - Drag the salted black beans and brown sugar to the pan.
   - Wait for 5 minutes.
   - Drag the dried banana blossoms.
   - Wait for 5 minutes.
@@ -46382,7 +46382,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2104598574
 RectTransform:
   m_ObjectHideFlags: 0
