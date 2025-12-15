@@ -25,14 +25,14 @@ public class EggplantManager : MonoBehaviour
             isModified = true;
             controller.enabled = false;
 
-            progressBar.StartProgress(eggplant.transform, 5f);
+            progressBar.StartProgress(eggplant.transform, 2.5f);
             StartCoroutine(ChangeMaterial());
         }
     }
 
     IEnumerator ChangeMaterial()
     {
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(2.5f);
 
         mesh.material = cookedEggPlantMaterial;
 
