@@ -1,0 +1,32 @@
+[
+  {
+    "message": "Salt too much! The broth is as salty as the sea.",
+    "emotion": "DISGUST",
+    "ingredient": "salt"
+  },
+  {
+    "message": "A dash too much salt, be careful with the green papaya next time.",
+    "emotion": "DISGUST",
+    "ingredient": "salt"
+  },
+  {
+    "message": "Are you sure your tongue will not dry out with all the salt?",
+    "emotion": "CRY",
+    "ingredient": "salt"
+  }
+  {
+    "message": "Salt is just right! The broth tastes clean and comforting.",
+    "emotion": "HAPPY",
+    "ingredient": "none"
+  },
+  {
+    "message": "Cooking time nailed! The chicken is tender and the vegetables are perfect.",
+    "emotion": "HAPPY",
+    "ingredient": "none"
+  },
+  {
+    "message": "Excellent balance! This tinola feels warm and soothing.",
+    "emotion": "HAPPY",
+    "ingredient": "none"
+  }
+]
