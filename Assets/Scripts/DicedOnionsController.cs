@@ -37,7 +37,7 @@ public class DicedOnionsController : DragController
 
 
         if(isDragging) EnablePhysicsOnChildren(transform);
-        isFinished = true;
+        if (isDragging) isFinished = true;
         this.isDragging = false;
         isPerforming = false;
 

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq; // Required for LINQ
 using System.Reflection;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PointManager : MonoBehaviour
 {
@@ -22,9 +23,19 @@ public class PointManager : MonoBehaviour
         public string isFinishedBoolName = "isFinished";
         public List<int> prerequisiteSteps = new List<int>();
     }
+    [System.Serializable]
+    public class ProgressStep
+    {
+        public int step;
+        public Transform objectToAttach;
+        public float progressValue;
+        public bool progressDone = false;
+    }
+
 
     public List<ControlledScript> controlledScripts = new List<ControlledScript>();
     public int point = 100;
+    public DragManager manager;
 
     [Header("Dependencies")]
     public AttemptManager attemptManager;
@@ -36,12 +47,28 @@ public class PointManager : MonoBehaviour
     [Header("Correct Minute Timer (for reference)")]
     public List<int> correctMinuteTimer = new List<int>();
 
+    [Header("Progress Bar")]
+    public ProgressBarManager progressBarManager;
+    public List<ProgressStep> stepsForProgressBar = new List<ProgressStep>(); //if a finished step is in this list, progress bar will start
+
     // Tracks which index of the correctMinuteTimer list we should compare against next
     private int timerCheckIndex = 0;
 
     private bool gameEnded = false;
     private HashSet<MonoBehaviour> processedScriptsThisFrame = new HashSet<MonoBehaviour>();
 
+    void Start()
+    {
+        if (manager == null)
+        {
+            manager = FindFirstObjectByType<DragManager>();
+        }
+        if(progressBarManager == null)
+        {
+            progressBarManager = FindFirstObjectByType<ProgressBarManager>();
+        }
+
+    }
     void Update()
     {
         if (!gameEnded)
@@ -85,86 +112,56 @@ public class PointManager : MonoBehaviour
 
     void ProcessScriptGroup(MonoBehaviour activeScript, FieldInfo field, ref bool stepFinishedFlag)
     {
-        // Get all entries that use this specific script
         var group = controlledScripts.Where(x => x.script == activeScript).OrderBy(x => x.step).ToList();
-
-        // 1. SEARCH FOR A VALID SUCCESSFUL STEP
-        // We look for a step that is NOT done, and where ALL prerequisites are met.
         var validStep = group.FirstOrDefault(x => !x.isDone && ArePrerequisitesMet(x));
 
         if (validStep != null)
         {
-            // --- TIMER VALIDATION LOGIC ---
-            // Check if this script is a TimerController by name
-            if (activeScript.GetType().Name == "TimerController")
-            {
-                // Reflection to get 'minuteInput'
-                FieldInfo minuteField = activeScript.GetType().GetField("minuteInput");
-
-                if (minuteField != null)
-                {
-                    int actualMinutes = (int)minuteField.GetValue(activeScript);
-
-                    // Ensure we haven't run out of correct times to check
-                    if (timerCheckIndex < correctMinuteTimer.Count)
-                    {
-                        int expectedMinutes = correctMinuteTimer[timerCheckIndex];
-
-                        if (actualMinutes != expectedMinutes)
-                        {
-                            Debug.LogWarning($"Penalty: Timer set to {actualMinutes}, expected {expectedMinutes}.");
-                            point -= 2;
-                        }
-                        else
-                        {
-                            Debug.Log($"Timer Correct: {actualMinutes} minutes.");
-                        }
-
-                        // Increment index so the next timer event checks the next number in the list
-                        timerCheckIndex++;
-                    }
-                }
-            }
-            // ------------------------------
 
             // SUCCESS
             validStep.isDone = true;
             validStep.usedCounter++;
             stepFinishedFlag = true;
 
-            Debug.LogWarning($"Success: Step {validStep.step} finished.");
+            // ---- PROGRESS BAR STARTER ----
+            if (progressBarManager != null)
+            {
+                var ps = stepsForProgressBar
+                    .FirstOrDefault(x => x.step == validStep.step);
+
+                if (ps != null && !ps.progressDone && ps.objectToAttach != null)
+                {
+                    ps.progressDone = true;
+
+                    progressBarManager.StartProgress(
+                        ps.objectToAttach,
+                        ps.progressValue
+                    );
+                }
+            }
+            // ------------------------------
+
 
             field.SetValue(activeScript, false);
             return;
         }
 
-        // 2. SEARCH FOR PREREQUISITE FAILURE
-        // Is there a step waiting to be done, but blocked by prerequisites?
         var blockedStep = group.FirstOrDefault(x => !x.isDone && !ArePrerequisitesMet(x));
-
         if (blockedStep != null)
         {
-            int missingPrereq = GetMissingPrerequisite(blockedStep);
-            Debug.LogWarning($"Penalty: Step {blockedStep.step} failed. Prerequisite step {missingPrereq} not finished.");
-
             point -= 2;
             field.SetValue(activeScript, false);
             return;
         }
 
-        // 3. SEARCH FOR "ONLY ONCE" FAILURE
-        // If all steps are done, checking if the player is repeating an action they shouldn't
         var completedStep = group.LastOrDefault(x => x.isDone);
-
         if (completedStep != null && completedStep.isOnlyOnce)
         {
-            Debug.LogWarning($"Penalty: Step {completedStep.step} performed more than once.");
             point -= 2;
             field.SetValue(activeScript, false);
             return;
         }
 
-        // Safety reset
         field.SetValue(activeScript, false);
     }
 
@@ -239,4 +236,5 @@ public class PointManager : MonoBehaviour
         if (attemptManager != null) attemptManager.SendAttempt(foodId, point, "Standard");
         if (endManager != null) endManager.OpenDialog("EndGame");
     }
+   
 }

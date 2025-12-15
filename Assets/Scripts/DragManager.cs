@@ -13,12 +13,10 @@ public class DragManager : MonoBehaviour
 
     void Awake()
     {
-        // drag controllers
         dragControllers = FindObjectsByType<DragController>(FindObjectsSortMode.None);
         for (int i = 0; i < dragControllers.Length; i++)
             originalDisabled[dragControllers[i]] = dragControllers[i].isDisabled;
 
-        // single canvas overlays
         Canvas c = FindFirstObjectByType<Canvas>();
         overlays = new GameObject[2];
         overlays[0] = c.transform.Find("BlackOverlay")?.gameObject;
@@ -27,7 +25,6 @@ public class DragManager : MonoBehaviour
 
     void Update()
     {
-        // dragging check
         isStillDragging = false;
         for (int i = 0; i < dragControllers.Length; i++)
         {
@@ -38,7 +35,6 @@ public class DragManager : MonoBehaviour
             }
         }
 
-        // overlay check
         bool overlayActive =
             (overlays[0] && overlays[0].activeSelf) ||
             (overlays[1] && overlays[1].activeSelf);
@@ -46,13 +42,40 @@ public class DragManager : MonoBehaviour
         if (overlayActive == wasOverlayActive) return;
         wasOverlayActive = overlayActive;
 
-        // apply disable / restore
+        ApplyOverlayState(overlayActive);
+    }
+
+    void ApplyOverlayState(bool overlayActive)
+    {
         for (int i = 0; i < dragControllers.Length; i++)
         {
             var dc = dragControllers[i];
             if (!dc) continue;
 
             dc.isDisabled = overlayActive ? true : originalDisabled[dc];
+        }
+    }
+
+    public void DisableAllDragging()
+    {
+        for (int i = 0; i < dragControllers.Length; i++)
+        {
+            var dc = dragControllers[i];
+            if (!dc) continue;
+
+            dc.isDisabled = true;
+        }
+    }
+
+    public void RestoreDraggingState()
+    {
+        for (int i = 0; i < dragControllers.Length; i++)
+        {
+            var dc = dragControllers[i];
+            if (!dc) continue;
+
+            if (originalDisabled.ContainsKey(dc))
+                dc.isDisabled = originalDisabled[dc];
         }
     }
 }
