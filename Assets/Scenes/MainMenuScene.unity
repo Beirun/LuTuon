@@ -3353,7 +3353,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 0de5300da952eb54e9317aaf75590a79, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e1f0e1aaacdfe2f4883980fdd446fd3c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3714,7 +3714,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 0de5300da952eb54e9317aaf75590a79, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e1f0e1aaacdfe2f4883980fdd446fd3c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4780,7 +4780,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 0de5300da952eb54e9317aaf75590a79, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e1f0e1aaacdfe2f4883980fdd446fd3c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -12030,7 +12030,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 0de5300da952eb54e9317aaf75590a79, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e1f0e1aaacdfe2f4883980fdd446fd3c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -12644,7 +12644,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 0de5300da952eb54e9317aaf75590a79, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e1f0e1aaacdfe2f4883980fdd446fd3c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -18556,7 +18556,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 0de5300da952eb54e9317aaf75590a79, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e1f0e1aaacdfe2f4883980fdd446fd3c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -31979,7 +31979,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 0de5300da952eb54e9317aaf75590a79, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e1f0e1aaacdfe2f4883980fdd446fd3c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -32751,7 +32751,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 0de5300da952eb54e9317aaf75590a79, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e1f0e1aaacdfe2f4883980fdd446fd3c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -56157,6 +56157,27 @@ MonoBehaviour:
   - achievementId: e8f47448-67f1-4299-b987-7a2da2e32fbf
     achievementIcon: {fileID: 21300000, guid: 7a7f094762fa08c4d8dd9794246c931d, type: 3}
     achievementName: First Flame
+  - achievementId: e4d4a5d0-352f-450c-921b-65da73b4acdc
+    achievementIcon: {fileID: 21300000, guid: 67c0440d38f3447489809ee32d902b19, type: 3}
+    achievementName: Perfect Plating
+  - achievementId: b452cc52-baeb-486c-b005-f03c0ba67c60
+    achievementIcon: {fileID: 21300000, guid: e70ed13a3d4d9304590b5e1c5648ec88, type: 3}
+    achievementName: Novice Chef
+  - achievementId: 4bb7d07a-1074-4875-aa0a-24595adb350a
+    achievementIcon: {fileID: 21300000, guid: 3e711df5a71dbce4b9791fb2cb7ad455, type: 3}
+    achievementName: Master Chef
+  - achievementId: ce5e172d-9800-437a-9c20-b2590363db2b
+    achievementIcon: {fileID: 21300000, guid: b724eab6f9ee23648abd0307c05079b0, type: 3}
+    achievementName: The Perfectionist
+  - achievementId: 6fc8d837-5fac-4a2a-a2cf-40fd191aed2b
+    achievementIcon: {fileID: 21300000, guid: 4875f6dba3c3db942beb1131962d3f48, type: 3}
+    achievementName: Daily Diner
+  - achievementId: 05ad558b-558c-40b6-87e9-47a1d7f73e24
+    achievementIcon: {fileID: 21300000, guid: 57fd6e9add2505a42ac280f6d336d183, type: 3}
+    achievementName: Curious Cook
+  - achievementId: 2e0f35f8-8aad-48ce-8eb1-9c5c2f16e0c7
+    achievementIcon: {fileID: 21300000, guid: ac558ec78fc7ac240b60ff5928a24d57, type: 3}
+    achievementName: Getting the Hang of It
   interval: 3
   parent: {fileID: 1088144487}
   speed: 300
