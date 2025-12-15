@@ -44,7 +44,7 @@ public class ChoppedGarlicController : DragController
 
         if (isDragging) EnablePhysicsOnChildren(transform);
 
-        isFinished = true;
+        if(isDragging) isFinished = true;
         isPerforming = false;
         this.isDragging = false;
     }
