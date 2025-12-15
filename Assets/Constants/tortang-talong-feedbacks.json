@@ -15,6 +15,26 @@
     "ingredient": "eggplant"
   },
   {
+    "message": "A very slippery dish you have here. Maybe lessen the oil next time?",
+    "emotion": "DISGUST",
+    "ingredient": "cooking oil"
+  },
+  {
+    "message": "I might feel sick with all the oil.",
+    "emotion": "DISGUST",
+    "ingredient": "cooking oil"
+  },
+  {
+    "message": "Why is this dish swimming in oil?",
+    "emotion": "CRY",
+    "ingredient": "cooking oil"
+  },
+  {
+    "message": "I wish everyone has money to use so much oil as you have.",
+    "emotion": "CRY",
+    "ingredient": "cooking oil"
+  },
+  {
     "message": "Salt level is perfect! The egg and eggplant are in harmony.",
     "emotion": "HAPPY",
     "ingredient": "none"
@@ -28,5 +48,20 @@
     "message": "Beautiful cook! Golden outside, tender inside.",
     "emotion": "HAPPY",
     "ingredient": "none"
+  },
+  {
+    "message": "All ingredients cooked correctly; next round, master the sequence to wow everyone!",
+    "emotion": "HAPPY",
+    "ingredient": "neutral"
+  },
+  {
+    "message": "Your Tortang Talong could star on a breakfast table. Steps were playful, but the result shines.",
+    "emotion": "HAPPY",
+    "ingredient": "neutral"
+  },
+  {
+    "message": "The egg coating is golden perfection! A tiny step misstep, but the flavor is full marks.",
+    "emotion": "HAPPY",
+    "ingredient": "neutral"
   }
 ]
