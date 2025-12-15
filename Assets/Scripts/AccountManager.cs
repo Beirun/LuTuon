@@ -82,6 +82,21 @@ public class AccountManager : MonoBehaviour
         SaveTokens(); 
     }
 
+    public void SetAchievements(List<AchievementData> achievements)
+    {
+        CurrentAccount.achievements = achievements;
+    }
+
+    public void SetAttemptData(List<AttemptData> attempts)
+    {
+        CurrentAccount.attempts = attempts;
+    }
+
+    public void SetStatsData(StatsData stats)
+    {
+        CurrentAccount.stats = stats;
+    }
+
     public void UpdateTokens(string newAccess, string newRefresh, DateTime newExpiry)
     {
         if (CurrentAccount == null) CurrentAccount = new AccountData();
