@@ -28,5 +28,60 @@
     "message": "Perfect balance of sweet and savory—this is proper humba.",
     "emotion": "HAPPY",
     "ingredient": "none"
+  },
+  {
+    "message": "Wow! Your Humba is sweet, savory, and sticky-good—steps just got a little freestyle.",
+    "emotion": "HAPPY",
+    "ingredient": "neutral"
+  },
+  {
+    "message": "Perfectly caramelized! Steps may have danced, but the flavors sing “celebration!”",
+    "emotion": "HAPPY",
+    "ingredient": "neutral"
+  },
+  {
+    "message": "It's okay, just follow the steps next round for ultimate Filipino fiesta flavor.",
+    "emotion": "HAPPY",
+    "ingredient": "neutral"
+  },
+  {
+    "message": "Way too sweet! This humba tastes like dessert already.",
+    "emotion": "CRY",
+    "ingredient": "sugar"
+  },
+  {
+    "message": "The sweetness is overwhelming—this lost its savory soul.",
+    "emotion": "DISGUST",
+    "ingredient": "sugar"
+  },
+  {
+    "message": "That pineapple juice is shouting instead of blending in.",
+    "emotion": "CRY",
+    "ingredient": "pineapple juice"
+  },
+  {
+    "message": "Too much pineapple juice turned this into syrup.",
+    "emotion": "DISGUST",
+    "ingredient": "pineapple juice"
+  },
+  {
+    "message": "The vinegar bite is too sharp—it hurts going down.",
+    "emotion": "CRY",
+    "ingredient": "vinegar"
+  },
+  {
+    "message": "That vinegar completely overpowered the dish.",
+    "emotion": "DISGUST",
+    "ingredient": "vinegar"
+  },
+  {
+    "message": "This is way too salty—did the soy sauce spill?",
+    "emotion": "CRY",
+    "ingredient": "soy sauce"
+  },
+  {
+    "message": "The soy sauce drowned everything else out.",
+    "emotion": "DISGUST",
+    "ingredient": "soy sauce"
   }
 ]
