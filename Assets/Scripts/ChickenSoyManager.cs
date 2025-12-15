@@ -15,6 +15,7 @@ public class ChickenSoyManager : MonoBehaviour
     bool started;
     bool isFinished = false;
     ChickenController chickenController;
+    ChoppedGarlicController garlicController;
     Coroutine chickenroutine;
     float t = 0f;
 
@@ -22,6 +23,8 @@ public class ChickenSoyManager : MonoBehaviour
     {
         if (!chicken) return;
         if (chickenController == null) chickenController = FindFirstObjectByType<ChickenController>();
+        if (chickenController != null) chickenController.isDisabled = true;
+        if(garlicController == null) garlicController = FindFirstObjectByType<ChoppedGarlicController>(FindObjectsInactive.Include);
         InitializeMaterials();
     }
 
@@ -68,12 +71,13 @@ public class ChickenSoyManager : MonoBehaviour
             StopCoroutine(chickenroutine);
             chickenroutine = null;
         }
+        if(garlicController.isPlaced && chickenController.isDisabled) { chickenController.isDisabled = false; }
     }
 
     IEnumerator DoTransition()
     {
 
-        float d = 10f;
+        float d = 30f;
 
         while (t < d)
         {
@@ -102,5 +106,6 @@ public class ChickenSoyManager : MonoBehaviour
                 m.SetColor("_Color", target);
         }
         isFinished = true;
+        chickenController.isDisabled = false;
     }
 }
