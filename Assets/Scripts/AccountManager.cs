@@ -46,6 +46,7 @@ public class AccountData
     public List<AttemptData> attempts;
     public StatsData stats;
     public List<AchievementData> achievements;
+    public bool isFirstTimeLogin;
 }
 
 [Serializable]

@@ -33,6 +33,12 @@ public class OnboardingManager : MonoBehaviour
         prevCg.alpha = 0;
         prevCg.interactable = false;
         prevCg.blocksRaycasts = false;
+        Debug.LogWarning("Account First Time Login: " + AccountManager.Instance.CurrentAccount.isFirstTimeLogin);
+        if (AccountManager.Instance.CurrentAccount.isFirstTimeLogin)
+        {
+            OpenOnboarding();
+            AccountManager.Instance.CurrentAccount.isFirstTimeLogin = false;
+        }
 
     }
 

@@ -12911,6 +12911,7 @@ MonoBehaviour:
   point: 100
   pointText: {fileID: 666574628}
   gameFeedback: {fileID: 1095079708}
+  mascot: {fileID: 448782232}
   attemptManager: {fileID: 466010551}
   endManager: {fileID: 723552640}
   foodId: 4c278bb4-f675-42ea-8298-8fef31c83b47
@@ -21552,8 +21553,8 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -25995,6 +25996,60 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -5495902117074765545, guid: 8d0248332b88d414184d55194a51564f, type: 3}
+--- !u!1 &1320722089
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1320722091}
+  - component: {fileID: 1320722090}
+  m_Layer: 0
+  m_Name: FeedbackMessageManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1320722090
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1320722089}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40ed6f4c511bec4498fec10bc77aab00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  goodEmotions:
+  - name: HAPPY
+    sprite: {fileID: 21300000, guid: 1de7f41a03352d443b0138ee46f5eb6c, type: 3}
+  badEmotions:
+  - name: DISGUST
+    sprite: {fileID: 21300000, guid: 01ce57ec5178b8f4c95de1e6c2e2ac07, type: 3}
+  - name: CRY
+    sprite: {fileID: 21300000, guid: db19b067bff4c1e4eb088f9270860323, type: 3}
+  jsonFile: {fileID: 4900000, guid: 2b400b1feba6f554f96cc5c896135ef3, type: 3}
+  feedbackEntries: []
+--- !u!4 &1320722091
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1320722089}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1893.8966, y: 743.7156, z: -125.45188}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1322030326
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -107746,3 +107801,4 @@ SceneRoots:
   - {fileID: 514509546}
   - {fileID: 1831157744}
   - {fileID: 343022178}
+  - {fileID: 1320722091}
