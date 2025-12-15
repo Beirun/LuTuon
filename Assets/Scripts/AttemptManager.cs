@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Linq;
 using System.Text;
+using UnityEditor.PackageManager.Requests;
 using UnityEngine;
 using UnityEngine.Networking;
 using static AchievementManager;
@@ -80,7 +81,18 @@ public class AttemptManager : MonoBehaviour
 
             if (r.result != UnityWebRequest.Result.Success)
             {
-                Debug.LogError("Attempt failed: " + r.error);
+                string serverMessage = r.downloadHandler.text;
+
+                try
+                {
+                    var errorData = JsonUtility.FromJson<ServerErrorResponse>(serverMessage);
+                    serverMessage = errorData.error;
+                }
+                catch
+                {
+                    // fallback to raw text if parsing fails
+                }
+                Debug.LogError("Attempt failed: " + serverMessage);
                 yield break;
             }
 

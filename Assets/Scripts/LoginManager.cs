@@ -20,7 +20,7 @@ public class LoginManager : MonoBehaviour
     private void Start()
     {
         loginButton.onClick.AddListener(OnLoginClicked);
-        if(authManager == null) authManager = FindFirstObjectByType<AuthManager>();
+        if(authManager == null) authManager = AuthManager.Instance;
 
         StartCoroutine(CheckAutoLoginStatus());
     }

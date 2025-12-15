@@ -60,6 +60,7 @@ public class AccountManager : MonoBehaviour
 {
     public static AccountManager Instance { get; private set; }
     public AccountData CurrentAccount { get; private set; }
+    private List<AchievementNames> newAchievement = new List<AchievementNames>();
 
     private const string PREFS_KEY = "Lutuon_UserTokens";
 
@@ -80,6 +81,21 @@ public class AccountManager : MonoBehaviour
     {
         CurrentAccount = data;
         SaveTokens(); 
+    }
+    public List<AchievementNames> GetNewAchievements()
+    {
+        return newAchievement;
+    }
+    public void AddNewAchievement(AchievementNames achievement)
+    {
+        newAchievement.Add(achievement);
+    }
+    public void RemoveNewAchievementAt(int index)
+    {
+        if (index >= 0 && index < newAchievement.Count)
+        {
+            newAchievement.RemoveAt(index);
+        }
     }
 
     public void SetAchievements(List<AchievementData> achievements)

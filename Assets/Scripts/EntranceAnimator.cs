@@ -57,7 +57,6 @@ public class ImageEntranceAnimator : MonoBehaviour
 
         Vector3 startPos = rectTransform.anchoredPosition;
         Vector3 endPos = startPos + new Vector3(0, moveDistance, 0); 
-
         float timer = 0f;
         while (timer < duration)
         {
@@ -80,6 +79,7 @@ public class ImageEntranceAnimator : MonoBehaviour
         {
             canvasGroup.alpha = 1f;
         }
+        
         yield return FadeText(textCanvas);
     }
 
@@ -104,5 +104,6 @@ public class ImageEntranceAnimator : MonoBehaviour
         {
             canvasGroup.alpha = 1f;
         }
+
     }
 }
