@@ -64,7 +64,7 @@ public class LoginManager : MonoBehaviour
     private void OnLoginClicked()
     {
         loginButton.onClick.RemoveListener(OnLoginClicked);
-
+        loginButton.interactable = false;
         string email = emailInput.text;
         string password = passwordInput.text;
 
@@ -90,6 +90,6 @@ public class LoginManager : MonoBehaviour
             }
         });
         loginButton.onClick.AddListener(OnLoginClicked);
-
+        loginButton.interactable = true;
     }
 }
