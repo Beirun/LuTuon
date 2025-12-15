@@ -10,10 +10,65 @@
     "ingredient": "salt"
   },
   {
+    "message": "It has a very strong taste because of all that pepper.",
+    "emotion": "DISGUST",
+    "ingredient": "black pepper"
+  },
+  {
+    "message": "You have an abundance of pepper here, cook.",
+    "emotion": "DISGUST",
+    "ingredient": "black pepper"
+  },
+  {
+    "message": "Whoever eats this will get their throat scratched with all that pepper.",
+    "emotion": "CRY",
+    "ingredient": "black pepper"
+  },
+  {
+    "message": "I wonder if pepper regrets being used by you.",
+    "emotion": "CRY",
+    "ingredient": "black pepper"
+  },
+  {
+    "message": "This would be better paired with indian mango with all that soy sauce.",
+    "emotion": "DISGUST",
+    "ingredient": "soy sauce"
+  },
+  {
+    "message": "Maybe just replace the papaya with mango? Since there's already too much soy sauce.",
+    "emotion": "DISGUST",
+    "ingredient": "soy sauce"
+  },
+  {
+    "message": "Whoever eats this will be coughing. Maybe cut the soy sauce?",
+    "emotion": "CRY",
+    "ingredient": "soy sauce"
+  },
+  {
     "message": "Are you sure your tongue will not dry out with all the salt?",
     "emotion": "CRY",
     "ingredient": "salt"
-  }
+  },
+  {
+    "message": "A very slippery dish you have here. Maybe lessen the oil next time?",
+    "emotion": "DISGUST",
+    "ingredient": "cooking oil"
+  },
+  {
+    "message": "I might feel sick with all the oil.",
+    "emotion": "DISGUST",
+    "ingredient": "cooking oil"
+  },
+  {
+    "message": "Why is this dish swimming in oil?",
+    "emotion": "CRY",
+    "ingredient": "cooking oil"
+  },
+  {
+    "message": "I wish everyone has money to use so much oil as you have.",
+    "emotion": "CRY",
+    "ingredient": "cooking oil"
+  },
   {
     "message": "Salt is just right! The broth tastes clean and comforting.",
     "emotion": "HAPPY",
@@ -28,5 +83,20 @@
     "message": "Excellent balance! This tinola feels warm and soothing.",
     "emotion": "HAPPY",
     "ingredient": "none"
+  },
+  {
+    "message": "Tinola is piping hot and tasty! Next time, follow steps for legendary soup mastery.",
+    "emotion": "HAPPY",
+    "ingredient": "neutral"
+  },
+  {
+    "message": "Chicken and vegetables cooked perfectly! Steps were playful, but taste is king.",
+    "emotion": "HAPPY",
+    "ingredient": "neutral"
+  },
+  {
+    "message": "The flavors are soothing and rich—just a tiny detour in steps.",
+    "emotion": "HAPPY",
+    "ingredient": "neutral"
   }
 ]
