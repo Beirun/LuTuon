@@ -67,10 +67,12 @@ public class LoginManager : MonoBehaviour
         loginButton.interactable = false;
         string email = emailInput.text;
         string password = passwordInput.text;
-
+            
         if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
         {
-            Debug.LogWarning("Email and Password cannot be empty");
+            messageManager.ShowMessage("Email and Password cannot be empty");
+            loginButton.onClick.AddListener(OnLoginClicked);
+            loginButton.interactable = true;
             return;
         }
 
