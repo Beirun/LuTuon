@@ -18,7 +18,7 @@ public class PorkManager : MonoBehaviour
 
     void Update()
     {
-        if (!isChangedToLuto && soyController.hasPoured && !isLutoRoutineStarted)
+        if (!isChangedToLuto && soyController.hasPoured && !isLutoRoutineStarted && porkController.isPlaced)
         {
             if(luspadRoutine != null)
             {
