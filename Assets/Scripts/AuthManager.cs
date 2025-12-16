@@ -23,6 +23,7 @@ public class LoginResponse
     public AttemptData[] attempts;
     public StatsData stats;
     public AchievementData[] achievements;
+    public bool isFirstTimeLogin;
 }
 
 [Serializable]
@@ -212,7 +213,8 @@ public class AuthManager : MonoBehaviour
             accessTokenExpiry = expiry,
             attempts = new List<AttemptData>(res.attempts ?? Array.Empty<AttemptData>()),
             stats = res.stats,
-            achievements = new List<AchievementData>(res.achievements ?? Array.Empty<AchievementData>())
+            achievements = new List<AchievementData>(res.achievements ?? Array.Empty<AchievementData>()),
+            isFirstTimeLogin = res.isFirstTimeLogin
         });
 
         if (autoRefreshCoroutine != null) StopCoroutine(autoRefreshCoroutine);

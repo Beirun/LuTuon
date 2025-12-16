@@ -33,6 +33,7 @@ public class GoogleAuthentication : MonoBehaviour
 
     private void Start()
     {
+        authManager = AuthManager.Instance;
         if (loginButton != null)
         {
             loginButton.onClick.AddListener(OnSignIn);
@@ -77,7 +78,7 @@ public class GoogleAuthentication : MonoBehaviour
                 {
                     GoogleSignIn.SignInException error = (GoogleSignIn.SignInException)enumerator.Current;
                     Debug.LogError("Got Error: " + error.Status + " " + error.Message);
-                    messageManager.ShowMessage("Login Failed: " + error.Status);
+                    messageManager.ShowMessage("Login Failed");
                 }
                 else
                 {

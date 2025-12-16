@@ -27,15 +27,10 @@ public class PlayerManager : MonoBehaviour
 
         if (achievementsText)
         {
-            int completed = 0;
             if (loggedIn && acc.achievements != null)
             {
-                foreach (var a in acc.achievements)
-                {
-                    if (a != null && a.progress >= 100) completed++;
-                }
+                achievementsText.text = acc.stats.totalAchievements.ToString();
             }
-            achievementsText.text = completed.ToString();
         }
 
         if (attemptsText)

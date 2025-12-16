@@ -40,6 +40,7 @@ public class PointManager : MonoBehaviour
     private DragManager manager;
     public TMP_Text pointText;
     public TMP_Text gameFeedback;
+    public Image mascot;
 
     [Header("Dependencies")]
     public AttemptManager attemptManager;
@@ -58,6 +59,7 @@ public class PointManager : MonoBehaviour
 
     private int lastFinishedStep = -1;
     private bool isStillRunning = false;
+    FeedbackMessageManager feedbackMessageManager;
     void Start()
     {
         if (manager == null)
@@ -71,6 +73,10 @@ public class PointManager : MonoBehaviour
         if (timerManager == null)
         {
             timerManager = FindFirstObjectByType<TimerManager>();
+        }
+        if(feedbackMessageManager == null)
+        {
+            feedbackMessageManager = FindFirstObjectByType<FeedbackMessageManager>();
         }
 
     }
@@ -257,6 +263,7 @@ public class PointManager : MonoBehaviour
 
     IEnumerator WaitAndFinish()
     {
+        manager.DisableAllDragging();
         yield return new WaitForSeconds(1f);
         SendAttemptOnComplete();
     }
@@ -276,7 +283,7 @@ public class PointManager : MonoBehaviour
             if (cs.usedCounter > maxUsedCounter)
             {
                 maxUsedCounter = cs.usedCounter;
-                maxScriptName = cs.script.name;
+                maxScriptName = cs.name;
             }
         }
 
@@ -285,7 +292,26 @@ public class PointManager : MonoBehaviour
 
         Debug.Log("Highest usedCounter (isOnlyOnce): " + maxUsedCounter +
                   " | Script: " + maxScriptName);
-
+        if(maxUsedCounter >= 2)
+        {
+            var feedBackEmotion = feedbackMessageManager.GetFeedbackEmotion(-1);
+            Debug.Log("Name: " + feedBackEmotion.name);
+            Debug.Log("Max: " + maxScriptName);
+            Debug.Log("Value: " + maxScriptName == feedBackEmotion.name);
+            mascot.sprite = feedBackEmotion.sprite;
+            gameFeedback.text = feedbackMessageManager.GetFeedbackBasedOnEmotionAndIngredient(feedBackEmotion.name, maxScriptName);
+        }
+        else if (maxUsedCounter < 2 && point < 100)
+        {
+            var feedBackEmotion = feedbackMessageManager.GetFeedbackEmotion(1);
+            mascot.sprite = feedBackEmotion.sprite;
+            gameFeedback.text = feedbackMessageManager.GetFeedbackBasedOnEmotionAndIngredient("HAPPY","neutral");
+        }
+        else
+        {
+            var feedBackEmotion = feedbackMessageManager.GetFeedbackEmotion(1);
+            mascot.sprite = feedBackEmotion.sprite; gameFeedback.text = feedbackMessageManager.GetFeedbackBasedOnEmotionAndIngredient("HAPPY");
+        }
         if (attemptManager != null)
             attemptManager.SendAttempt(foodId, point, "Standard");
 

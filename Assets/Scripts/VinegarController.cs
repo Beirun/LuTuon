@@ -89,7 +89,7 @@ public class VinegarController : DragController
         }
 
         pouringWater.SetActive(true);
-        pouringWater.transform.position = targetPos + new Vector3(1.4f, -1.6f, 0f);
+        pouringWater.transform.position = targetPos + new Vector3(1.5f, -1.55f, 0f);
 
         foreach (Material m in pouringMats)
         {
