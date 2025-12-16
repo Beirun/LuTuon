@@ -78,7 +78,7 @@ public class FeedbackMessageManager : MonoBehaviour
         }
         else
         {
-            return "No feedback available for this combination.";
+            return "You did great! Probably?";
         }
     }
 }
