@@ -239,7 +239,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &245783351
 RectTransform:
   m_ObjectHideFlags: 0
@@ -423,7 +423,7 @@ MonoBehaviour:
   emailInput: {fileID: 1495534316}
   passwordInput: {fileID: 762852985}
   loginButton: {fileID: 1189380602}
-  authManager: {fileID: 1720842371}
+  authManager: {fileID: 0}
   entranceAnimator: {fileID: 80173740}
   messageManager: {fileID: 1027375476}
   dialogManager: {fileID: 1929498218}
@@ -739,6 +739,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clickSound: {fileID: 8300000, guid: d02c8ae2091d90746a4ecee40ee80c15, type: 3}
+  blackPepperSound: {fileID: 0}
+  chopSound: {fileID: 0}
+  closePotLidSound: {fileID: 0}
+  openPotLidSound: {fileID: 0}
+  dropToPotSound: {fileID: 0}
+  spoonMixSound: {fileID: 0}
+  vegetableOilSound: {fileID: 0}
+  waterSound: {fileID: 0}
+  whiskEggSound: {fileID: 0}
 --- !u!4 &333199725
 Transform:
   m_ObjectHideFlags: 0
@@ -802,7 +811,7 @@ MonoBehaviour:
   loginButtonController: {fileID: 987318599}
   dialogManager: {fileID: 1929498218}
   messageManager: {fileID: 1027375476}
-  authManager: {fileID: 1720842371}
+  authManager: {fileID: 0}
 --- !u!1 &369489654
 GameObject:
   m_ObjectHideFlags: 0
@@ -3519,7 +3528,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1383600227}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
@@ -4407,50 +4416,6 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
---- !u!1 &1720842370
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1720842372}
-  - component: {fileID: 1720842371}
-  m_Layer: 0
-  m_Name: AuthManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1720842371
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1720842370}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7ad60d278ddf7534eba4e9c1bd56526a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &1720842372
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1720842370}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1560, y: 180.3794, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1796593704
 GameObject:
   m_ObjectHideFlags: 0
@@ -5042,50 +5007,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2007788641}
   m_CullTransparentMesh: 1
---- !u!1 &2100820934
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2100820935}
-  - component: {fileID: 2100820936}
-  m_Layer: 0
-  m_Name: AccountController
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2100820935
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2100820934}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.25596553, y: -4.0631447, z: 4.027706}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2100820936
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2100820934}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d25f12afff3a2204aaa64d94136cfd28, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2137901098
 GameObject:
   m_ObjectHideFlags: 0
@@ -5235,8 +5156,6 @@ SceneRoots:
   - {fileID: 1796593706}
   - {fileID: 1692729944}
   - {fileID: 333199725}
-  - {fileID: 2100820935}
   - {fileID: 337619037}
   - {fileID: 303287707}
-  - {fileID: 1720842372}
   - {fileID: 1929498219}
