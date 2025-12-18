@@ -8,7 +8,7 @@ public class KnifeController : DragController
     [Header("Animation Durations")]
     public float cutDuration = 0.4f;
     public float cutDepth = 0.5f;
-
+    public int numberOfCuts = 4;
 
     [HideInInspector]
     public int cutsMade = 0;
@@ -32,7 +32,17 @@ public class KnifeController : DragController
         isPerforming = true;
         Quaternion rot = Quaternion.Euler(0f, transform.rotation.eulerAngles.y, 0f);
 
-        float[] xOffsets = { -0.15f, -0.05f, 0.05f, 0.15f };
+
+
+        float[] xOffsets = new float[numberOfCuts];
+
+        float spacing = 0.1f;
+        float totalWidth = (numberOfCuts - 1) * spacing;
+
+        for (int i = 0; i < numberOfCuts; i++)
+        {
+            xOffsets[i] = -totalWidth / 2 + i * spacing;
+        }
 
         Vector3 aboveBoard = new Vector3(boardPos.x + xOffsets[0], liftHeight, boardPos.z - 1f);
         yield return MoveTo(aboveBoard, rot, 0.2f);
