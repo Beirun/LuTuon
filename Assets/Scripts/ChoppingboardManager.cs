@@ -2,11 +2,11 @@ using UnityEngine;
 
 public class ChoppingboardManager : MonoBehaviour
 {
-    [HideInInspector]
     public bool isOccupied = false;
+    KnifeController knife;
     void Start()
     {
-        
+        knife = FindFirstObjectByType<KnifeController>();
     }
 
     void Update()
