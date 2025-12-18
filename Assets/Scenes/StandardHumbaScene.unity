@@ -17725,7 +17725,7 @@ GameObject:
   - component: {fileID: 775935907}
   - component: {fileID: 775935906}
   m_Layer: 0
-  m_Name: menu-button
+  m_Name: Addbutton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -17742,13 +17742,14 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.4529108, y: 0.4529108, z: 0.4529108}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 2116346035}
   m_Father: {fileID: 1950242718}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1.2999802, y: -107.99999}
-  m_SizeDelta: {x: 250, y: 100}
+  m_AnchoredPosition: {x: 1.2999802, y: -99.7}
+  m_SizeDelta: {x: 200, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &775935906
 MonoBehaviour:
@@ -18865,7 +18866,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: bbeeeec8c555a54408c79f0c35d06e83, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 262b87974d7d01d4191ba0ea3b698a2a, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -22676,6 +22677,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2082154908}
+  - {fileID: 1811621426}
   - {fileID: 1950242718}
   - {fileID: 36145664}
   m_Father: {fileID: 1953253865}
@@ -25914,7 +25916,7 @@ GameObject:
   - component: {fileID: 1279092848}
   - component: {fileID: 1279092847}
   m_Layer: 5
-  m_Name: Dish name
+  m_Name: Ingredients Name
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -35164,11 +35166,11 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1950242718}
+  m_Father: {fileID: 1113200980}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1.5999832, y: 83.89998}
+  m_AnchoredPosition: {x: -115, y: 244.99997}
   m_SizeDelta: {x: 800, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1811621427
@@ -42494,7 +42496,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1950242718}
   m_Layer: 5
-  m_Name: GameObject
+  m_Name: Addons
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -42513,8 +42515,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 775935905}
-  - {fileID: 2116346035}
-  - {fileID: 1811621426}
   - {fileID: 1279092846}
   - {fileID: 889663749}
   m_Father: {fileID: 1113200980}
@@ -49689,14 +49689,14 @@ RectTransform:
   m_GameObject: {fileID: 2116346034}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2.2079403, y: 2.2079403, z: 2.2079403}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1950242718}
+  m_Father: {fileID: 775935905}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 1.2999624, y: -108.000015}
+  m_AnchoredPosition: {x: -0.00020214298, y: 0.000001283559}
   m_SizeDelta: {x: 167, y: 70.399994}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2116346036
@@ -49746,8 +49746,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 18
+  m_fontSizeBase: 18
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -49784,7 +49784,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 27.56408, y: 14.490299, z: 26.841404, w: 16.145481}
+  m_margin: {x: 43.63162, y: 21.22132, z: 42.836792, w: 22.437054}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
