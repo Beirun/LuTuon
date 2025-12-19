@@ -145,4 +145,15 @@ public class SFXPlayer : MonoBehaviour
             Debug.LogWarning("AudioManager instance or clickSound not found!");
         }
     }
+    public void StopSound()
+    {
+        if (AudioManager.Instance != null && clickSound != null)
+        {
+            AudioManager.Instance.StopSFX();
+        }
+        else
+        {
+            Debug.LogWarning("AudioManager instance or clickSound not found!");
+        }
+    }
 }
