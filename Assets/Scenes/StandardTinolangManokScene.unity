@@ -1689,6 +1689,8 @@ MonoBehaviour:
   startRot: {x: 0, y: 0, z: 0, w: 0}
   isInPot: 0
   isFinished: 0
+  sfx: {fileID: 0}
+  clip: {fileID: 0}
   lid: {fileID: 1377150664}
 --- !u!4 &99719996 stripped
 Transform:
@@ -2275,7 +2277,7 @@ MonoBehaviour:
           m_StringArgument: Pause
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1567479976}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: SFXPlayer, Assembly-CSharp
         m_MethodName: PlayButtonClickSound
         m_Mode: 1
@@ -3173,6 +3175,8 @@ MonoBehaviour:
   startRot: {x: 0, y: 0, z: 0, w: 0}
   isInPot: 0
   isFinished: 0
+  sfx: {fileID: 0}
+  clip: {fileID: 8300000, guid: 6617de19f2eb698429b23b5368d6625d, type: 3}
   isPlaced: 0
   choppingboardManager: {fileID: 1196118806}
 --- !u!1 &163981140
@@ -8496,6 +8500,8 @@ MonoBehaviour:
   startRot: {x: 0, y: 0, z: 0, w: 1}
   isInPot: 0
   isFinished: 0
+  sfx: {fileID: 0}
+  clip: {fileID: 8300000, guid: e8dc1b9d185c51840b44b5fd9ba75082, type: 3}
   water: {fileID: 2957562305606837327}
   potCenter: {fileID: 3965617211201495256}
   potRadius: 0.725
@@ -8817,7 +8823,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1567479976}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: SFXPlayer, Assembly-CSharp
         m_MethodName: PlayButtonClickSound
         m_Mode: 1
@@ -9142,6 +9148,8 @@ MonoBehaviour:
   startRot: {x: 0, y: 0, z: 0, w: 0}
   isInPot: 0
   isFinished: 0
+  sfx: {fileID: 0}
+  clip: {fileID: 0}
   lid: {fileID: 1377150664}
   makeChildAfterPlacement: 0
   isPlaced: 0
@@ -15464,6 +15472,8 @@ MonoBehaviour:
   startRot: {x: 0, y: 0, z: 0, w: 0}
   isInPot: 0
   isFinished: 0
+  sfx: {fileID: 0}
+  clip: {fileID: 8300000, guid: eb2ced8e2bde7534d951e16eb4d8bacb, type: 3}
   water: {fileID: 2957562305606837327}
   pouringWater: {fileID: 12028097164547412}
   pouringColor: {r: 1, g: 0.8, b: 0, a: 0.2}
@@ -22984,6 +22994,8 @@ MonoBehaviour:
   startRot: {x: 0, y: 0, z: 0, w: 0}
   isInPot: 0
   isFinished: 0
+  sfx: {fileID: 0}
+  clip: {fileID: 8300000, guid: c090bb1937ea9ea44be741e93ee35057, type: 3}
   ps: {fileID: 548045695}
   ps2: {fileID: 520087259}
   lid: {fileID: 1377150664}
@@ -29329,7 +29341,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1567479976}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: SFXPlayer, Assembly-CSharp
         m_MethodName: PlayButtonClickSound
         m_Mode: 1
@@ -29942,7 +29954,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1567479976}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: SFXPlayer, Assembly-CSharp
         m_MethodName: PlayButtonClickSound
         m_Mode: 1
@@ -34208,6 +34220,8 @@ MonoBehaviour:
   startRot: {x: 0, y: 0, z: 0, w: 0}
   isInPot: 0
   isFinished: 0
+  sfx: {fileID: 0}
+  clip: {fileID: 8300000, guid: 487f1a2f0d4dbff4aa2f1b8a06e9e7d5, type: 3}
   water: {fileID: 2957562305606837327}
   potCenter: {fileID: 3965617211201495256}
   potRadius: 0.35
@@ -36184,6 +36198,8 @@ MonoBehaviour:
   startRot: {x: 0, y: 0, z: 0, w: 0}
   isInPot: 0
   isFinished: 0
+  sfx: {fileID: 0}
+  clip: {fileID: 0}
   lid: {fileID: 1377150664}
 --- !u!1001 &1290608418
 PrefabInstance:
@@ -38476,6 +38492,8 @@ MonoBehaviour:
   startRot: {x: 0, y: 0, z: 0, w: 0}
   isInPot: 0
   isFinished: 0
+  sfx: {fileID: 0}
+  clip: {fileID: 8300000, guid: 16c92982fa3eece4dbd5f23a0d594b71, type: 3}
   placeDuration: 0.75
   isClose: 0
 --- !u!1 &1383195822 stripped
@@ -41009,60 +41027,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1567479975
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1567479977}
-  - component: {fileID: 1567479976}
-  m_Layer: 0
-  m_Name: SFXPlayer
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1567479976
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1567479975}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9fdb1eea3dbdd204e8b6026582793a45, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  clickSound: {fileID: 8300000, guid: d02c8ae2091d90746a4ecee40ee80c15, type: 3}
-  blackPepperSound: {fileID: 0}
-  chopSound: {fileID: 0}
-  closePotLidSound: {fileID: 0}
-  openPotLidSound: {fileID: 0}
-  dropToPotSound: {fileID: 0}
-  spoonMixSound: {fileID: 0}
-  vegetableOilSound: {fileID: 0}
-  waterSound: {fileID: 0}
-  whiskEggSound: {fileID: 0}
---- !u!4 &1567479977
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1567479975}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 597.07477, y: 281.32855, z: 180.53197}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1573555372
 GameObject:
   m_ObjectHideFlags: 0
@@ -41721,6 +41685,8 @@ MonoBehaviour:
   startRot: {x: 0, y: 0, z: 0, w: 0}
   isInPot: 0
   isFinished: 0
+  sfx: {fileID: 0}
+  clip: {fileID: 8300000, guid: e283355cc56545c4292129263d687f2a, type: 3}
   stirDuration: 15
   stirLoops: 7
   stirRadius: 0.67
@@ -43785,6 +43751,8 @@ MonoBehaviour:
   startRot: {x: 0, y: 0, z: 0, w: 0}
   isInPot: 0
   isFinished: 0
+  sfx: {fileID: 0}
+  clip: {fileID: 8300000, guid: b6bcdbc30219bde47b6022eca6a54ab5, type: 3}
   water: {fileID: 2957562305606837327}
   pouringWater: {fileID: 12028097164547412}
   pouringColor: {r: 0.6792453, g: 0.6792453, b: 0.6792453, a: 0.2}
@@ -50715,6 +50683,8 @@ MonoBehaviour:
   startRot: {x: 0, y: 0, z: 0, w: 0}
   isInPot: 0
   isFinished: 0
+  sfx: {fileID: 0}
+  clip: {fileID: 8300000, guid: 2b1a192a3a0f9814a9356329e0fe3e02, type: 3}
   water: {fileID: 2957562305606837327}
   pouringWater: {fileID: 12028097164547412}
   pouringColor: {r: 0.22745098, g: 0.09803922, b: 0.09411765, a: 0.9137255}
@@ -52467,6 +52437,8 @@ MonoBehaviour:
   startRot: {x: 0, y: 0, z: 0, w: 0}
   isInPot: 0
   isFinished: 0
+  sfx: {fileID: 0}
+  clip: {fileID: 8300000, guid: c893c6ecdeb2c7f429afa73e87d9df13, type: 3}
   water: {fileID: 2957562305606837327}
   potCenter: {fileID: 3965617211201495256}
   potRadius: 0.67
@@ -53284,6 +53256,8 @@ MonoBehaviour:
   startRot: {x: 0, y: 0, z: 0, w: 0}
   isInPot: 0
   isFinished: 0
+  sfx: {fileID: 0}
+  clip: {fileID: 8300000, guid: ee761b25172a25a4b9e0acae4e39f0c3, type: 3}
   water: {fileID: 2957562305606837327}
   potCenter: {fileID: 3965617211201495256}
   potRadius: 0.4
@@ -53304,7 +53278,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1939279354}
   m_Layer: 0
-  m_Name: RedChiliPepper
+  m_Name: GreenChili
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -54977,6 +54951,8 @@ MonoBehaviour:
   startRot: {x: 0, y: 0, z: 0, w: 0}
   isInPot: 0
   isFinished: 0
+  sfx: {fileID: 0}
+  clip: {fileID: 8300000, guid: b2edfa537978084488ee7648a5913668, type: 3}
   water: {fileID: 2957562305606837327}
   potCenter: {fileID: 3965617211201495256}
   potRadius: 0.725
@@ -54987,6 +54963,60 @@ MonoBehaviour:
   bobAmplitude: 0.05
   bobSpeed: 0.5
   lid: {fileID: 1377150664}
+--- !u!1 &2024175944
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2024175946}
+  - component: {fileID: 2024175945}
+  m_Layer: 0
+  m_Name: SFXPlayer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2024175945
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2024175944}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fdb1eea3dbdd204e8b6026582793a45, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clickSound: {fileID: 8300000, guid: d02c8ae2091d90746a4ecee40ee80c15, type: 3}
+  blackPepperSound: {fileID: 8300000, guid: 865d2e816644f8d4e832b1b3e93ab0d1, type: 3}
+  chopSound: {fileID: 8300000, guid: ca000807dedcc2649bef90e87ce4b970, type: 3}
+  closePotLidSound: {fileID: 8300000, guid: 96daef589847bfc459b0f249f71c397c, type: 3}
+  openPotLidSound: {fileID: 8300000, guid: 1a3c6ca9f701656468f866e389ef3890, type: 3}
+  dropToPotSound: {fileID: 8300000, guid: e1238b228def71a48ac04a086a736c50, type: 3}
+  spoonMixSound: {fileID: 8300000, guid: b2898f9919c465d4c95fdd4749030c4f, type: 3}
+  vegetableOilSound: {fileID: 8300000, guid: 6a73d66352532e24285686f242356bb6, type: 3}
+  waterSound: {fileID: 8300000, guid: 466a3c294e4aa674facd039a8fedb24c, type: 3}
+  whiskEggSound: {fileID: 8300000, guid: f836c9adfa563654db2a1eddb7b57783, type: 3}
+--- !u!4 &2024175946
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2024175944}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 597.07477, y: 281.32855, z: 180.53197}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2030247405 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: b286b2d6205842046a6b9ce11390a340, type: 3}
@@ -57588,6 +57618,8 @@ MonoBehaviour:
   startRot: {x: 0, y: 0, z: 0, w: 0}
   isInPot: 0
   isFinished: 0
+  sfx: {fileID: 0}
+  clip: {fileID: 8300000, guid: e0a977e94ec6c7f42ad22bc995f50828, type: 3}
   cutDuration: 0.4
   cutDepth: 0.4
   numberOfCuts: 4
@@ -118334,6 +118366,8 @@ MonoBehaviour:
   startRot: {x: 0, y: 0, z: 0, w: 0}
   isInPot: 0
   isFinished: 0
+  sfx: {fileID: 0}
+  clip: {fileID: 8300000, guid: 73b5335195e12d949bbca765a8bb31d4, type: 3}
   isPlaced: 0
   choppingboardManager: {fileID: 1196118806}
 --- !u!23 &8927668547881423811
@@ -118461,6 +118495,8 @@ MonoBehaviour:
   startRot: {x: 0, y: 0, z: 0, w: 0}
   isInPot: 0
   isFinished: 0
+  sfx: {fileID: 0}
+  clip: {fileID: 8300000, guid: 0c61f7e493e5379428fdc3a5e0f2e8e1, type: 3}
   isPlaced: 0
   choppingboardManager: {fileID: 1196118806}
 --- !u!1660057539 &9223372036854775807
@@ -118479,8 +118515,8 @@ SceneRoots:
   - {fileID: 1248061336}
   - {fileID: 542772933}
   - {fileID: 1108593964}
+  - {fileID: 2024175946}
   - {fileID: 1791496081}
-  - {fileID: 1567479977}
   - {fileID: 690426897}
   - {fileID: 62579791}
   - {fileID: 543450651942269505}
