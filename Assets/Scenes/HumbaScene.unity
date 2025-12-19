@@ -16832,6 +16832,26 @@ MonoBehaviour:
   endManager: {fileID: 723552640}
   attemptManager: {fileID: 466010551}
   foodId: 4c278bb4-f675-42ea-8298-8fef31c83b47
+  audioStep:
+  - {fileID: 8300000, guid: 330b9f6d353271544b7f46d447698aac, type: 3}
+  - {fileID: 8300000, guid: 485d8055095383e4eb179bd84f1497c6, type: 3}
+  - {fileID: 8300000, guid: 20b97cb6eb86bc6429ef11f527037714, type: 3}
+  - {fileID: 8300000, guid: 485d8055095383e4eb179bd84f1497c6, type: 3}
+  - {fileID: 8300000, guid: b18258d3417102445a01c72b683807c2, type: 3}
+  - {fileID: 8300000, guid: d537b0cf644d8d04a81583722f9dfe71, type: 3}
+  - {fileID: 8300000, guid: 3adae6fc392670f4bb80b893b3244b11, type: 3}
+  - {fileID: 8300000, guid: e1d804a5238858b4c849b10a2c74c9fb, type: 3}
+  - {fileID: 8300000, guid: e6bf496d118255147b901d09d8b1bc91, type: 3}
+  - {fileID: 8300000, guid: c71d60137ce262540827aaf24c015695, type: 3}
+  - {fileID: 8300000, guid: 7abdc1e6cba6a3140b231deb3a5fb7ea, type: 3}
+  - {fileID: 8300000, guid: 5979b75de0d1e0f45928a66655ef5411, type: 3}
+  - {fileID: 8300000, guid: 78833afdda0d4f944a75d96d5767406b, type: 3}
+  - {fileID: 8300000, guid: f6c97884a32309641998bf5e57ff261c, type: 3}
+  - {fileID: 8300000, guid: d537b0cf644d8d04a81583722f9dfe71, type: 3}
+  - {fileID: 8300000, guid: e2188ad69f61c2a49947c561835f9f35, type: 3}
+  - {fileID: 8300000, guid: d537b0cf644d8d04a81583722f9dfe71, type: 3}
+  - {fileID: 8300000, guid: c71d60137ce262540827aaf24c015695, type: 3}
+  - {fileID: 8300000, guid: 78833afdda0d4f944a75d96d5767406b, type: 3}
   steps:
   - Drag the onion to the chopping board.
   - Drag the knife to the chopping board.

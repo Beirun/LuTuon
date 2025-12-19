@@ -32813,6 +32813,28 @@ MonoBehaviour:
   endManager: {fileID: 542772932}
   attemptManager: {fileID: 163981141}
   foodId: 30045842-6118-4539-8577-07181b09dfc9
+  audioStep:
+  - {fileID: 8300000, guid: 330b9f6d353271544b7f46d447698aac, type: 3}
+  - {fileID: 8300000, guid: 485d8055095383e4eb179bd84f1497c6, type: 3}
+  - {fileID: 8300000, guid: 8bbfd661c9a527643950bf3e0c691d8c, type: 3}
+  - {fileID: 8300000, guid: 485d8055095383e4eb179bd84f1497c6, type: 3}
+  - {fileID: 8300000, guid: 20b97cb6eb86bc6429ef11f527037714, type: 3}
+  - {fileID: 8300000, guid: 485d8055095383e4eb179bd84f1497c6, type: 3}
+  - {fileID: 8300000, guid: 4ea8837b0a4e0fe418d7fccd583a764e, type: 3}
+  - {fileID: 8300000, guid: 0ad81a540b35f4f4d8ac1ba427ace30d, type: 3}
+  - {fileID: 8300000, guid: 7359dae76b6ef884ba110c5c4f4966d3, type: 3}
+  - {fileID: 8300000, guid: 3ee5c8980af5987419626a438046b694, type: 3}
+  - {fileID: 8300000, guid: 7c8dbe4413f246c478ab2d35cdf51ded, type: 3}
+  - {fileID: 8300000, guid: 2e372af1b06358246880c67e87b06240, type: 3}
+  - {fileID: 8300000, guid: 59e967a8b9c5c164481c8411d13292ab, type: 3}
+  - {fileID: 8300000, guid: ea9ff95823af0814783fc14da8b5038c, type: 3}
+  - {fileID: 8300000, guid: 3a920a618ef1e464cb8792c4d4af4bd3, type: 3}
+  - {fileID: 8300000, guid: b485427d1013c714391167ae9c904c61, type: 3}
+  - {fileID: 8300000, guid: 59e967a8b9c5c164481c8411d13292ab, type: 3}
+  - {fileID: 8300000, guid: 7c8dbe4413f246c478ab2d35cdf51ded, type: 3}
+  - {fileID: 8300000, guid: c1ced64e36e0893488684609b8930ff7, type: 3}
+  - {fileID: 8300000, guid: f585c930f8c33374ba2bc500f073c93b, type: 3}
+  - {fileID: 8300000, guid: 201ed64623113b94293532ff9b78e3ca, type: 3}
   steps:
   - Drag the onion to the chopping board.
   - Drag the knife to the chopping board.
@@ -32820,7 +32842,7 @@ MonoBehaviour:
   - Drag the knife to the chopping board.
   - Drag the garlic to the chopping board.
   - Drag the knife to the chopping board.
-  - Drag the  Cooking oil to the pot.
+  - Drag the Cooking oil to the pot.
   - Drag the onions, garlic, and ginger to the pot.
   - Drag the ground pepper to the pot.
   - Drag the chicken to the pot.
