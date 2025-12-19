@@ -25,7 +25,7 @@ public class CookedMeatManager : MonoBehaviour
     {
         if (!isSet && !controller.isPlaced && controller.highlightTags.Contains("Grill"))
         {
-            choppedController.startPos = controller.startPos;
+            choppedController.startPos = controller.startPos - new Vector3(0.2f, 0f, 0f);
             isSet = true;
         }
         if (controller.isPlaced && controller.highlightTags.Contains("Choppingboard"))
