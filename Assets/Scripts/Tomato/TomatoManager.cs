@@ -46,18 +46,24 @@ public class TomatoManager : MonoBehaviour
                         chopped[k].SetActive(k < i);
                     }
                 }
-                if (knifeController.cutsMade == 4)
+
+            }
+            if (knifeController.cutsMade == 4)
+            {
+                for (int j = 0; j < parts.Count; j++)
                 {
-                    for (int j = 0; j < parts.Count; j++)
-                    {
-                        parts[j].SetActive(false);
-                    }
-                    controller.enabled = false;
-                    knifeController.cutsMade = 0;
-                    controller.isPlaced = false;
-                    choppedController.startPos = controller.startPos;
-                    StartCoroutine(choppedController.ReturnToStart());
+                    parts[j].SetActive(false);
                 }
+                for (int k = 0; k < chopped.Count; k++)
+                {
+                    chopped[k].SetActive(true);
+                }
+                controller.enabled = false;
+                knifeController.cutsMade = 0;
+                controller.isPlaced = false;
+                choppedController.startPos = controller.startPos + new Vector3(-0.1f, 0f, 0f);
+                choppedController.startRot = Quaternion.Euler(0f, 83.3f, 0f);
+                StartCoroutine(choppedController.ReturnToStart());
             }
         }
 

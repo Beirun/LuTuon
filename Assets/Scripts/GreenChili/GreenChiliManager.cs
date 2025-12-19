@@ -46,18 +46,24 @@ public class GreenChiliManager : MonoBehaviour
                         chopped[k].SetActive(k < i);
                     }
                 }
-                if (knifeController.cutsMade == 4)
+
+            }
+            if (knifeController.cutsMade == 4)
+            {
+                for (int j = 0; j < parts.Count; j++)
                 {
-                    for (int j = 0; j < parts.Count; j++)
-                    {
-                        parts[j].SetActive(false);
-                    }
-                    controller.enabled = false;
-                    knifeController.cutsMade = 0;
-                    controller.isPlaced = false;
-                    choppedController.startPos = controller.startPos;
-                    StartCoroutine(choppedController.ReturnToStart());
+                    parts[j].SetActive(false);
                 }
+                for (int k = 0; k < chopped.Count; k++)
+                {
+                    chopped[k].SetActive(true);
+                }
+                controller.enabled = false;
+                knifeController.cutsMade = 0;
+                controller.isPlaced = false;
+                choppedController.startPos = controller.startPos;
+                choppedController.startRot = Quaternion.Euler(39.209f, 96f, 0f);
+                StartCoroutine(choppedController.ReturnToStart());
             }
         }
     }

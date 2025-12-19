@@ -18,7 +18,7 @@ public class TomatoController : DragController
         {
             Vector3 targetPos = highlighted.transform.position + new Vector3(0.15f, 0.175f, 0f);
 
-            StartCoroutine(AnimatePlacement(targetPos, Quaternion.Euler(0f, -90f, 0f), 0.5f));
+            StartCoroutine(AnimatePlacement(targetPos, Quaternion.Euler(-89.98f, 0f, -89.59f), 0.5f));
         }
         ClearHighlight();
     }
