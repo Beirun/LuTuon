@@ -10,13 +10,14 @@ public class MeatController : DragController
 
     public Vector3 newTargetPos = Vector3.zero;
     public MeatTouchManager touchManager;
+    public ChoppingboardManager choppingboardManager;
 
     public override void EndDrag()
     {
         base.EndDrag();
-        if (highlighted != null)
+        if (highlighted != null && (newTargetPos != null || !choppingboardManager.isOccupied))
         {
-            Vector3 targetPos = highlighted.transform.position + new Vector3(-0.2f, 0.1f, 0.5f);
+            Vector3 targetPos = highlighted.transform.position + new Vector3(0f, 0.2f, 0.3f);
             if(newTargetPos != Vector3.zero) targetPos = newTargetPos;
 
             StartCoroutine(AnimatePlacement(targetPos, transform.rotation, 0.5f));
@@ -49,10 +50,12 @@ public class MeatController : DragController
         isFinished = true;
         isDragging = false;
         isPerforming = false;
+        touchManager.enabled = true;    
         if(newTargetPos != Vector3.zero)
         {
+            touchManager.enabled = false;    
             isPerforming = true;
-            touchManager.enabled = true;    
+            choppingboardManager.isOccupied = true;
         }
 
     }

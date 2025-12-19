@@ -75,7 +75,7 @@ public class MeatTouchManager : MonoBehaviour
 
     void Position()
     {
-        Vector3 p = target.position + cam.transform.right * offset;
+        Vector3 p = target.position - cam.transform.up * offset;
         Vector3 screen = cam.WorldToScreenPoint(p);
         if (screen.z < 0) screen = cam.WorldToScreenPoint(target.position);
         tmpBtn.transform.position = screen;

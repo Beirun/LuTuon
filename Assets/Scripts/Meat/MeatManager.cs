@@ -7,36 +7,23 @@ public class MeatManager : MonoBehaviour
     public bool isFinished = false;
     bool isModified = false;
 
-    public GameObject eggplant;
+    public GameObject meat;
 
-    [Header("Eggplant Texture")]
-    public Material[] peeledEggplantMaterials;
-    public Material cookedEggPlantMaterial;
+    [Header("Meat Texture")]
+    public Material halfCookedMaterial;
+    public Material cookedMaterial;
     public MeshRenderer mesh;
-    public EggplantTouchManager touchManager;
+    public MeatTouchManager touchManager;
 
     public ProgressBarManager progressBar;
 
-    [Header("Parts")]
-    public List<GameObject> parts;
-    [Header("Chopped")]
-    public List<GameObject> chopped;
 
-
-    [Header("Knife Controller")]
-    public KnifeController knifeController;
 
     [Header("Parent Controller")]
-    public CucumberController controller;
+    public MeatController controller;
 
-    [Header("Chopped Controller")]
-    public ChoppedGreenChiliController choppedController;
 
-    void Start()
-    {
-        knifeController = FindFirstObjectByType<KnifeController>();
-    }
-
+    public int flipCounter = 0;
     // Update is called once per frame
     void Update()
     {
@@ -45,90 +32,107 @@ public class MeatManager : MonoBehaviour
             isModified = true;
             controller.enabled = false;
 
-            progressBar.StartProgress(eggplant.transform, 2.5f);
-            // StartCoroutine(ChangeMaterial());
+            progressBar.StartProgress(meat.transform, 5f);
         }
-        if (controller.isPlaced)
-        {
 
-            Vector3 objectPos = parts[0].transform.position;
-            for (int i = 1; i < parts.Count; i++)
-            {
-                parts[i].transform.position = objectPos;
-                if (knifeController.cutsMade == i)
-                {
-                    for (int j = 0; j < parts.Count; j++)
-                    {
-                        parts[j].SetActive(j == i);
-                    }
-                    for (int k = 0; k < chopped.Count; k++)
-                    {
-                        chopped[k].SetActive(k < i);
-                    }
-                }
-                if (knifeController.cutsMade == 4)
-                {
-                    for (int j = 0; j < parts.Count; j++)
-                    {
-                        parts[j].SetActive(false);
-                    }
-                    controller.enabled = false;
-                    knifeController.cutsMade = 0;
-                    controller.isPlaced = false;
-                    choppedController.startPos = controller.startPos;
-                    StartCoroutine(choppedController.ReturnToStart());
-                }
-            }
-        }
 
     }
-    // IEnumerator ChangeMaterial()
-    // {
-    //     yield return new WaitForSeconds(2.5f);
+    IEnumerator ChangeMaterial()
+    {
+        yield return new WaitForSeconds(0.2f);
 
-    //     mesh.material = cookedEggPlantMaterial;
+        if (flipCounter == 0) mesh.material = halfCookedMaterial;
+        else mesh.material = cookedMaterial;
 
-    //     controller.newTargetPos = new Vector3(-2.894f, 0.362f, 0.628f);
-    //     controller.highlightTags.Remove("Grill");
-    //     controller.highlightTags.Add("EggplantPlate");
+        controller.newTargetPos =  new Vector3(0f, 0.15f, 0.3f);
+        controller.highlightTags.Remove("Grill");
+        controller.highlightTags.Add("Choppingboard");
 
-    //     controller.startPos = controller.transform.position;
-    //     controller.startRot = controller.transform.rotation;
-    //     controller.isPlaced = false;
-    //     controller.enabled = true;
+        
+        controller.isPlaced = false;
+        isFinished = true;
 
-    //     isFinished = true;
-    // }
+        if(flipCounter == 1)
+        {
+            touchManager.isPerforming = true;    
+            touchManager.enabled = false;
+            controller.enabled = true;
+            yield return new WaitForSeconds(0.4f);
+            controller.startPos = controller.transform.position;
+            controller.startRot = meat.transform.rotation;
+        }
+        flipCounter++;
+    }
 
-    // public void PauseCooking()
-    // {
-    //     progressBar.Pause();
-    // }
+    public void Flip()
+    {
+        StartCoroutine(StartFlipping());
+    }
 
-    // public void ResumeCooking()
-    // {
-    //     progressBar.Resume();
-    // }
+    IEnumerator StartFlipping()
+    {
+        touchManager.isPerforming = true;
+        touchManager.HideButton();
+        float elapsed = 0f;
+        Vector3 from = meat.transform.position;
+        Vector3 to = from + new Vector3(0f, 0.5f, 0f);
 
-    // public void Peel()
-    // {
-    //     StartCoroutine(StartPeeling());
-    // }
+        Coroutine rotRoutine = null;
+        Coroutine changeRoutine = null;
+        IEnumerator Rotate()
+        {
+            float dur = 0.4f;
+            float t = 0f;
 
-    // IEnumerator StartPeeling()
-    // {
-    //     touchManager.isPerforming = true;
-    //     touchManager.HideButton();
+            Quaternion start = meat.transform.rotation;
+            Quaternion target = start * Quaternion.Euler(180f, 0f, 0f); // rotate relative
 
-    //     for (int i = 0; i < peeledEggplantMaterials.Length; i++)
-    //     {
-    //         mesh.material = peeledEggplantMaterials[i];
-    //         yield return new WaitForSeconds(0.5f);
-    //     }
+            while (t < dur)
+            {
+                float n = t / dur;
+                n = n * n * (3f - 2f * n); // smoothstep
 
-    //     touchManager.isFinished = true;
-    //     touchManager.isPerforming = false;
-    //     eggplant.tag = "PeeledEggplant";
-    // }
+                meat.transform.rotation = Quaternion.Slerp(start, target, n);
+
+                if (changeRoutine == null)
+                    changeRoutine = StartCoroutine(ChangeMaterial());
+
+                t += Time.deltaTime;
+                yield return null;
+            }
+
+        }
+
+
+        while (elapsed < 0.4f)
+        {
+            float t = elapsed / 0.4f;
+            t = t * t * (3f - 2f * t); // smoothstep
+
+            Vector3 pos = Vector3.Lerp(from, to, t);
+            meat.transform.position = pos;
+            if (elapsed > 0.2f && rotRoutine == null)
+            {
+                rotRoutine = StartCoroutine(Rotate());
+            }
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+        elapsed = 0;
+        while (elapsed < 0.4f)
+        {
+            float t = elapsed / 0.4f;
+            t = t * t * (3f - 2f * t); // smoothstep
+
+            Vector3 pos = Vector3.Lerp(to, from, t);
+            meat.transform.position = pos;
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        touchManager.isPerforming = false;
+        progressBar.StartProgress(meat.transform, 5f);
+    }
+
 }
 
