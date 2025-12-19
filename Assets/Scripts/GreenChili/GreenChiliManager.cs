@@ -15,7 +15,7 @@ public class GreenChiliManager : MonoBehaviour
     public KnifeController knifeController;
 
     [Header("Parent Controller")]
-    public CucumberController controller;
+    public GreenChiliController controller;
 
     [Header("Chopped Controller")]
     public ChoppedGreenChiliController choppedController;
