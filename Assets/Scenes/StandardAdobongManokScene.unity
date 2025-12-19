@@ -37328,15 +37328,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clickSound: {fileID: 8300000, guid: d02c8ae2091d90746a4ecee40ee80c15, type: 3}
-  blackPepperSound: {fileID: 0}
-  chopSound: {fileID: 0}
-  closePotLidSound: {fileID: 0}
-  openPotLidSound: {fileID: 0}
-  dropToPotSound: {fileID: 0}
-  spoonMixSound: {fileID: 0}
-  vegetableOilSound: {fileID: 0}
-  waterSound: {fileID: 0}
-  whiskEggSound: {fileID: 0}
+  blackPepperSound: {fileID: 8300000, guid: 865d2e816644f8d4e832b1b3e93ab0d1, type: 3}
+  chopSound: {fileID: 8300000, guid: ca000807dedcc2649bef90e87ce4b970, type: 3}
+  closePotLidSound: {fileID: 8300000, guid: 96daef589847bfc459b0f249f71c397c, type: 3}
+  openPotLidSound: {fileID: 8300000, guid: 1a3c6ca9f701656468f866e389ef3890, type: 3}
+  dropToPotSound: {fileID: 8300000, guid: e1238b228def71a48ac04a086a736c50, type: 3}
+  spoonMixSound: {fileID: 8300000, guid: b2898f9919c465d4c95fdd4749030c4f, type: 3}
+  vegetableOilSound: {fileID: 8300000, guid: 6a73d66352532e24285686f242356bb6, type: 3}
+  waterSound: {fileID: 8300000, guid: 466a3c294e4aa674facd039a8fedb24c, type: 3}
+  whiskEggSound: {fileID: 8300000, guid: f836c9adfa563654db2a1eddb7b57783, type: 3}
 --- !u!4 &1567479977
 Transform:
   m_ObjectHideFlags: 0
