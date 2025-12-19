@@ -15,7 +15,7 @@ public class TomatoManager : MonoBehaviour
     public KnifeController knifeController;
 
     [Header("Parent Controller")]
-    public CucumberController controller;
+    public TomatoController controller;
 
     [Header("Chopped Controller")]
     public ChoppedTomatoController choppedController;
