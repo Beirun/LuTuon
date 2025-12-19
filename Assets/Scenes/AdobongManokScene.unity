@@ -7110,6 +7110,23 @@ MonoBehaviour:
   endManager: {fileID: 1414370432}
   attemptManager: {fileID: 618148165}
   foodId: 7a544bcf-544f-416c-9dd2-72eb9752ecaa
+  audioStep:
+  - {fileID: 8300000, guid: 69d7efb39e021104b8e0a8c40650b055, type: 3}
+  - {fileID: 8300000, guid: 485d8055095383e4eb179bd84f1497c6, type: 3}
+  - {fileID: 8300000, guid: a6541ed5447a0d640a17d6bf2a2fe110, type: 3}
+  - {fileID: 8300000, guid: 3ad01410acd2e9e479cf183d98e952bd, type: 3}
+  - {fileID: 8300000, guid: 4c9aeafd7bb9e0e4299388043e7f0053, type: 3}
+  - {fileID: 8300000, guid: 5273692d9fa415d48bbc6a4510c8bfe5, type: 3}
+  - {fileID: 8300000, guid: d42becc412252c847a2cbac0b33003c2, type: 3}
+  - {fileID: 8300000, guid: 762225489d21da140829dd80f9f7e0c2, type: 3}
+  - {fileID: 8300000, guid: 43619d8578df5cb4ca3962ec667e303d, type: 3}
+  - {fileID: 8300000, guid: 5b9cf56f0b677b542a2391ceba5168c1, type: 3}
+  - {fileID: 8300000, guid: 5979b75de0d1e0f45928a66655ef5411, type: 3}
+  - {fileID: 8300000, guid: c71d60137ce262540827aaf24c015695, type: 3}
+  - {fileID: 8300000, guid: f0760cb5efb734f438373ce9aa4fbeda, type: 3}
+  - {fileID: 8300000, guid: 68db0ce43192ac74faf4b7fcfc1e72ba, type: 3}
+  - {fileID: 8300000, guid: c71d60137ce262540827aaf24c015695, type: 3}
+  - {fileID: 8300000, guid: 201ed64623113b94293532ff9b78e3ca, type: 3}
   steps:
   - Drag the garlic to the chopping board.
   - Drag the knife to the chopping board.
