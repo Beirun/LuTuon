@@ -7063,6 +7063,8 @@ MonoBehaviour:
   startRot: {x: 0, y: 0, z: 0, w: 0}
   isInPot: 0
   isFinished: 0
+  sfx: {fileID: 0}
+  clip: {fileID: 0}
   water: {fileID: 2957562305116205718}
   bowlWater: {fileID: 2957562306347990134}
   pouringWater: {fileID: 12028097385687358}
@@ -7440,6 +7442,8 @@ MonoBehaviour:
   startRot: {x: 0, y: 0, z: 0, w: 0}
   isInPot: 0
   isFinished: 0
+  sfx: {fileID: 0}
+  clip: {fileID: 8300000, guid: 120f666797113c549b0c06f18b703a5f, type: 3}
   ps: {fileID: 1831316096}
   ps2: {fileID: 813514685}
   highlightOffset: {x: -1.9, y: 1.35, z: 0}
@@ -15060,6 +15064,8 @@ MonoBehaviour:
   startRot: {x: 0, y: 0, z: 0, w: 0}
   isInPot: 0
   isFinished: 0
+  sfx: {fileID: 0}
+  clip: {fileID: 0}
   lid: {fileID: 0}
   makeChildAfterPlacement: 1
   isPlaced: 0
@@ -16185,6 +16191,8 @@ MonoBehaviour:
   startRot: {x: 0, y: 0, z: 0, w: 0}
   isInPot: 0
   isFinished: 0
+  sfx: {fileID: 0}
+  clip: {fileID: 8300000, guid: 2b1a192a3a0f9814a9356329e0fe3e02, type: 3}
   water: {fileID: 2957562306347990134}
   pouringWater: {fileID: 12028097385687358}
   pouringColor: {r: 0.22745098, g: 0.09803922, b: 0.09411765, a: 0.9137255}
@@ -17458,6 +17466,8 @@ MonoBehaviour:
   startRot: {x: 0, y: 0, z: 0, w: 0}
   isInPot: 0
   isFinished: 0
+  sfx: {fileID: 0}
+  clip: {fileID: 8300000, guid: 6617de19f2eb698429b23b5368d6625d, type: 3}
   isPlaced: 0
   choppingboardManager: {fileID: 898594591}
 --- !u!54 &749236430
@@ -27870,6 +27880,8 @@ MonoBehaviour:
   startRot: {x: 0, y: 0, z: 0, w: 0}
   isInPot: 0
   isFinished: 0
+  sfx: {fileID: 0}
+  clip: {fileID: 0}
   water: {fileID: 0}
   bowlWater: {fileID: 0}
   pouringWater: {fileID: 0}
@@ -28421,6 +28433,8 @@ MonoBehaviour:
   startRot: {x: 0, y: 0, z: 0, w: 0}
   isInPot: 0
   isFinished: 0
+  sfx: {fileID: 0}
+  clip: {fileID: 8300000, guid: 39dd6634e88640d44876584c94b726d5, type: 3}
   water: {fileID: 2957562305116205718}
   potCenter: {fileID: 3965617210643822081}
   potRadius: 0.67
@@ -29036,6 +29050,8 @@ MonoBehaviour:
   startRot: {x: 0, y: 0, z: 0, w: 0}
   isInPot: 0
   isFinished: 0
+  sfx: {fileID: 0}
+  clip: {fileID: 8300000, guid: eb2ced8e2bde7534d951e16eb4d8bacb, type: 3}
   water: {fileID: 2957562305116205718}
   pouringWater: {fileID: 12028097385687358}
   pouringColor: {r: 1, g: 0.8, b: 0, a: 0.2}
@@ -29689,6 +29705,8 @@ MonoBehaviour:
   startRot: {x: 0, y: 0, z: 0, w: 0}
   isInPot: 0
   isFinished: 0
+  sfx: {fileID: 0}
+  clip: {fileID: 8300000, guid: 1a1302d57c0e91247b4dc7e78c097b9f, type: 3}
   water: {fileID: 2957562305116205718}
   potCenter: {fileID: 3965617210643822081}
   potRadius: 0.67
@@ -30175,6 +30193,8 @@ MonoBehaviour:
   startRot: {x: 0, y: 0, z: 0, w: 0}
   isInPot: 0
   isFinished: 0
+  sfx: {fileID: 0}
+  clip: {fileID: 8300000, guid: e0a977e94ec6c7f42ad22bc995f50828, type: 3}
   cutDuration: 0.4
   cutDepth: 0.4
   numberOfCuts: 4
@@ -31565,6 +31585,8 @@ MonoBehaviour:
   startRot: {x: 0, y: 0, z: 0, w: 0}
   isInPot: 0
   isFinished: 0
+  sfx: {fileID: 0}
+  clip: {fileID: 8300000, guid: b6bcdbc30219bde47b6022eca6a54ab5, type: 3}
   water: {fileID: 2957562305116205718}
   pouringWater: {fileID: 12028097385687358}
   pouringColor: {r: 0.6784314, g: 0.6784314, b: 0.6784314, a: 0.2}
@@ -31992,6 +32014,8 @@ MonoBehaviour:
   startRot: {x: 0, y: 0, z: 0, w: 0}
   isInPot: 0
   isFinished: 0
+  sfx: {fileID: 0}
+  clip: {fileID: 8300000, guid: e035e0f8980a38d4db86295d5380c7a9, type: 3}
   water: {fileID: 2957562305116205718}
   pouringWater: {fileID: 12028097385687358}
   pouringColor: {r: 0.7735849, g: 0.7735849, b: 0.7735849, a: 0.2}
@@ -33996,15 +34020,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   clickSound: {fileID: 8300000, guid: d02c8ae2091d90746a4ecee40ee80c15, type: 3}
-  blackPepperSound: {fileID: 0}
-  chopSound: {fileID: 0}
-  closePotLidSound: {fileID: 0}
-  openPotLidSound: {fileID: 0}
-  dropToPotSound: {fileID: 0}
-  spoonMixSound: {fileID: 0}
-  vegetableOilSound: {fileID: 0}
-  waterSound: {fileID: 0}
-  whiskEggSound: {fileID: 0}
+  blackPepperSound: {fileID: 8300000, guid: 865d2e816644f8d4e832b1b3e93ab0d1, type: 3}
+  chopSound: {fileID: 8300000, guid: ca000807dedcc2649bef90e87ce4b970, type: 3}
+  closePotLidSound: {fileID: 8300000, guid: 96daef589847bfc459b0f249f71c397c, type: 3}
+  openPotLidSound: {fileID: 8300000, guid: 1a3c6ca9f701656468f866e389ef3890, type: 3}
+  dropToPotSound: {fileID: 8300000, guid: e1238b228def71a48ac04a086a736c50, type: 3}
+  spoonMixSound: {fileID: 8300000, guid: b2898f9919c465d4c95fdd4749030c4f, type: 3}
+  vegetableOilSound: {fileID: 8300000, guid: 6a73d66352532e24285686f242356bb6, type: 3}
+  waterSound: {fileID: 8300000, guid: 466a3c294e4aa674facd039a8fedb24c, type: 3}
+  whiskEggSound: {fileID: 8300000, guid: f836c9adfa563654db2a1eddb7b57783, type: 3}
 --- !u!4 &1567479977
 Transform:
   m_ObjectHideFlags: 0
@@ -34569,6 +34593,8 @@ MonoBehaviour:
   startRot: {x: 0, y: 0, z: 0, w: 0}
   isInPot: 0
   isFinished: 0
+  sfx: {fileID: 0}
+  clip: {fileID: 8300000, guid: 487f1a2f0d4dbff4aa2f1b8a06e9e7d5, type: 3}
   water: {fileID: 2957562305116205718}
   potCenter: {fileID: 3965617210643822081}
   potRadius: 0.35
@@ -41363,6 +41389,8 @@ MonoBehaviour:
   startRot: {x: 0, y: 0, z: 0, w: 0}
   isInPot: 0
   isFinished: 0
+  sfx: {fileID: 0}
+  clip: {fileID: 8300000, guid: cf59964a13b1ea94e85fe915d96aaec6, type: 3}
   ps: {fileID: 838231874}
   ps2: {fileID: 218989445}
   lid: {fileID: 0}
@@ -41755,6 +41783,8 @@ MonoBehaviour:
   startRot: {x: 0, y: 0, z: 0, w: 0}
   isInPot: 0
   isFinished: 0
+  sfx: {fileID: 0}
+  clip: {fileID: 8300000, guid: e283355cc56545c4292129263d687f2a, type: 3}
   stirDuration: 15
   stirLoops: 7
   stirRadius: 0.67
