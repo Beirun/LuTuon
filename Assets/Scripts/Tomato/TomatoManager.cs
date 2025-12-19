@@ -18,7 +18,7 @@ public class TomatoManager : MonoBehaviour
     public CucumberController controller;
 
     [Header("Chopped Controller")]
-    public ChoppedRedChiliController choppedController;
+    public ChoppedTomatoController choppedController;
 
     void Start()
     {
