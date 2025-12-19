@@ -36,7 +36,11 @@ public class DragController : HighlightController
 
     [HideInInspector] public bool isInPot = false;
     [HideInInspector] public bool isFinished = false;
+    [HideInInspector] public SFXPlayer sfx;
 
+
+    [Header("Audio")]
+    public AudioClip clip;
     Coroutine liftRoutine;
     Coroutine followRoutine;
     public virtual void Start()
@@ -44,6 +48,7 @@ public class DragController : HighlightController
         if (cam == null) cam = Camera.main;
         if (manager == null) manager = FindFirstObjectByType<DragManager>();
         rb = GetComponent<Rigidbody>();
+        sfx = FindFirstObjectByType<SFXPlayer>();
         startPos = transform.position;
         startRot = transform.rotation;
     }
@@ -87,7 +92,10 @@ public class DragController : HighlightController
                     rb.useGravity = false;
                     rb.isKinematic = true;
                 }
-
+                if(sfx != null && clip != null)
+                {
+                    sfx.PlaySound(clip);
+                }
                 SetLayerRecursive(gameObject, 0);
                 liftRoutine = StartCoroutine(LiftObject());
             }
