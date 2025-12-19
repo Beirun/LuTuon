@@ -26,7 +26,12 @@ public class TutorialManager : MonoBehaviour
 
     [Header("Food Id")]
     public string foodId = "30045842-6118-4539-8577-07181b09dfc9";
+    [Header("Audios")]
+    public List<AudioClip> audioStep = new List<AudioClip>();
+    SFXPlayer sfx;
+    [Header("Steps")]
     public List<string> steps = new List<string>();
+    [Header("Scripts")]
     public List<StepControlledScript> controlledScripts = new List<StepControlledScript>();
 
     bool waiting;
@@ -41,9 +46,8 @@ public class TutorialManager : MonoBehaviour
 
     void Start()
     {
-        if (!dialogManager) dialogManager = FindObjectOfType<DialogManager>();
         if (steps.Count < 1) return;
-
+        sfx = FindFirstObjectByType<SFXPlayer>();
         DisableAllControlledScripts();
         NextStep();
         showStepButton.SetActive(false);
@@ -195,6 +199,7 @@ public class TutorialManager : MonoBehaviour
         waiting = true;
         isClosed = false;
         StartTypewriter(steps[stepIndex - 1]);
+        sfx.PlaySound(audioStep[stepIndex -1]);
     }
 
     void StartTypewriter(string text)
@@ -256,6 +261,7 @@ public class TutorialManager : MonoBehaviour
         if (isTyping)
         {
             fastForward = true;
+            sfx.StopSound();
             return;
         }
         if (isClosed) return;

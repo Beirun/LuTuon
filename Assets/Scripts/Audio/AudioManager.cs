@@ -12,14 +12,14 @@ public class AudioManager : MonoBehaviour
 
     [Header("Audio Sources")]
     [SerializeField] private AudioSource musicAudioSource;
-    [SerializeField] private AudioSource sfxAudioSource;  
+    [SerializeField] private AudioSource sfxAudioSource;
 
     void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject); 
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -72,7 +72,7 @@ public class AudioManager : MonoBehaviour
         if (mainMixer == null) { Debug.LogWarning("Main Mixer not assigned!"); return; }
         float mixerVolume = Mathf.Log10(Mathf.Max(normalizedVolume, 0.0001f)) * 20;
         mainMixer.SetFloat(MUSIC_VOLUME_PARAM, mixerVolume);
-        PlayerPrefs.SetFloat("MusicVolume", normalizedVolume); 
+        PlayerPrefs.SetFloat("MusicVolume", normalizedVolume);
     }
 
     public float GetMusicVolume()
@@ -80,7 +80,7 @@ public class AudioManager : MonoBehaviour
         if (mainMixer == null) return 0f;
         float mixerVolume;
         mainMixer.GetFloat(MUSIC_VOLUME_PARAM, out mixerVolume);
-        return Mathf.Pow(10, mixerVolume / 20); 
+        return Mathf.Pow(10, mixerVolume / 20);
     }
 
     public void PlaySFX(AudioClip clip, float volumeScale = 1f)
@@ -96,7 +96,7 @@ public class AudioManager : MonoBehaviour
         if (mainMixer == null) { Debug.LogWarning("Main Mixer not assigned!"); return; }
         float mixerVolume = Mathf.Log10(Mathf.Max(normalizedVolume, 0.0001f)) * 20;
         mainMixer.SetFloat(SFX_VOLUME_PARAM, mixerVolume);
-        PlayerPrefs.SetFloat("SFXVolume", normalizedVolume); 
+        PlayerPrefs.SetFloat("SFXVolume", normalizedVolume);
     }
 
     public float GetSFXVolume()
@@ -104,13 +104,23 @@ public class AudioManager : MonoBehaviour
         if (mainMixer == null) return 0f;
         float mixerVolume;
         mainMixer.GetFloat(SFX_VOLUME_PARAM, out mixerVolume);
-        return Mathf.Pow(10, mixerVolume / 20); 
+        return Mathf.Pow(10, mixerVolume / 20);
+    }
+    public void StopSFX()
+    {
+        if (sfxAudioSource == null)
+        {
+            Debug.LogWarning("SFX AudioSource not assigned!");
+            return;
+        }
+
+        sfxAudioSource.Stop();
     }
 
     private void LoadVolumeSettings()
     {
-        float savedMusicVolume = PlayerPrefs.GetFloat("MusicVolume", GetMusicVolume()); 
-        float savedSFXVolume = PlayerPrefs.GetFloat("SFXVolume", GetSFXVolume()); 
+        float savedMusicVolume = PlayerPrefs.GetFloat("MusicVolume", GetMusicVolume());
+        float savedSFXVolume = PlayerPrefs.GetFloat("SFXVolume", GetSFXVolume());
 
         SetMusicVolume(savedMusicVolume);
         SetSFXVolume(savedSFXVolume);
@@ -118,6 +128,6 @@ public class AudioManager : MonoBehaviour
 
     void OnApplicationQuit()
     {
-        PlayerPrefs.Save(); 
+        PlayerPrefs.Save();
     }
 }

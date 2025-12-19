@@ -17,6 +17,7 @@ TagManager:
   - Bowl
   - Forkify
   - ScrambledEggBowl
+  - Meat
   layers:
   - Default
   - TransparentFX
