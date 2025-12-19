@@ -22,7 +22,7 @@ public class GreenChiliManager : MonoBehaviour
 
     void Start()
     {
-     knifeController = FindFirstObjectByType<KnifeController>();
+        knifeController = FindFirstObjectByType<KnifeController>();
     }
 
     // Update is called once per frame
@@ -31,35 +31,34 @@ public class GreenChiliManager : MonoBehaviour
         if (controller.isPlaced)
         {
 
-        }
-        Vector3 objectPos = parts[0].transform.position;
-        for(int i =1; i< parts.Count; i++)
-        {
-            parts[i].transform.position = objectPos;
-            if(knifeController.cutsMade == i)
+            Vector3 objectPos = parts[0].transform.position;
+            for (int i = 1; i < parts.Count; i++)
             {
-                for(int j=0; j< parts.Count; j++)
+                parts[i].transform.position = objectPos;
+                if (knifeController.cutsMade == i)
                 {
-                    parts[j].SetActive(j == i);
+                    for (int j = 0; j < parts.Count; j++)
+                    {
+                        parts[j].SetActive(j == i);
+                    }
+                    for (int k = 0; k < chopped.Count; k++)
+                    {
+                        chopped[k].SetActive(k < i);
+                    }
                 }
-                for(int k=0; k< chopped.Count; k++)
+                if (knifeController.cutsMade == 4)
                 {
-                    chopped[k].SetActive(k < i);
+                    for (int j = 0; j < parts.Count; j++)
+                    {
+                        parts[j].SetActive(false);
+                    }
+                    controller.enabled = false;
+                    knifeController.cutsMade = 0;
+                    controller.isPlaced = false;
+                    choppedController.startPos = controller.startPos;
+                    StartCoroutine(choppedController.ReturnToStart());
                 }
             }
-            if(knifeController.cutsMade == 4)
-            {
-                for (int j = 0; j < parts.Count; j++)
-                {
-                    parts[j].SetActive(false);
-                }
-                controller.enabled = false; 
-                knifeController.cutsMade = 0;
-                controller.isPlaced = false;
-                choppedController.startPos = controller.startPos;
-                StartCoroutine(choppedController.ReturnToStart());
-            }
         }
-
     }
 }
