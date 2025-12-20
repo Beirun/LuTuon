@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GarlicManager : MonoBehaviour
@@ -26,6 +27,9 @@ public class GarlicManager : MonoBehaviour
 
     [Header("X Offset")]
     public float xOffset = 0.3f;
+    [Header("Knife Config")]
+    public int cuts = 4;
+    public List<float> cutsX = new();
     void Start()
     {
 
@@ -36,7 +40,7 @@ public class GarlicManager : MonoBehaviour
     {
         Vector3 garlicPos = Garlic.transform.position;
 
-        if (garlicController.isPlaced)
+        if (garlicController.isPlaced && knifeController.cutsMade > 0)
         {
             if (knifeController.cutsMade == 1)
             {
@@ -87,6 +91,10 @@ public class GarlicManager : MonoBehaviour
                 StartCoroutine(choppedGarlicController.AnimatePlacement(choppedGarlicController.startPos, Quaternion.Euler(0f, 0f, 0f), 0.75f, false));
                 garlicController.isPlaced = false;
             }
+        }else if (garlicController.isPlaced)
+        {
+            knifeController.numberOfCuts = cuts;
+            knifeController.cutsX = cutsX;
         }
 
     }

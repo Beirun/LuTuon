@@ -16,9 +16,9 @@ public class LemonController : DragController
         base.EndDrag();
         if (highlighted != null && !choppingboardManager.isOccupied)
         {
-            Vector3 targetPos = highlighted.transform.position + new Vector3(0.15f, 0.25f, 0f);
+            Vector3 targetPos = highlighted.transform.position + new Vector3(-0.05f, 0.125f, 0f);
 
-            StartCoroutine(AnimatePlacement(targetPos, Quaternion.Euler(0f, -90f, 0f), 0.5f));
+            StartCoroutine(AnimatePlacement(targetPos, Quaternion.Euler(-90f, 0f, 0f), 0.5f));
         }
         else
         {

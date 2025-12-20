@@ -12,9 +12,12 @@ public class SpoonController : DragController
     public int stirLoops = 2;            
     public float stirRadius = 0.2f;  
     public float stirDepth = 0.2f;  
-
+    public float xRot = 360f;
+    public float yRot = 180f;
+    public float zRot = 90f;
 
     public LidController lid;
+    public Vector3 targetOffset = new(0f, 0f, 0f); 
 
     public override void EndDrag()
     {
@@ -22,7 +25,7 @@ public class SpoonController : DragController
 
         if (highlighted != null && (lid == null || !lid.isClose))
         {
-            StartCoroutine(PlayStirAnimation(highlighted.transform.position));
+            StartCoroutine(PlayStirAnimation(highlighted.transform.position + targetOffset));
         }
         else StartCoroutine(ReturnToStart());
         ClearHighlight();
@@ -32,7 +35,7 @@ public class SpoonController : DragController
     {
         isPerforming = true;
         Vector3 center = new Vector3(targetCenter.x, targetCenter.y + 0.5f, targetCenter.z);
-        Quaternion stirRot = Quaternion.Euler(360f, 180f, 90f);
+        Quaternion stirRot = Quaternion.Euler(xRot, yRot, zRot);
 
         Vector3 startPos = transform.position;
         Quaternion startRotation = transform.rotation;

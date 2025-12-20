@@ -11,6 +11,11 @@ public class RedChiliController : DragController
     [Header("Choppingboard Manager")]
     public ChoppingboardManager choppingboardManager;
 
+    [Header("Rotation")]
+    public float xRot = 39.209f;
+    public float yRot = 0.805f;
+    public float zRot = 0f;
+
     public override void EndDrag()
     {
         base.EndDrag();
@@ -18,7 +23,7 @@ public class RedChiliController : DragController
         {
             Vector3 targetPos = highlighted.transform.position + new Vector3(0.15f, 0.175f, 0f);
 
-            StartCoroutine(AnimatePlacement(targetPos, Quaternion.Euler(39.209f, 0.805f, 0f), 0.5f));
+            StartCoroutine(AnimatePlacement(targetPos, Quaternion.Euler(xRot, yRot, zRot), 0.5f));
         }else
         {
             choppingboardManager.isOccupied = false;

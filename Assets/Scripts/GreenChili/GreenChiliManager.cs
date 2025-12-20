@@ -19,7 +19,9 @@ public class GreenChiliManager : MonoBehaviour
 
     [Header("Chopped Controller")]
     public ChoppedGreenChiliController choppedController;
-
+[Header("Knife Config")]
+    public int cuts = 4;
+    public List<float> cutsX = new();
     void Start()
     {
         knifeController = FindFirstObjectByType<KnifeController>();
@@ -28,7 +30,7 @@ public class GreenChiliManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (controller.isPlaced)
+        if (controller.isPlaced && knifeController.cutsMade > 0)
         {
 
             Vector3 objectPos = parts[0].transform.position;
@@ -48,7 +50,7 @@ public class GreenChiliManager : MonoBehaviour
                 }
 
             }
-            if (knifeController.cutsMade == 4)
+            if (knifeController.cutsMade == cuts)
             {
                 for (int j = 0; j < parts.Count; j++)
                 {
@@ -65,6 +67,10 @@ public class GreenChiliManager : MonoBehaviour
                 choppedController.startRot = Quaternion.Euler(39.209f, 96f, 0f);
                 StartCoroutine(choppedController.ReturnToStart());
             }
+        }else if (controller.isPlaced)
+        {
+            knifeController.numberOfCuts = cuts;
+            knifeController.cutsX = cutsX;
         }
     }
 }

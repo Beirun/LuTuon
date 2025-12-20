@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GingerManager : MonoBehaviour
@@ -23,6 +24,9 @@ public class GingerManager : MonoBehaviour
 
     [Header("Chopped Ginger Controller")]
     public ChoppedGingerController choppedGingerController;
+    [Header("Knife Config")]
+    public int cuts = 4;
+    public List<float> cutsX = new();
     void Start()
     {
 
@@ -32,7 +36,7 @@ public class GingerManager : MonoBehaviour
     {
         Vector3 gingerPos = Ginger.transform.position;
 
-        if (gingerController.isPlaced)
+        if (gingerController.isPlaced  && knifeController.cutsMade > 0)
         {
             if (knifeController.cutsMade == 1)
             {
@@ -83,6 +87,10 @@ public class GingerManager : MonoBehaviour
                 StartCoroutine(choppedGingerController.AnimatePlacement(choppedGingerController.startPos, Quaternion.Euler(9.4f, 22f, -3.2f), 0.75f, false));
                 gingerController.isPlaced = false;
             }
+        }else if (gingerController.isPlaced)
+        {
+            knifeController.numberOfCuts = cuts;
+            knifeController.cutsX = cutsX;
         }
 
     }

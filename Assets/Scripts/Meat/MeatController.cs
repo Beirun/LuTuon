@@ -8,20 +8,28 @@ public class MeatController : DragController
     [HideInInspector]
     public bool isPlaced = false;
 
-    public Vector3 newTargetPos = Vector3.zero;
     public MeatTouchManager touchManager;
     public ChoppingboardManager choppingboardManager;
+    public Quaternion oldRot;
+    public Vector3 oldPos;
+    ProgressBarManager progressBarManager;
 
+    public override void Start()
+    {
+        base.Start();
+        progressBarManager = FindFirstObjectByType<ProgressBarManager>();
+    }
     public override void EndDrag()
     {
         base.EndDrag();
-        if (highlighted != null && (newTargetPos != null || !choppingboardManager.isOccupied))
+        if (highlighted != null && (!highlightTags.Contains("Choppingboard") || !choppingboardManager.isOccupied))
         {
             Vector3 targetPos = highlighted.transform.position + new Vector3(0f, 0.2f, 0.3f);
-            if(newTargetPos != Vector3.zero) targetPos = newTargetPos;
-
-            StartCoroutine(AnimatePlacement(targetPos, transform.rotation, 0.5f));
-        }else
+            if (highlightTags.Contains("MeatPlate")) StartCoroutine(AnimatePlacement(oldPos, oldRot, 0.5f));
+            else if (highlightTags.Contains("Choppingboard")) StartCoroutine(AnimatePlacement(new Vector3(0f, 0.15f, 0.3f), transform.rotation, 0.5f));
+            else StartCoroutine(AnimatePlacement(targetPos, transform.rotation, 0.5f));
+        }
+        else
         {
             choppingboardManager.isOccupied = false;
             isPlaced = false;
@@ -29,7 +37,7 @@ public class MeatController : DragController
         }
         ClearHighlight();
     }
-    
+
 
     IEnumerator AnimatePlacement(Vector3 targetPos, Quaternion targetRot, float duration)
     {
@@ -52,15 +60,36 @@ public class MeatController : DragController
             yield return null;
         }
         isPlaced = true;
-        isFinished = true;
+        if (!highlightTags.Contains("MeatPlate")) isFinished = true;
         isDragging = false;
         isPerforming = false;
-        touchManager.enabled = true;    
-        if(newTargetPos != Vector3.zero)
+        touchManager.enabled = true;
+        if (!highlightTags.Contains("Choppingboard"))
         {
-            touchManager.enabled = false;    
-            isPerforming = true;
+            oldPos = startPos;
+            oldRot = startRot;
+            startPos = transform.position;
+            startRot = transform.rotation;
+        }
+        if (!highlightTags.Contains("Grill"))
+        {
+            touchManager.enabled = false;
+        }
+        if (highlightTags.Contains("Choppingboard"))
+        {
             choppingboardManager.isOccupied = true;
+        }
+        if (highlightTags.Contains("MeatPlate"))
+        {
+            highlightTags.Add("Choppingboard");
+            highlightTags.Remove("MeatPlate");
+            isPerforming = true;
+            isDragging = true;
+            progressBarManager.StartProgress(gameObject.transform, 2.5f);
+            yield return new WaitForSeconds(2.5f);
+            isDragging = false;
+            isPerforming = false;
+            isFinished = true;
         }
 
     }
