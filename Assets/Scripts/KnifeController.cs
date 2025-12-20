@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 #if UNITY_ANDROID || UNITY_IOS
 [RequireComponent(typeof(Rigidbody))]
@@ -9,6 +10,7 @@ public class KnifeController : DragController
     public float cutDuration = 0.4f;
     public float cutDepth = 0.5f;
     public int numberOfCuts = 4;
+    public List<float> cutsX = new();
 
     [HideInInspector]
     public int cutsMade = 0;
@@ -34,15 +36,8 @@ public class KnifeController : DragController
 
 
 
-        float[] xOffsets = new float[numberOfCuts];
+        float[] xOffsets = cutsX.ToArray();
 
-        float spacing = 0.1f;
-        float totalWidth = (numberOfCuts - 1) * spacing;
-
-        for (int i = 0; i < numberOfCuts; i++)
-        {
-            xOffsets[i] = -totalWidth / 2 + i * spacing;
-        }
 
         Vector3 aboveBoard = new Vector3(boardPos.x + xOffsets[0], liftHeight, boardPos.z - 1f);
         yield return MoveTo(aboveBoard, rot, 0.2f);
