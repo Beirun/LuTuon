@@ -24776,8 +24776,8 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
-  m_IsKinematic: 0
+  m_UseGravity: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -34044,10 +34044,10 @@ MonoBehaviour:
   choppedController: {fileID: 1993650717}
   cuts: 4
   cutsX:
-  - -0.15
+  - -0.1
   - -0.05
   - 0.05
-  - 0.15
+  - 0.17
 --- !u!4 &1087641004
 Transform:
   m_ObjectHideFlags: 0
