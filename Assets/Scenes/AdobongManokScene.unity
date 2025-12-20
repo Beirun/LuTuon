@@ -358,6 +358,8 @@ MonoBehaviour:
   garlicController: {fileID: 749236429}
   choppedGarlicController: {fileID: 515296393}
   xOffset: 0.15
+  cuts: 4
+  cutsX: []
 --- !u!4 &19156256
 Transform:
   m_ObjectHideFlags: 0
@@ -30215,6 +30217,7 @@ MonoBehaviour:
   cutDuration: 0.4
   cutDepth: 0.4
   numberOfCuts: 4
+  cutsX: []
   cutsMade: 0
   choppingboardManager: {fileID: 898594591}
 --- !u!64 &1142708263
@@ -41806,7 +41809,11 @@ MonoBehaviour:
   stirLoops: 7
   stirRadius: 0.67
   stirDepth: 0.15
+  xRot: 360
+  yRot: 180
+  zRot: 90
   lid: {fileID: 0}
+  targetOffset: {x: 0, y: 0, z: 0}
 --- !u!64 &1955525160
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -41856,24 +41863,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!320 &1959170073
-PlayableDirector:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2957562305116205718}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_PlayableAsset: {fileID: 11400000, guid: 8635a019286bfff4ab46a58d6194f6e4, type: 2}
-  m_InitialState: 1
-  m_WrapMode: 0
-  m_DirectorUpdateMode: 1
-  m_InitialTime: 0
-  m_SceneBindings: []
-  m_ExposedReferences:
-    m_References:
-    - 5d625e6f51afbf1409a7ed4e25906c43: {fileID: 7577646710134375659}
 --- !u!1001 &2001371024
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -42984,8 +42973,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3965617210643822081}
-  - component: {fileID: 7577646710134375659}
-  - component: {fileID: 1959170073}
   m_Layer: 0
   m_Name: Water
   m_TagString: Untagged
@@ -103172,46 +103159,6 @@ MonoBehaviour:
   m_SelectedFaces: 
   m_SelectedEdges: []
   m_SelectedVertices: 
---- !u!114 &7577646710134375659
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2957562305116205718}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6983ab2008f7a9f499b3f8cd6bec328d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  streamSource: 0
-  streamDescriptor: {fileID: -2200167564334219927, guid: 2eb30796e98884a469405aa9ee2a2df7, type: 3}
-  embeddedStreamDescriptor:
-    pathToAbc: 
-    settings:
-      normals: 1
-      tangents: 1
-      cameraAspectRatio: 2
-      importVisibility: 1
-      scaleFactor: 0.01
-      swapHandedness: 1
-      flipFaces: 0
-      interpolateSamples: 1
-      importPointPolygon: 1
-      importLinePolygon: 1
-      importTrianglePolygon: 1
-      importXform: 1
-      importCameras: 1
-      importMeshes: 1
-      importPoints: 0
-      importCurves: 1
-      createCurveRenderers: 0
-    mediaStartTime: 0
-    mediaEndTime: 0
-  startTime: 0.041666668
-  endTime: 5
-  currentTime: 1.4363507
-  vertexMotionScale: 1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
