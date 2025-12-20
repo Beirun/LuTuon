@@ -16,7 +16,7 @@ public class ParsleyController : DragController
         base.EndDrag();
         if (highlighted != null && !choppingboardManager.isOccupied)
         {
-            Vector3 targetPos = highlighted.transform.position + new Vector3(0.15f, 0.175f, 0f);
+            Vector3 targetPos = highlighted.transform.position + new Vector3(-0.05f, 0.175f, 0f);
 
             StartCoroutine(AnimatePlacement(targetPos, Quaternion.Euler(0,-85f,0), 0.5f));
         }else

@@ -33,10 +33,8 @@ public class ParsleyManager : MonoBehaviour
         if (controller.isPlaced && knifeController.cutsMade > 0)
         {
 
-            Vector3 objectPos = parts[0].transform.position;
             for (int i = 1; i < parts.Count; i++)
             {
-                parts[i].transform.position = objectPos;
                 if (knifeController.cutsMade == i)
                 {
                     for (int j = 0; j < parts.Count; j++)
@@ -63,8 +61,7 @@ public class ParsleyManager : MonoBehaviour
                 controller.enabled = false;
                 knifeController.cutsMade = 0;
                 controller.isPlaced = false;
-                choppedController.startPos = controller.startPos;
-                choppedController.startRot = Quaternion.Euler(39.209f, 96f, 0f);
+                choppedController.startPos = controller.startPos + new Vector3(0.35f,-0.05f,-0.05f);
                 StartCoroutine(choppedController.ReturnToStart());
             }
         }else if (controller.isPlaced)
