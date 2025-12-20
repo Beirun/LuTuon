@@ -19,6 +19,11 @@ public class GarlicController : DragController
             Vector3 targetPos = highlighted.transform.position + new Vector3(0.15f, 0.125f, 0f);
 
             StartCoroutine(AnimatePlacement(targetPos, transform.rotation, 0.5f));
+        }else
+        {
+            choppingboardManager.isOccupied = false;
+            isPlaced = false;
+            StartCoroutine(ReturnToStart());
         }
         ClearHighlight();
     }

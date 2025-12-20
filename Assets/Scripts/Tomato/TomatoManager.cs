@@ -61,7 +61,7 @@ public class TomatoManager : MonoBehaviour
                 controller.enabled = false;
                 knifeController.cutsMade = 0;
                 controller.isPlaced = false;
-                choppedController.startPos = controller.startPos + new Vector3(-0.1f, 0f, 0f);
+                choppedController.startPos = controller.startPos + new Vector3(-0.12f, 0f, 0f);
                 choppedController.startRot = Quaternion.Euler(0f, 83.3f, 0f);
                 StartCoroutine(choppedController.ReturnToStart());
             }

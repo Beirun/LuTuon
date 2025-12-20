@@ -21,6 +21,11 @@ public class MeatController : DragController
             if(newTargetPos != Vector3.zero) targetPos = newTargetPos;
 
             StartCoroutine(AnimatePlacement(targetPos, transform.rotation, 0.5f));
+        }else
+        {
+            choppingboardManager.isOccupied = false;
+            isPlaced = false;
+            StartCoroutine(ReturnToStart());
         }
         ClearHighlight();
     }
