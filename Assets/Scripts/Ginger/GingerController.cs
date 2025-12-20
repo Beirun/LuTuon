@@ -20,6 +20,12 @@ public class GingerController : DragController
 
             StartCoroutine(AnimatePlacement(targetPos, Quaternion.Euler(0f, 0f, 0f), 0.5f));
         }
+        else
+        {
+            choppingboardManager.isOccupied = false;
+            isPlaced = false;
+            StartCoroutine(ReturnToStart());
+        }
         ClearHighlight();
     }
 
