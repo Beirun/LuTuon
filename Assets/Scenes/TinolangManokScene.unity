@@ -14206,6 +14206,12 @@ MonoBehaviour:
   garlicController: {fileID: 153979232}
   choppedGarlicController: {fileID: 492978578}
   xOffset: 0.3
+  cuts: 4
+  cutsX:
+  - -0.15
+  - -0.05
+  - 0.05
+  - 0.15
 --- !u!4 &531077548
 Transform:
   m_ObjectHideFlags: 0
@@ -23053,6 +23059,14 @@ MonoBehaviour:
   knifeController: {fileID: 3469287837344748557}
   onionController: {fileID: 8632055957890638621}
   dicedOnionsController: {fileID: 98123952}
+  rotation: {x: 0, y: 0, z: 0, w: 1}
+  position: {x: 0, y: -0.25, z: -0.25}
+  cuts: 4
+  cutsX:
+  - -0.15
+  - -0.05
+  - 0.05
+  - 0.15
 --- !u!1 &768648882
 GameObject:
   m_ObjectHideFlags: 0
@@ -38894,7 +38908,11 @@ MonoBehaviour:
   stirLoops: 7
   stirRadius: 0.67
   stirDepth: 0.15
+  xRot: 360
+  yRot: 180
+  zRot: 90
   lid: {fileID: 1377150664}
+  targetOffset: {x: 0, y: 0, z: 0}
 --- !u!1 &1585294348 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: b286b2d6205842046a6b9ce11390a340, type: 3}
@@ -54256,6 +54274,12 @@ MonoBehaviour:
   knifeController: {fileID: 3469287837344748557}
   gingerController: {fileID: 8927668547881423814}
   choppedGingerController: {fileID: 1290393816}
+  cuts: 4
+  cutsX:
+  - -0.15
+  - -0.05
+  - 0.05
+  - 0.15
 --- !u!4 &2078144341
 Transform:
   m_ObjectHideFlags: 0
@@ -55948,6 +55972,7 @@ MonoBehaviour:
   cutDuration: 0.4
   cutDepth: 0.4
   numberOfCuts: 4
+  cutsX: []
   cutsMade: 0
   choppingboardManager: {fileID: 1196118806}
 --- !u!33 &3469287837784769861
