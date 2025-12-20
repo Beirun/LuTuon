@@ -15,11 +15,13 @@ public class LemonManager : MonoBehaviour
     public KnifeController knifeController;
 
     [Header("Parent Controller")]
-    public CucumberController controller;
+    public LemonController controller;
 
     [Header("Chopped Controller")]
-    public ChoppedCucumberController choppedController;
-
+    public ChoppedLemonController choppedController;
+    [Header("Knife Config")]
+    public int cuts = 4;
+    public List<float> cutsX = new();
     void Start()
     {
         knifeController = FindFirstObjectByType<KnifeController>();
@@ -28,7 +30,7 @@ public class LemonManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (controller.isPlaced)
+        if (controller.isPlaced && knifeController.cutsMade > 0)
         {
 
             Vector3 objectPos = parts[0].transform.position;
@@ -48,7 +50,7 @@ public class LemonManager : MonoBehaviour
                 }
 
             }
-            if (knifeController.cutsMade == 4)
+            if (knifeController.cutsMade == cuts)
             {
                 for (int j = 0; j < parts.Count; j++)
                 {
@@ -61,11 +63,14 @@ public class LemonManager : MonoBehaviour
                 controller.enabled = false;
                 knifeController.cutsMade = 0;
                 controller.isPlaced = false;
-                choppedController.startPos = controller.startPos + new Vector3(0.25f, 0f, 0.05f);
-                choppedController.startRot = Quaternion.Euler(90f, 60f, 90f);
+                choppedController.startPos = controller.startPos;
                 StartCoroutine(choppedController.ReturnToStart());
             }
         }
-
+        else if (controller.isPlaced)
+        {
+            knifeController.numberOfCuts = cuts;
+            knifeController.cutsX = cutsX;
+        }
     }
 }
