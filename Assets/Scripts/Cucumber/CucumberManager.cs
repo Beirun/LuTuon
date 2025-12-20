@@ -20,6 +20,9 @@ public class CucumberManager : MonoBehaviour
     [Header("Chopped Controller")]
     public ChoppedCucumberController choppedController;
 
+    [Header("Knife Config")]
+    public int cuts = 4;
+    public List<float> cutsX = new();
     void Start()
     {
         knifeController = FindFirstObjectByType<KnifeController>();
@@ -28,7 +31,7 @@ public class CucumberManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (controller.isPlaced)
+        if (controller.isPlaced  && knifeController.cutsMade > 0)
         {
 
             Vector3 objectPos = parts[0].transform.position;
@@ -48,7 +51,7 @@ public class CucumberManager : MonoBehaviour
                 }
 
             }
-            if (knifeController.cutsMade == 4)
+            if (knifeController.cutsMade == cuts)
             {
                 for (int j = 0; j < parts.Count; j++)
                 {
@@ -65,6 +68,11 @@ public class CucumberManager : MonoBehaviour
                 choppedController.startRot = Quaternion.Euler(90f, 60f, 90f);
                 StartCoroutine(choppedController.ReturnToStart());
             }
+        }
+        else if (controller.isPlaced)
+        {
+            knifeController.numberOfCuts = cuts;
+            knifeController.cutsX = cutsX;
         }
 
     }
