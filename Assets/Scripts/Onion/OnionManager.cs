@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class OnionManager : MonoBehaviour
@@ -27,6 +28,9 @@ public class OnionManager : MonoBehaviour
     [Header("Transform")]
     public Quaternion rotation = Quaternion.Euler(0f, 0f, 0f);
     public Vector3 position = new Vector3(0f, -.25f, -0.25f);
+    [Header("Knife Config")]
+    public int cuts = 4;
+    public List<float> cutsX = new();
     void Start()
     {
 
@@ -39,7 +43,7 @@ public class OnionManager : MonoBehaviour
             wholeOnion.transform.rotation.x,
             wholeOnion.transform.rotation.y,
             wholeOnion.transform.rotation.z + 270f);
-        if (onionController.isPlaced)
+        if (onionController.isPlaced  && knifeController.cutsMade > 0)
         {
             if (knifeController.cutsMade == 1)
             {
@@ -95,6 +99,10 @@ public class OnionManager : MonoBehaviour
                 StartCoroutine(dicedOnionsController.AnimatePlacement(dicedOnionsController.startPos, rotation, 0.75f, false));
                 onionController.isPlaced = false;
             }
+        }else if (onionController.isPlaced)
+        {
+            knifeController.numberOfCuts = cuts;
+            knifeController.cutsX = cutsX;
         }
     }
 }
