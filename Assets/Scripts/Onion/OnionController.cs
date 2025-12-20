@@ -19,6 +19,11 @@ public class OnionController : DragController
             Vector3 targetPos = highlighted.transform.position + new Vector3(0f,0.35f,0f);
 
             StartCoroutine(AnimatePlacement(targetPos, Quaternion.Euler(0f, 0f, 0f), 0.5f));
+        }else
+        {
+            choppingboardManager.isOccupied = false;
+            isPlaced = false;
+            StartCoroutine(ReturnToStart());
         }
         ClearHighlight();
     }
