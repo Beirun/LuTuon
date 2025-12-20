@@ -63,8 +63,8 @@ public class SodaController : DragController
         base.EndDrag();
         if (highlighted != null && (lid == null || !lid.isClose))
         {
-            Vector3 targetPos = highlighted.transform.position + new Vector3(-1.7f, 1.475f, 0f);
-            Quaternion targetRot = Quaternion.Euler(2f, 90f, 0f);
+            Vector3 targetPos = highlighted.transform.position + new Vector3(-1.4f, 1.475f, 0f);
+            Quaternion targetRot = Quaternion.Euler(-4f, 90f, 0f);
             StartCoroutine(AnimatePouring(targetPos, targetRot, 0.5f));
         }
         else StartCoroutine(ReturnToStart());
@@ -89,7 +89,7 @@ public class SodaController : DragController
         }
 
         pouringWater.SetActive(true);
-        pouringWater.transform.position = targetPos + new Vector3(0.9f, -1.55f, 0f);
+        pouringWater.transform.position = targetPos + new Vector3(1.3f, -1.96f, 0f);
 
         foreach (Material m in pouringMats)
         {
