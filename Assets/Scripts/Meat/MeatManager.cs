@@ -33,35 +33,34 @@ public class MeatManager : MonoBehaviour
             controller.enabled = false;
 
             progressBar.StartProgress(meat.transform, 5f);
+            StartCoroutine(Delay());
         }
 
 
     }
+    IEnumerator Delay()
+    {
+        yield return new WaitForSeconds(5f);
+        isFinished = true;
+    }
     IEnumerator ChangeMaterial()
     {
         yield return new WaitForSeconds(0.2f);
+        flipCounter++;
 
-        if (flipCounter == 0) mesh.material = halfCookedMaterial;
+        if (flipCounter == 1) mesh.material = halfCookedMaterial;
         else mesh.material = cookedMaterial;
 
-        controller.newTargetPos =  new Vector3(0f, 0.15f, 0.3f);
-        controller.highlightTags.Remove("Grill");
-        controller.highlightTags.Add("Choppingboard");
-
-        
-        controller.isPlaced = false;
-        isFinished = true;
-
-        if(flipCounter == 1)
+        if (flipCounter == 2)
         {
-            touchManager.isPerforming = true;    
-            touchManager.enabled = false;
+            controller.isPlaced = false;
+            controller.highlightTags.Remove("Grill");
+            controller.highlightTags.Add("MeatPlate");
             controller.enabled = true;
             yield return new WaitForSeconds(0.4f);
             controller.startPos = controller.transform.position;
             controller.startRot = meat.transform.rotation;
         }
-        flipCounter++;
     }
 
     public void Flip()
@@ -129,9 +128,12 @@ public class MeatManager : MonoBehaviour
             elapsed += Time.deltaTime;
             yield return null;
         }
-
         touchManager.isPerforming = false;
         progressBar.StartProgress(meat.transform, 5f);
+        yield return new WaitForSeconds(5f);
+        touchManager.isDragging = false;
+        if(flipCounter < 2 ) yield break;
+        touchManager.isFinished = true;
     }
 
 }
