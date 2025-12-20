@@ -41,7 +41,7 @@ public class ShrimpController : DragController
         if (highlighted != null)
         {
             Vector3 p = highlighted.transform.position;
-            p = highlighted.transform.position + new Vector3(0f, 0.2f, 0f);
+            p = highlighted.transform.position + new Vector3(0.3f, 0.2f, 0f);
             StartCoroutine(AnimatePlacement(p, transform.rotation, 0.5f));
         }
         else StartCoroutine(ReturnToStart());
