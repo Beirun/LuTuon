@@ -5,24 +5,11 @@ using UnityEngine;
 public class ButterController : DragController
 {
     List<Rigidbody> rbs = new List<Rigidbody>();
-    Dictionary<Rigidbody, Vector3> homePositions = new Dictionary<Rigidbody, Vector3>();
 
     [Header("Water Object")]
     public GameObject water;
 
-    [Header("Pot Settings")]
-    public Transform potCenter;
-    public float potRadius = 0.67f;
 
-    [Header("Floating Settings")]
-    public float waterSurfaceOffset = 0.1f;
-    public float floatRadius = 0.25f;
-    public float floatStrength = 2f;
-    public float driftSpeed = 0.5f;
-    public float bobAmplitude = 0.05f;
-    public float bobSpeed = 1f;
-
-    bool floating;
     public LidController lid;
 
     public override void Start()
@@ -51,7 +38,7 @@ public class ButterController : DragController
         }
     }
 
-   
+
 
     public override void EndDrag()
     {
@@ -59,9 +46,6 @@ public class ButterController : DragController
         if (highlighted != null && (lid == null || !lid.isClose))
         {
             Vector3 p = highlighted.transform.position;
-            //p.y = water.transform.position.y + waterSurfaceOffset;
-            //if (water.transform.position.y < 1f)
-            //    p = highlighted.transform.position + new Vector3(0f, 0.2f, 0f);
 
             StartCoroutine(AnimatePlacement(p, transform.rotation, 0.5f));
         }
@@ -95,8 +79,8 @@ public class ButterController : DragController
         isPerforming = false;
         this.isDragging = false;
 
-        //yield return StartCoroutine(DisableAfterDelay(2f));
-        isFinished = true;
+          StartCoroutine(AnimateSubmerge(0.69f, 3.5f));
+        yield return StartCoroutine(AnimateWaterLevel(0.9805f, 3.5f));
     }
 
     void EnablePhysicsOnChildren(Transform p)
@@ -113,5 +97,53 @@ public class ButterController : DragController
             if (c.childCount > 0)
                 EnablePhysicsOnChildren(c);
         }
+    }
+    IEnumerator AnimateWaterLevel(float targetPosY, float duration)
+    {
+        water.SetActive(true);
+
+        Vector3 fromPosition = water.transform.position;
+        Vector3 toPosition = new Vector3(fromPosition.x, targetPosY, fromPosition.z);
+
+        float elapsedTime = 0f;
+
+
+        while (elapsedTime < duration)
+        {
+            float rawT = elapsedTime / duration;
+            float smoothT = rawT * rawT * (3f - 2f * rawT);
+
+            if (water.transform.position.y < 1f)
+            {
+                water.transform.position = Vector3.Lerp(fromPosition, toPosition, smoothT);
+            }
+
+
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        isFinished = true;
+    }
+    IEnumerator AnimateSubmerge(float targetPosY, float duration)
+    {
+
+        Vector3 fromPosition = gameObject.transform.position;
+        Vector3 toPosition = new Vector3(fromPosition.x, targetPosY, fromPosition.z);
+
+        float elapsedTime = 0f;
+
+
+        while (elapsedTime < duration)
+        {
+            float rawT = elapsedTime / duration;
+            float smoothT = rawT * rawT * (3f - 2f * rawT);
+
+            gameObject.transform.position = Vector3.Lerp(fromPosition, toPosition, smoothT);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        isFinished = true;
     }
 }
