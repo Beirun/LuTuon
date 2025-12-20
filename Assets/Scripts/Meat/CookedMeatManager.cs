@@ -18,17 +18,14 @@ public class CookedMeatManager : MonoBehaviour
 
     [Header("Chopped Controller")]
     public ChoppedMeatController choppedController;
-    bool isSet = false;
 
-
+    [Header("Knife Config")]
+    public int cuts = 4;
+    public List<float> cutsX = new();
     void Update()
     {
-        if (!isSet && !controller.isPlaced && controller.highlightTags.Contains("Grill"))
-        {
-            choppedController.startPos = controller.startPos - new Vector3(0.2f, 0f, 0f);
-            isSet = true;
-        }
-        if (controller.isPlaced && controller.highlightTags.Contains("Choppingboard"))
+
+        if (controller.isPlaced && controller.highlightTags.Contains("Choppingboard")  && knifeController.cutsMade > 0)
         {
 
             Vector3 objectPos = parts[0].transform.position;
@@ -60,8 +57,14 @@ public class CookedMeatManager : MonoBehaviour
                 controller.enabled = false;
                 knifeController.cutsMade = 0;
                 controller.isPlaced = false;
+                choppedController.startPos = controller.startPos - new Vector3(0.2f, 0f, 0f);
+
                 StartCoroutine(choppedController.ReturnToStart());
             }
+        }else if (controller.isPlaced)
+        {
+            knifeController.numberOfCuts = cuts;
+            knifeController.cutsX = cutsX;
         }
     }
 }
