@@ -13,6 +13,11 @@ public class EggplantManager : MonoBehaviour
     [Header("Eggplant Texture")]
     public Material[] peeledEggplantMaterials;
     public Material cookedEggPlantMaterial;
+    public Material cookedEggPlantWithOnionMaterial;
+    public Material cookedEggPlantWithTomatoMaterial;
+    public Material cookedEggPlantWithBothMaterial;
+    public ChoppedTomatoController tomato;
+    public DicedOnionsController onion;
     public MeshRenderer mesh;
     public EggplantTouchManager touchManager;
 
@@ -34,7 +39,16 @@ public class EggplantManager : MonoBehaviour
     {
         yield return new WaitForSeconds(2.5f);
 
-        mesh.material = cookedEggPlantMaterial;
+        if (onion != null && tomato != null)
+        {
+            if (tomato.isPlaced)
+            {
+                if (onion.isInPot) mesh.material = cookedEggPlantWithBothMaterial;
+                else mesh.material = cookedEggPlantWithTomatoMaterial;
+            }
+            else mesh.material = cookedEggPlantWithOnionMaterial;
+        }
+        else mesh.material = cookedEggPlantMaterial;
 
         controller.newTargetPos = new Vector3(-2.894f, 0.362f, 0.628f);
         controller.highlightTags.Remove("Grill");
