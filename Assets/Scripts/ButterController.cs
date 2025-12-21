@@ -76,8 +76,7 @@ public class ButterController : DragController
         if (isDragging)
             EnablePhysicsOnChildren(transform);
 
-        isPerforming = false;
-        this.isDragging = false;
+        
 
           StartCoroutine(AnimateSubmerge(0.69f, 3.5f));
         yield return StartCoroutine(AnimateWaterLevel(0.9805f, 3.5f));
@@ -143,7 +142,8 @@ public class ButterController : DragController
             elapsedTime += Time.deltaTime;
             yield return null;
         }
-
+        isPerforming = false;
+        this.isDragging = false;
         isFinished = true;
     }
 }

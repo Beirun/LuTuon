@@ -1,0 +1,42 @@
+[
+  {
+    "message": "That buttery coating is perfect—rich, smooth, and comforting.",
+    "emotion": "HAPPY",
+    "ingredient": "butter"
+  },
+  {
+    "message": "The garlic flavor is just right—fragrant and well balanced.",
+    "emotion": "HAPPY",
+    "ingredient": "garlic"
+  },
+  {
+    "message": "Perfect! You took a different route but all is well!",
+    "emotion": "HAPPY",
+    "ingredient": "neutral"
+  },
+  {
+    "message": "A different road, but the same destination. Bravo!",
+    "emotion": "HAPPY",
+    "ingredient": "neutral"
+  },
+  {
+    "message": "Too much oil made the dish feel heavy instead of light and juicy.",
+    "emotion": "CRY",
+    "ingredient": "oil"
+  },
+  {
+    "message": "The lemon-lime soda is overpowering and masked the shrimp’s natural sweetness.",
+    "emotion": "CRY",
+    "ingredient": "lemon soda"
+  },
+  {
+    "message": "The butter is overwhelming and made the dish excessively greasy.",
+    "emotion": "DISGUST",
+    "ingredient": "butter"
+  },
+  {
+    "message": "Way too much lemon soda—its sharpness took over the entire dish.",
+    "emotion": "DISGUST",
+    "ingredient": "garlic"
+  }
+]
