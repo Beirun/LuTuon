@@ -6,11 +6,12 @@ public class DragManager : MonoBehaviour
     public bool isStillDragging = false;
 
     DragController[] dragControllers;
-    GameObject[] overlays;
+    List<GameObject> overlays = new List<GameObject>();
 
     Dictionary<DragController, bool> originalDisabled = new Dictionary<DragController, bool>();
     bool wasOverlayActive;
     public bool areDisabled = false;
+
     void Awake()
     {
         dragControllers = FindObjectsByType<DragController>(FindObjectsSortMode.None);
@@ -18,9 +19,14 @@ public class DragManager : MonoBehaviour
             originalDisabled[dragControllers[i]] = dragControllers[i].isDisabled;
 
         Canvas c = FindFirstObjectByType<Canvas>();
-        overlays = new GameObject[2];
-        overlays[0] = FindDeepChild(c.transform, "BlackOverlay")?.gameObject;
-        overlays[1] = FindDeepChild(c.transform, "EndOverlay")?.gameObject;
+
+        string[] overlayNames = { "BlackOverlay", "ExtraOverlay", "EndOverlay", "TutorialOverlay" };
+        foreach (var name in overlayNames)
+        {
+            Transform t = FindDeepChild(c.transform, name);
+            if (t != null)
+                overlays.Add(t.gameObject);
+        }
     }
 
     // Recursive search for child by name
@@ -35,7 +41,6 @@ public class DragManager : MonoBehaviour
         return null;
     }
 
-
     void Update()
     {
         isStillDragging = false;
@@ -48,9 +53,15 @@ public class DragManager : MonoBehaviour
             }
         }
 
-        bool overlayActive =
-            (overlays[0] && overlays[0].activeSelf) ||
-            (overlays[1] && overlays[1].activeSelf);
+        bool overlayActive = false;
+        foreach (var overlay in overlays)
+        {
+            if (overlay && overlay.activeSelf)
+            {
+                overlayActive = true;
+                break;
+            }
+        }
 
         if (overlayActive == wasOverlayActive) return;
         wasOverlayActive = overlayActive;

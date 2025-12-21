@@ -11,6 +11,7 @@ public class DragController : HighlightController
     public bool useRotation = false;
     public Quaternion targetRotation = Quaternion.Euler(0f, 0f, 0f);
     public bool gravityOnEnd = false;
+    public PourVolumeManager pourManager;
     public DragManager manager;
     public bool isPerforming = false;
     public bool isDisabled = false;
@@ -24,7 +25,6 @@ public class DragController : HighlightController
     [Header("Animations")]
     public float liftDuration = 0.25f;
     private float liftRotationElapsed = 0f;
-
     Rigidbody rb;
     [HideInInspector] public bool isDragging = false;
     Vector3 dragOffset;
@@ -48,6 +48,7 @@ public class DragController : HighlightController
         if (cam == null) cam = Camera.main;
         if (manager == null) manager = FindFirstObjectByType<DragManager>();
         rb = GetComponent<Rigidbody>();
+        pourManager = FindFirstObjectByType<PourVolumeManager>();
         sfx = FindFirstObjectByType<SFXPlayer>();
         startPos = transform.position;
         startRot = transform.rotation;

@@ -113,7 +113,15 @@ public class SoySauceController : DragController
                 m.SetColor("_Color", pouringColor);
         }
 
-        yield return StartCoroutine(AnimateWaterLevel(targetWaterLevelY, 0.75f));
+        Coroutine cr;
+        cr = StartCoroutine(AnimateWaterLevel(targetWaterLevelY, 5f));
+        yield return pourManager.ShowVolumePour(5f);
+        StopCoroutine(cr);
+        pouringWater.SetActive(false);
+        yield return ReturnToStart();
+        isFinished = true;
+        hasPoured = true;
+        isDisabled = true;
     }
     
     IEnumerator AnimateWaterLevel(float targetPosY, float duration)
@@ -215,9 +223,6 @@ public class SoySauceController : DragController
                 m.SetColor("_Color", c);
         }
 
-        yield return ReturnToStart();
-        isFinished = true;
-        hasPoured = true;
     }
 
 }
