@@ -1,9 +1,19 @@
 using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using System.Collections.Generic;
+using System;
 
 public class AddExtraEngridientManager : MonoBehaviour
 {
+    [Serializable]
+    public class Extras
+    {
+        public string name;
+        public Button button;
+        public List<GameObject> objects;
+    }
+
     float duration = 0.25f;
     float elapsed;
 
@@ -15,10 +25,14 @@ public class AddExtraEngridientManager : MonoBehaviour
     private Animator blackOverlayAnimator;
     public GameObject blackOverlay;
 
-    private void Start()
+    [Header("Extra Ingredients")]
+    public List<Extras> extra = new();
+
+    void Start()
     {
         dragManager = FindFirstObjectByType<DragManager>();
         isOpen = false;
+
         if (blackOverlay != null)
         {
             blackOverlayAnimator = blackOverlay.GetComponent<Animator>();
@@ -26,7 +40,10 @@ public class AddExtraEngridientManager : MonoBehaviour
                 blackOverlay.AddComponent<CanvasGroup>();
             blackOverlay.SetActive(false);
         }
+
+        BindExtraButtons();
     }
+
     void OnEnable()
     {
         button.onClick.RemoveAllListeners();
@@ -38,13 +55,36 @@ public class AddExtraEngridientManager : MonoBehaviour
         button.onClick.RemoveListener(OnButtonClick);
     }
 
+    void BindExtraButtons()
+    {
+        foreach (var e in extra)
+        {
+            if (e.button == null) continue;
+
+            e.button.onClick.RemoveAllListeners();
+            e.button.onClick.AddListener(() => ActivateExtra(e));
+        }
+    }
+
+    void ActivateExtra(Extras e)
+    {
+        foreach (var obj in e.objects)
+        {
+            if (obj != null)
+                obj.SetActive(true);
+        }
+
+        e.button.gameObject.SetActive(false);
+    }
+
     void OnButtonClick()
     {
         if (isOpen) CloseLayout();
         else OpenLayout();
 
-        if(isOpen) dragManager.RestoreDraggingState();
+        if (isOpen) dragManager.RestoreDraggingState();
         else dragManager.DisableAllDragging();
+
         isOpen = !isOpen;
     }
 
@@ -52,6 +92,7 @@ public class AddExtraEngridientManager : MonoBehaviour
     {
         StopAllCoroutines();
         elapsed = 0f;
+
         if (blackOverlay != null && !blackOverlay.activeSelf)
         {
             blackOverlay.SetActive(true);
@@ -61,6 +102,7 @@ public class AddExtraEngridientManager : MonoBehaviour
                 blackOverlayAnimator.SetTrigger("FadeIn");
             }
         }
+
         StartCoroutine(StartOpenLayout());
     }
 
@@ -69,14 +111,18 @@ public class AddExtraEngridientManager : MonoBehaviour
         StopAllCoroutines();
         elapsed = 0f;
         StartCoroutine(StartCloseLayout());
-        StartCoroutine(StartFaeOut());
-        
+        StartCoroutine(StartFadeOut());
     }
-    IEnumerator StartFaeOut()
+
+    IEnumerator StartFadeOut()
     {
-        if (blackOverlayAnimator != null) blackOverlayAnimator.SetTrigger("FadeOut");
+        if (blackOverlayAnimator != null)
+            blackOverlayAnimator.SetTrigger("FadeOut");
+
         yield return new WaitForSeconds(0.5f);
-        if (blackOverlay != null) blackOverlay.SetActive(false);
+
+        if (blackOverlay != null)
+            blackOverlay.SetActive(false);
     }
 
     IEnumerator StartOpenLayout()
