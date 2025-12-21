@@ -1,0 +1,52 @@
+[
+  {
+    "message": "The pork is smoky and tender—exactly what sinuglaw needs.",
+    "emotion": "HAPPY",
+    "ingredient": "pork"
+  },
+  {
+    "message": "The fresh crunch from the cucumber and onion makes every bite refreshing.",
+    "emotion": "HAPPY",
+    "ingredient": "none"
+  },
+  {
+    "message": "The chilies give just the right kick without overpowering the dish.",
+    "emotion": "HAPPY",
+    "ingredient": "none"
+  },
+  {
+    "message": "Great balance! The sourness, saltiness, and freshness work together well.",
+    "emotion": "HAPPY",
+    "ingredient": "none"
+  },
+  {
+    "message": "Nice execution—even with a different order, the flavors came together.",
+    "emotion": "HAPPY",
+    "ingredient": "neutral"
+  },
+  {
+    "message": "Not the usual path, but the result still tastes like proper sinuglaw!",
+    "emotion": "HAPPY",
+    "ingredient": "neutral"
+  },
+  {
+    "message": "Too much vinegar made the dish overly sharp and mouth-puckering.",
+    "emotion": "CRY",
+    "ingredient": "vinegar"
+  },
+  {
+    "message": "The vinegar is too strong—it’s overpowering the pork and vegetables.",
+    "emotion": "CRY",
+    "ingredient": "vinegar"
+  },
+  {
+    "message": "Way too much vinegar ruined the balance of flavors.",
+    "emotion": "DISGUST",
+    "ingredient": "vinegar"
+  },
+  {
+    "message": "The vinegar completely took over—this no longer tastes like sinuglaw.",
+    "emotion": "DISGUST",
+    "ingredient": "vinegar"
+  }
+]
