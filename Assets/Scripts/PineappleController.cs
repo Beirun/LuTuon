@@ -93,7 +93,14 @@ public class PineappleController : DragController
         pouringWater.SetActive(true);
         pouringWater.transform.position = targetPos + new Vector3(1.7f, -1.47f, 0f);
 
-        yield return StartCoroutine(AnimateWaterLevel(0.8f, 0.75f));
+        Coroutine cr;
+        cr = StartCoroutine(AnimateWaterLevel(0.8f, 5f));
+        yield return pourManager.ShowVolumePour(5f);
+        StopCoroutine(cr);
+        pouringWater.SetActive(false);
+        yield return ReturnToStart();
+        isFinished = true;
+        isDisabled = true;
     }
     float GetLuminance(Color c)
     {
@@ -198,8 +205,5 @@ public class PineappleController : DragController
             else if (m.HasProperty("_Color"))
                 m.SetColor("_Color", c);
         }
-
-        yield return ReturnToStart();
-        isFinished = true;
     }
 }
