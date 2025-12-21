@@ -7568,7 +7568,7 @@ MonoBehaviour:
   isInPot: 0
   isFinished: 0
   sfx: {fileID: 0}
-  clip: {fileID: 0}
+  clip: {fileID: 8300000, guid: 487f1a2f0d4dbff4aa2f1b8a06e9e7d5, type: 3}
   water: {fileID: 2957562305116205718}
   bowlWater: {fileID: 2957562306347990134}
   pouringWater: {fileID: 12028097385687358}
@@ -7637,7 +7637,7 @@ MonoBehaviour:
   isInPot: 0
   isFinished: 0
   sfx: {fileID: 0}
-  clip: {fileID: 0}
+  clip: {fileID: 8300000, guid: 9741505464b43fa4aaf9f477f87b1913, type: 3}
   isPlaced: 0
   choppingboardManager: {fileID: 898594591}
   xRot: 39.209
@@ -16620,7 +16620,7 @@ MonoBehaviour:
   isInPot: 0
   isFinished: 0
   sfx: {fileID: 0}
-  clip: {fileID: 0}
+  clip: {fileID: 8300000, guid: 6617de19f2eb698429b23b5368d6625d, type: 3}
   lid: {fileID: 0}
   makeChildAfterPlacement: 1
   isPlaced: 0
@@ -47722,7 +47722,7 @@ MonoBehaviour:
   isInPot: 0
   isFinished: 0
   sfx: {fileID: 0}
-  clip: {fileID: 0}
+  clip: {fileID: 8300000, guid: 9741505464b43fa4aaf9f477f87b1913, type: 3}
   lid: {fileID: 0}
   makeChildAfterPlacement: 0
   isPlaced: 0

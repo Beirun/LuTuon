@@ -18438,7 +18438,7 @@ MonoBehaviour:
   isInPot: 0
   isFinished: 0
   sfx: {fileID: 0}
-  clip: {fileID: 0}
+  clip: {fileID: 8300000, guid: 73b5335195e12d949bbca765a8bb31d4, type: 3}
   lid: {fileID: 0}
 --- !u!4 &790752363
 Transform:
@@ -35502,7 +35502,7 @@ MonoBehaviour:
   isInPot: 0
   isFinished: 0
   sfx: {fileID: 0}
-  clip: {fileID: 0}
+  clip: {fileID: 8300000, guid: 9741505464b43fa4aaf9f477f87b1913, type: 3}
   isPlaced: 0
   choppingboardManager: {fileID: 627184800}
   xRot: 39.209
@@ -42570,7 +42570,7 @@ MonoBehaviour:
   isInPot: 0
   isFinished: 0
   sfx: {fileID: 0}
-  clip: {fileID: 0}
+  clip: {fileID: 8300000, guid: 9741505464b43fa4aaf9f477f87b1913, type: 3}
   lid: {fileID: 0}
   makeChildAfterPlacement: 0
   isPlaced: 0
@@ -49323,7 +49323,7 @@ MonoBehaviour:
   isInPot: 0
   isFinished: 0
   sfx: {fileID: 0}
-  clip: {fileID: 0}
+  clip: {fileID: 8300000, guid: 6617de19f2eb698429b23b5368d6625d, type: 3}
   lid: {fileID: 0}
   makeChildAfterPlacement: 0
   isPlaced: 0
