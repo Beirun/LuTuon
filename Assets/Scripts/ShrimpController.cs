@@ -9,6 +9,8 @@ public class ShrimpController : DragController
     [HideInInspector]
     public bool isPlaced = false;
 
+    [Header("Material")]
+    public Material cookedMaterial;
     public override void Start()
     {
         base.Start();
@@ -66,6 +68,7 @@ public class ShrimpController : DragController
         }
 
         EnablePhysicsOnChildren(transform);
+        StartCoroutine(ChangeMaterial());
         isFinished = true;
         isDragging = false;
         isPerforming = false;
@@ -98,5 +101,20 @@ public class ShrimpController : DragController
 
         rb.isKinematic = true;
         rb.useGravity = false;
+    }
+
+    IEnumerator ChangeMaterial()
+    {
+        yield return new WaitForSeconds(10f);
+        var mrs = gameObject.GetComponentsInChildren<MeshRenderer>(true);
+        for (int i = 0; i < mrs.Length; i++)
+        {
+            var mr = mrs[i];
+            if (mr == null) continue;
+
+            var mats = mr.materials;
+            for (int j = 0; j < mats.Length; j++) mats[j] = cookedMaterial;
+            mr.materials = mats;
+        }
     }
 }
