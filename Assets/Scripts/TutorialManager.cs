@@ -22,7 +22,7 @@ public class TutorialManager : MonoBehaviour
     public TMP_Text uiText;
     public DialogManager dialogManager;
     public DialogManager endManager;
-    public AttemptManager attemptManager; 
+    public AttemptManager attemptManager;
 
     [Header("Food Id")]
     public string foodId = "30045842-6118-4539-8577-07181b09dfc9";
@@ -33,6 +33,7 @@ public class TutorialManager : MonoBehaviour
     public List<string> steps = new List<string>();
     [Header("Scripts")]
     public List<StepControlledScript> controlledScripts = new List<StepControlledScript>();
+    ProgressBarManager progressBarManager;
 
     bool waiting;
     bool isClosed;
@@ -48,6 +49,7 @@ public class TutorialManager : MonoBehaviour
     {
         if (steps.Count < 1) return;
         sfx = FindFirstObjectByType<SFXPlayer>();
+        progressBarManager = FindFirstObjectByType<ProgressBarManager>();
         DisableAllControlledScripts();
         NextStep();
         showStepButton.SetActive(false);
@@ -57,6 +59,7 @@ public class TutorialManager : MonoBehaviour
     {
         HandleBlinking();
         if (!waiting) CheckStepCompletion();
+        if(progressBarManager.isRunning && showStepButton.activeInHierarchy) showStepButton.SetActive(false); 
     }
 
     void CheckStepCompletion()
@@ -93,7 +96,7 @@ public class TutorialManager : MonoBehaviour
 
             if (stepIndex >= steps.Count)
             {
-                
+
                 StartCoroutine(WaitAndFinish());
             }
             else
@@ -111,7 +114,7 @@ public class TutorialManager : MonoBehaviour
     {
         if (attemptManager == null) return;
 
-        string foodId = this.foodId;   
+        string foodId = this.foodId;
         int points = 100;
         string type = "Tutorial";
 
@@ -194,12 +197,19 @@ public class TutorialManager : MonoBehaviour
 
     public void ShowStep()
     {
+        if (progressBarManager != null)
+        {
+            if (progressBarManager.isRunning)
+            {
+                progressBarManager.Pause();
+            }
+        }
         dialogManager.OpenDialog(dialogPanelName);
         showStepButton.SetActive(false);
         waiting = true;
         isClosed = false;
         StartTypewriter(steps[stepIndex - 1]);
-        sfx.PlaySound(audioStep[stepIndex -1]);
+        sfx.PlaySound(audioStep[stepIndex - 1]);
     }
 
     void StartTypewriter(string text)
@@ -265,7 +275,10 @@ public class TutorialManager : MonoBehaviour
             return;
         }
         if (isClosed) return;
-
+        if (progressBarManager != null)
+        {
+            progressBarManager.Resume();
+        }
         dialogManager.CloseDialog(dialogPanelName);
         showStepButton.SetActive(true);
         EnableScriptsForStep(stepIndex);

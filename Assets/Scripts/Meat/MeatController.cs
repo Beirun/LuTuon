@@ -83,6 +83,7 @@ public class MeatController : DragController
         {
             highlightTags.Add("Choppingboard");
             highlightTags.Remove("MeatPlate");
+            isPlaced = false;
             isPerforming = true;
             isDragging = true;
             progressBarManager.StartProgress(gameObject.transform, 2.5f);
