@@ -56,6 +56,10 @@ public class EggBowlController : DragController
         for (int i = 0; i < count; i++)
         {
             Transform c = transform.GetChild(i);
+            var t = c.GetComponent<ChoppedTomatoController>();
+            var d = c.GetComponent<DicedOnionsController>();
+            if(d != null) if(!d.isInPot) continue;
+            if(t != null) if(!t.isPlaced) continue;
             c.gameObject.SetActive(false);
         }
     }

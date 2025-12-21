@@ -41,6 +41,18 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/StandardHumbaScene.unity
     guid: 1652f74d5230b104f84332161dbd9009
+  - enabled: 1
+    path: Assets/Scenes/SinuglawScene.unity
+    guid: 814cd5acec851ae43a978e5386db5e23
+  - enabled: 1
+    path: Assets/Scenes/StandardSinuglawScene.unity
+    guid: 7e1fce65c63c88f4995265849fdd6ff4
+  - enabled: 1
+    path: Assets/Scenes/ButteredShrimpScene.unity
+    guid: 53e5b81b1dc9185439d51017475a7014
+  - enabled: 1
+    path: Assets/Scenes/StandardButteredShrimpScene.unity
+    guid: fe5a5f767197ac045810f52271129d40
   m_configObjects:
     com.unity.adaptiveperformance.google.android.provider_settings: {fileID: 11400000, guid: 476306279fe433e4ea130834008c5a4d, type: 2}
     com.unity.adaptiveperformance.loader_settings: {fileID: 11400000, guid: e1e443bd4a598304195781ce96284a0e, type: 2}

@@ -59,7 +59,7 @@ public class TutorialManager : MonoBehaviour
     {
         HandleBlinking();
         if (!waiting) CheckStepCompletion();
-        if(progressBarManager.isRunning && showStepButton.activeInHierarchy) showStepButton.SetActive(false); 
+        if(progressBarManager != null) if(progressBarManager.isRunning && showStepButton.activeInHierarchy) showStepButton.SetActive(false); 
     }
 
     void CheckStepCompletion()
