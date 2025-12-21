@@ -56,7 +56,7 @@ public class MeatManager : MonoBehaviour
             controller.isPlaced = false;
             controller.highlightTags.Remove("Grill");
             controller.highlightTags.Add("MeatPlate");
-            controller.enabled = true;
+            touchManager.enabled = false;
             yield return new WaitForSeconds(0.4f);
             controller.startPos = controller.transform.position;
             controller.startRot = meat.transform.rotation;
@@ -132,8 +132,10 @@ public class MeatManager : MonoBehaviour
         progressBar.StartProgress(meat.transform, 5f);
         yield return new WaitForSeconds(5f);
         touchManager.isDragging = false;
-        if(flipCounter < 2 ) yield break;
+        if (flipCounter < 2) yield break;
         touchManager.isFinished = true;
+        controller.enabled = true;
+
     }
 
 }
