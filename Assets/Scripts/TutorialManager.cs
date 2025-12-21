@@ -225,7 +225,7 @@ public class TutorialManager : MonoBehaviour
 
             uiText.text += text[i];
             i++;
-            yield return new WaitForSeconds(0.02f);
+            yield return new WaitForSeconds(0.03f);
         }
 
         isTyping = false;
