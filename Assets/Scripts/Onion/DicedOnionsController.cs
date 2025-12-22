@@ -4,12 +4,18 @@ using System.Collections;
 public class DicedOnionsController : DragController
 {
     public LidController lid;
+        public bool makeChildAfterPlacement = false;  
+
     public override void EndDrag()
     {
         base.EndDrag();
         if (highlighted != null && (lid == null || !lid.isClose))
         {
             Vector3 targetPos = highlighted.transform.position + new Vector3(0f, 0.125f, 0f);
+            if (makeChildAfterPlacement && highlighted != null)
+            {
+                transform.SetParent(highlighted.transform, true);
+            }
             StartCoroutine(AnimatePlacement(targetPos, transform.rotation, 0.5f));
         }
         else StartCoroutine(ReturnToStart());

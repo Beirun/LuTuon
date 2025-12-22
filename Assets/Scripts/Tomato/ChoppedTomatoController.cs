@@ -12,7 +12,7 @@ public class ChoppedTomatoController : DragController
         if (highlighted != null && (lid == null || !lid.isClose))
         {
             Vector3 targetPos = highlighted.transform.position + new Vector3(0f, 0.125f, 0f);
-            if (makeChildAfterPlacement && highlighted != null && !highlighted.CompareTag("Pan"))
+            if (makeChildAfterPlacement && highlighted != null)
             {
                 transform.SetParent(highlighted.transform, true);
             }
